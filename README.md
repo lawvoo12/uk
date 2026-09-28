@@ -191,6 +191,32 @@ database, no seed command, no migration.
 }
 ```
 
+## lawvoo.com/uk on Netlify (how the live site is wired)
+
+lawvoo.com itself is hosted on **Netlify**. This app runs on **Vercel** and
+Netlify proxies three paths to it, so visitors only ever see lawvoo.com/uk:
+
+| Path on lawvoo.com | Goes to |
+|---|---|
+| `/uk`, `/uk/*` | this app's pages |
+| `/uk-static/*` | this app's JS/CSS (`assetPrefix` in `next.config.ts`) |
+| everything else | the Netlify site, unchanged |
+
+1. **Don't add lawvoo.com to this Vercel project.** It stays on Netlify.
+2. In the **Netlify** site's repo, add the rules from `deploy/netlify.toml`
+   (or `deploy/_redirects`), replacing `lawvoo-uk.vercel.app` with this
+   project's Vercel domain. Push, and Netlify redeploys.
+3. In Vercel set `NEXT_PUBLIC_SITE_URL=https://lawvoo.com` and redeploy, so
+   canonical links and the sitemap use lawvoo.com.
+4. The sitemap is at **lawvoo.com/uk/sitemap.xml**. Submit that URL in Google
+   Search Console, and add `Sitemap: https://lawvoo.com/uk/sitemap.xml` to the
+   Netlify site's robots.txt.
+5. If you use Cloudflare Turnstile, add `lawvoo.com` to the widget's domains.
+
+The enquiry form is a Server Action, so `lawvoo.com` is listed in
+`experimental.serverActions.allowedOrigins` in `next.config.ts`. Add any
+other public domain there too.
+
 ## Deploying (Vercel)
 
 1. Push to a Git repo, import it into Vercel.

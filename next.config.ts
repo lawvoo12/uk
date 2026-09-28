@@ -24,7 +24,19 @@ import type { NextConfig } from "next";
 // https://lawvoo-uk.vercel.app/uk), which is exactly what testing/staging
 // needs before the domain is wired up.
 // ============================================================================
+// lawvoo.com is served by Netlify; its netlify.toml proxies /uk/* and
+// /uk-static/* to this Vercel app (see README "lawvoo.com/uk on Netlify").
+// assetPrefix moves this app's JS/CSS to /uk-static/_next/... so they don't
+// clash with the Netlify site's own files at /_next/...
+const PUBLIC_ORIGINS = ["lawvoo.com", "www.lawvoo.com"];
+
 const nextConfig: NextConfig = {
+  assetPrefix: "/uk-static",
+  experimental: {
+    // The enquiry form is a Server Action. Behind the proxy the browser's
+    // origin is lawvoo.com, not the vercel.app host, so allow it explicitly.
+    serverActions: { allowedOrigins: PUBLIC_ORIGINS },
+  },
   // Explicitly pins the project root instead of letting Turbopack guess it
   // by searching upward for a lockfile — fixes the "ignored package-lock.json
   // outside the current Git repository" warning when a stray lockfile exists

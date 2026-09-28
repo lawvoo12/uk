@@ -106,3 +106,11 @@
 - Google Search Console verification tag comes from `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION`.
 - `/` now permanently (308) redirects to `/uk`.
 - `/uk/leads/new` (the form) is `noindex, follow`: search engines skip it but still follow its links.
+
+## Update 9 — runs at lawvoo.com/uk behind Netlify
+- `assetPrefix: "/uk-static"`: JS/CSS load from `/uk-static/_next/...` rather than `/_next/...`, so they don't clash with the Netlify site.
+- `experimental.serverActions.allowedOrigins` includes lawvoo.com, so the enquiry form works through the proxy.
+- The sitemap moved to `/uk/sitemap.xml`; `/sitemap.xml` on lawvoo.com belongs to the Netlify site. robots.txt points to the new path.
+- `vercel.json` pins the framework to Next.js. This fixes the "No Output Directory named public" build error.
+- `deploy/netlify.toml` and `deploy/_redirects` hold the proxy rules for the Netlify site. See README, "lawvoo.com/uk on Netlify".
+- Tested through a local proxy that behaves like Netlify: pages, assets, in-app navigation, the calculator and a form submission to the Sheet all work, and non-/uk paths still reach the other site.

@@ -1,0 +1,24 @@
+# ----------------------------------------------------------------------------
+# Paste these rules into the netlify.toml of the site that runs lawvoo.com
+# (the Netlify one — NOT this repo). Put them ABOVE any catch-all rule such
+# as  from = "/*"  to = "/index.html".
+# Replace lawvoo-uk.vercel.app with this project's Vercel domain.
+# ----------------------------------------------------------------------------
+
+[[redirects]]
+  from = "/uk"
+  to = "https://lawvoo-uk.vercel.app/uk"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/uk/*"
+  to = "https://lawvoo-uk.vercel.app/uk/:splat"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/uk-static/*"
+  to = "https://lawvoo-uk.vercel.app/uk-static/:splat"
+  status = 200
+  force = true

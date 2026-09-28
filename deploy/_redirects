@@ -1,0 +1,5 @@
+# Alternative to netlify.toml: add these 3 lines to the TOP of the _redirects
+# file in the lawvoo.com Netlify site's publish folder (often public/_redirects).
+/uk            https://lawvoo-uk.vercel.app/uk                200!
+/uk/*          https://lawvoo-uk.vercel.app/uk/:splat         200!
+/uk-static/*   https://lawvoo-uk.vercel.app/uk-static/:splat  200!
