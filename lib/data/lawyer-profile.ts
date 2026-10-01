@@ -1,5 +1,8 @@
-import { STATIC_LAWYERS, type Regulator } from "@/lib/data/static-lawyers";
+import type { Regulator } from "@/lib/data/static-lawyers";
+import { lawyersFor } from "@/lib/data/lawyers";
 import { getCityBySlug } from "@/lib/seo/uk-cities";
+import { getIeCityBySlug } from "@/lib/ie/cities";
+import type { Country } from "@/lib/country";
 import { getPracticeAreaBySlug } from "@/lib/validations/lead-intake";
 
 export interface LawyerProfileDetail {
@@ -20,14 +23,16 @@ export interface LawyerProfileDetail {
   ratingCount: number;
   yearsExperience: number | null;
   experienceNote: string;
+  primaryPracticeArea: string;
+  focusNotStated: boolean;
   practiceAreas: { name: string; slug: string }[];
 }
 
-export function getLawyerProfileById(id: string): LawyerProfileDetail | null {
-  const lawyer = STATIC_LAWYERS.find((l) => l.id === id);
+export function getLawyerProfileById(id: string, country: Country = "uk"): LawyerProfileDetail | null {
+  const lawyer = lawyersFor(country).find((l) => l.id === id);
   if (!lawyer) return null;
 
-  const city = getCityBySlug(lawyer.citySlug);
+  const city = country === "ie" ? getIeCityBySlug(lawyer.citySlug) : getCityBySlug(lawyer.citySlug);
   const hasReviews = (lawyer.ratingCount ?? 0) > 0 && typeof lawyer.ratingAverage === "number";
 
   return {
@@ -48,6 +53,8 @@ export function getLawyerProfileById(id: string): LawyerProfileDetail | null {
     ratingCount: hasReviews ? lawyer.ratingCount! : 0,
     yearsExperience: lawyer.yearsExperience,
     experienceNote: lawyer.experienceNote,
+    primaryPracticeArea: lawyer.primaryPracticeArea,
+    focusNotStated: lawyer.focusNotStated === true,
     practiceAreas: lawyer.practiceAreaSlugs.flatMap((slug) => {
       const area = getPracticeAreaBySlug(slug);
       return area ? [{ name: area.name, slug: area.slug }] : [];

@@ -20,12 +20,16 @@
 // least offer a clear removal route, before promoting the pages.
 // ============================================================================
 
-export type Regulator = "SRA" | "LSS" | "LSNI";
+// "LSI" = Law Society of Ireland (Republic of Ireland listings, lib/ie/lawyers.ts).
+import { UK_LAWYERS_EXTRA } from "@/lib/data/uk-lawyers-extra";
+
+export type Regulator = "SRA" | "LSS" | "LSNI" | "LSI";
 
 export const REGULATOR_LABEL: Record<Regulator, string> = {
   SRA: "SRA regulated",
   LSS: "Law Society of Scotland",
   LSNI: "Law Society of NI",
+  LSI: "Law Society of Ireland",
 };
 
 export interface StaticLawyer {
@@ -49,9 +53,14 @@ export interface StaticLawyer {
   // Only fill these in with real, verifiable reviews — never invent them.
   ratingAverage?: number; // 0-5
   ratingCount?: number;
+  // true when the source doesn't say which area this solicitor personally
+  // focuses on — page copy then describes the firm's areas instead.
+  focusNotStated?: boolean;
 }
 
-export const STATIC_LAWYERS: StaticLawyer[] = [
+// The original 50 UK listings (unchanged). The full UK list, including the
+// extra firms in lib/data/uk-lawyers-extra.ts, is STATIC_LAWYERS at the bottom.
+const ORIGINAL_UK_LAWYERS: StaticLawyer[] = [
   {
     "id": "london-claire-filer",
     "firmName": "Irwin Mitchell LLP",
@@ -1202,3 +1211,6 @@ export const STATIC_LAWYERS: StaticLawyer[] = [
     "profileUrl": "https://www.hcrlaw.com/news-and-insights/spotlight-on-the-worcester-family-law-team/"
   },
 ];
+
+// Every UK listing: the original entries above plus the extra firms.
+export const STATIC_LAWYERS: StaticLawyer[] = [...ORIGINAL_UK_LAWYERS, ...UK_LAWYERS_EXTRA];

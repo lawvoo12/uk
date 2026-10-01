@@ -1,15 +1,19 @@
 import Link from "next/link";
-import { BadgeCheck, MapPin, Star } from "lucide-react";
+import { BadgeCheck, ExternalLink, MapPin, Star } from "lucide-react";
 
 import type { LawyerListing } from "@/lib/data/lawyers";
 import { REGULATOR_LABEL } from "@/lib/data/static-lawyers";
 import { PRACTICE_AREAS } from "@/lib/validations/lead-intake";
+import { getFirmWebsite } from "@/lib/data/firm-website";
+import { COUNTRY_BASE, type Country } from "@/lib/country";
 
 export function LawyerCard({
   lawyer,
   contextLabel,
   showPracticeAreas = false,
   categorySlug,
+  country = "uk",
+  linkFirmInstead = false,
 }: {
   lawyer: LawyerListing;
   /** e.g. "Family solicitor in Leeds" — shown after the solicitor's name */
@@ -17,9 +21,16 @@ export function LawyerCard({
   showPracticeAreas?: boolean;
   /** Practice area of the page the card is on — pre-selects it in the callback form. */
   categorySlug?: string;
+  /** Which section the card is on — "uk" (default) or "ie". */
+  country?: Country;
+  /** Show "Visit firm website" instead of "Request a callback" (Irish personal injury pages). */
+  linkFirmInstead?: boolean;
 }) {
-  const callbackHref = `/uk/leads/new?lawyer=${encodeURIComponent(lawyer.id)}${
-    categorySlug ? `&category=${encodeURIComponent(categorySlug)}` : ""
+  const base = COUNTRY_BASE[country];
+  // Irish enquiries can't be about personal injury, so don't pre-select it.
+  const callbackCategory = country === "ie" && categorySlug === "personal-injury" ? undefined : categorySlug;
+  const callbackHref = `${base}/leads/new?lawyer=${encodeURIComponent(lawyer.id)}${
+    callbackCategory ? `&category=${encodeURIComponent(callbackCategory)}` : ""
   }`;
   const areas = PRACTICE_AREAS.filter((a) => lawyer.practiceAreaSlugs.includes(a.slug));
 
@@ -35,7 +46,7 @@ export function LawyerCard({
         <div className="min-w-0">
           <div className="flex flex-wrap items-center gap-1.5">
             <h3 className="font-medium text-[#10233D]">
-              <Link href={`/uk/lawyer/${lawyer.id}`} className="hover:underline underline-offset-2">
+              <Link href={`${base}/lawyer/${lawyer.id}`} className="hover:underline underline-offset-2">
                 {lawyer.firmName}
               </Link>
             </h3>
@@ -86,17 +97,29 @@ export function LawyerCard({
           {lawyer.yearsExperience ? `${lawyer.yearsExperience}+ years experience` : "Experience on request"}
         </span>
         <Link
-          href={`/uk/lawyer/${lawyer.id}`}
+          href={`${base}/lawyer/${lawyer.id}`}
           className="rounded-lg border border-[#DCD8D0] px-4 py-2 text-sm font-medium text-[#10233D] transition-colors hover:border-[#B8A488]"
         >
           View profile
         </Link>
-        <Link
-          href={callbackHref}
-          className="rounded-lg bg-[#10233D] px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-[#1C3A5E]"
-        >
-          Request a callback
-        </Link>
+        {linkFirmInstead ? (
+          <a
+            href={getFirmWebsite(lawyer)}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 rounded-lg bg-[#10233D] px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-[#1C3A5E]"
+          >
+            Visit firm website
+            <ExternalLink className="h-3.5 w-3.5" />
+          </a>
+        ) : (
+          <Link
+            href={callbackHref}
+            className="rounded-lg bg-[#10233D] px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-[#1C3A5E]"
+          >
+            Request a callback
+          </Link>
+        )}
       </div>
     </article>
   );

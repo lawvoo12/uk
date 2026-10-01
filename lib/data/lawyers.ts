@@ -1,5 +1,12 @@
 import { STATIC_LAWYERS, type Regulator, type StaticLawyer } from "@/lib/data/static-lawyers";
+import { IE_LAWYERS } from "@/lib/ie/lawyers";
+import type { Country } from "@/lib/country";
 import type { PracticeAreaSlug } from "@/lib/validations/lead-intake";
+
+/** The listings for one country section: UK (default) or Ireland. */
+export function lawyersFor(country: Country = "uk"): StaticLawyer[] {
+  return country === "ie" ? IE_LAWYERS : STATIC_LAWYERS;
+}
 
 export interface LawyerListing {
   id: string;
@@ -18,6 +25,8 @@ export interface LawyerListing {
   ratingAverage: number | null; // null = no real reviews yet
   ratingCount: number;
   yearsExperience: number | null;
+  profileUrl: string;
+  focusNotStated: boolean;
 }
 
 function toListing(lawyer: StaticLawyer): LawyerListing {
@@ -39,6 +48,8 @@ function toListing(lawyer: StaticLawyer): LawyerListing {
     ratingAverage: hasReviews ? lawyer.ratingAverage! : null,
     ratingCount: hasReviews ? lawyer.ratingCount! : 0,
     yearsExperience: lawyer.yearsExperience,
+    profileUrl: lawyer.profileUrl,
+    focusNotStated: lawyer.focusNotStated === true,
   };
 }
 
@@ -50,8 +61,12 @@ function compareListings(a: LawyerListing, b: LawyerListing) {
 }
 
 /** Lawyers matching a practice area + city, from the static data file. */
-export function getLawyersByCategoryAndCity(categorySlug: PracticeAreaSlug, citySlug: string): LawyerListing[] {
-  return STATIC_LAWYERS.filter(
+export function getLawyersByCategoryAndCity(
+  categorySlug: PracticeAreaSlug,
+  citySlug: string,
+  country: Country = "uk"
+): LawyerListing[] {
+  return lawyersFor(country).filter(
     (lawyer) => lawyer.citySlug === citySlug && lawyer.practiceAreaSlugs.includes(categorySlug)
   )
     .map(toListing)
@@ -59,22 +74,22 @@ export function getLawyersByCategoryAndCity(categorySlug: PracticeAreaSlug, city
 }
 
 /** Every lawyer in a city, across all practice areas — powers /uk/locations/[city]. */
-export function getLawyersByCity(citySlug: string): LawyerListing[] {
-  return STATIC_LAWYERS.filter((lawyer) => lawyer.citySlug === citySlug)
+export function getLawyersByCity(citySlug: string, country: Country = "uk"): LawyerListing[] {
+  return lawyersFor(country).filter((lawyer) => lawyer.citySlug === citySlug)
     .map(toListing)
     .sort(compareListings);
 }
 
 /** How many listings each city has, keyed by city slug. */
-export function getLawyerCountsByCity(): Record<string, number> {
+export function getLawyerCountsByCity(country: Country = "uk"): Record<string, number> {
   const counts: Record<string, number> = {};
-  for (const lawyer of STATIC_LAWYERS) counts[lawyer.citySlug] = (counts[lawyer.citySlug] ?? 0) + 1;
+  for (const lawyer of lawyersFor(country)) counts[lawyer.citySlug] = (counts[lawyer.citySlug] ?? 0) + 1;
   return counts;
 }
 
 /** Every lawyer whose firm covers a practice area, across all cities. */
-export function getLawyersByCategory(categorySlug: PracticeAreaSlug): LawyerListing[] {
-  return STATIC_LAWYERS.filter((lawyer) => lawyer.practiceAreaSlugs.includes(categorySlug))
+export function getLawyersByCategory(categorySlug: PracticeAreaSlug, country: Country = "uk"): LawyerListing[] {
+  return lawyersFor(country).filter((lawyer) => lawyer.practiceAreaSlugs.includes(categorySlug))
     .map(toListing)
     .sort(compareListings);
 }

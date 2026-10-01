@@ -13,6 +13,19 @@
  */
 export const LEADS_ENABLED = process.env.LEADS_ENABLED !== "false";
 
+/**
+ * Ireland (/ie) enquiry form. ON when the UK form is on, unless
+ * IE_LEADS_ENABLED="false" — lets you pause Irish enquiries (for example
+ * until your EU GDPR representative is appointed) without touching the UK.
+ */
+export const IE_LEADS_ENABLED = LEADS_ENABLED && process.env.IE_LEADS_ENABLED !== "false";
+
+/**
+ * Your EU GDPR representative (Article 27), shown on /ie/privacy once set —
+ * name and postal address in one line, e.g. "Example Rep Ltd, 1 Street, Dublin 2, D02 XXXX".
+ */
+export const EU_REPRESENTATIVE = process.env.NEXT_PUBLIC_EU_REPRESENTATIVE || "";
+
 /** Where solicitors send listing update/removal requests. */
 export const LISTINGS_EMAIL = process.env.NEXT_PUBLIC_LISTINGS_EMAIL || "lawvoo12@gmail.com";
 

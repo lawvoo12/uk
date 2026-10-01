@@ -1,4 +1,7 @@
-# Lawvoo — UK Solicitor Directory (informational site)
+# Lawvoo — UK & Ireland Solicitor Directory (informational site)
+
+Two country sections in one app: **/uk** (England, Wales, Scotland, Northern
+Ireland) and **/ie** (Republic of Ireland). See "Ireland (/ie)" below.
 
 No database. Solicitor listings live in a plain TypeScript file
 (`lib/data/static-lawyers.ts`), and the lead form writes straight to a
@@ -12,26 +15,31 @@ npm install
 
 ## 2. Set up the Google Sheet (5 minutes, no Google Cloud account needed)
 
-1. Create a new Google Sheet. Add a header row to **Sheet1** (leads):
+1. Create a new Google Sheet. Add a header row to **Sheet1** (leads) — 14 columns:
    ```
-   Lead ID | Submitted At | Practice Area | Sub-Category | Case Title | Description | Urgency | Postcode | City | Full Name | Email | Phone | Requested Solicitor
+   Lead ID | Submitted At | Practice Area | Sub-Category | Case Title | Description | Urgency | Postcode | City | Full Name | Email | Phone | Requested Solicitor | Country
    ```
-   A second tab called **Clicks** is created automatically the first time
-   someone clicks "Request a callback" while the form is switched off.
+   **Country** (column N) is `UK` or `IE` — which section of the site the enquiry came
+   from. For Irish enquiries the Postcode column holds the Eircode (it's optional, so it
+   can be blank). A second tab called **Clicks** is created automatically the first time
+   someone clicks "Request a callback" while the form is switched off (its 5th column is
+   also Country).
 2. Make up a long random secret (e.g. from a password generator). You'll put
    the same value in the script below and in `GOOGLE_SHEETS_WEBHOOK_SECRET`.
 3. In the Sheet, go to **Extensions → Apps Script**. Delete the placeholder
-   code and paste this in its place, filling in the three settings at the top:
+   code and paste this in its place, filling in the settings at the top:
 
    ```javascript
    var SECRET = "PASTE-YOUR-SECRET-HERE";      // same as GOOGLE_SHEETS_WEBHOOK_SECRET
-   var NOTIFY_EMAIL = "you@example.com";        // where the click alert goes
+   var NOTIFY_EMAIL = "lawvoo12@gmail.com";     // gets an email for every lead + the click alert
    var CLICK_ALERT_AT = 15;                     // email me when clicks reach this number
+   var LEAD_ALERT = true;                       // false = no email per lead
 
    function doPost(e) {
      var data = JSON.parse(e.postData.contents);
      if (data.secret !== SECRET) return reply({ status: "forbidden" });
 
+     var country = data.country === "IE" ? "IE" : "UK";
      var lock = LockService.getScriptLock();
      lock.waitLock(10000);
      try {
@@ -40,21 +48,21 @@ npm install
        // Anonymous "wanted to enquire" clicks while the form is off.
        if (data.type === "click") {
          var clicks = ss.getSheetByName("Clicks") || ss.insertSheet("Clicks");
-         if (clicks.getLastRow() === 0) clicks.appendRow(["Clicked At", "Source", "Solicitor", "City"]);
-         clicks.appendRow([data.clickedAt, data.source, data.solicitor || "", data.citySlug || ""]);
+         if (clicks.getLastRow() === 0) clicks.appendRow(["Clicked At", "Source", "Solicitor", "City", "Country"]);
+         clicks.appendRow([data.clickedAt, data.source, data.solicitor || "", data.citySlug || "", country]);
          var total = clicks.getLastRow() - 1;
          if (total === CLICK_ALERT_AT) {
            MailApp.sendEmail(
              NOTIFY_EMAIL,
              "Lawvoo: " + total + " people tried to enquire",
              total + " visitors have clicked 'Request a callback' or 'Find a solicitor'.\n\n" +
-               "(Clicks are only counted while LEADS_ENABLED=false.)\n\n" + ss.getUrl()
+               "(Clicks are only counted while the form is switched off.)\n\n" + ss.getUrl()
            );
          }
          return reply({ status: "success" });
        }
 
-       // A real enquiry from the form.
+       // A real enquiry from the form (UK or Ireland).
        ss.getSheetByName("Sheet1").appendRow([
          data.leadId,
          data.submittedAt,
@@ -69,7 +77,39 @@ npm install
          data.email,
          data.phone,
          data.requestedSolicitor || "",
+         country,
        ]);
+
+       // Email alert for every lead. A mail problem never loses the lead —
+       // the row above is already saved.
+       if (LEAD_ALERT) {
+         try {
+           MailApp.sendEmail({
+             to: NOTIFY_EMAIL,
+             replyTo: data.email,
+             subject: "[" + country + "] New Lawvoo lead: " + data.practiceArea + " — " + data.city,
+             body: [
+               "Country: " + country,
+               "Practice area: " + data.practiceArea + " (" + data.subCategory + ")",
+               "Urgency: " + data.urgency,
+               (country === "IE" ? "Eircode: " : "Postcode: ") + (data.postcode || "-") + "   Town: " + data.city,
+               data.requestedSolicitor ? "Requested solicitor: " + data.requestedSolicitor : "Requested solicitor: none",
+               "",
+               "Name: " + data.fullName,
+               "Email: " + data.email,
+               "Phone: " + data.phone,
+               "",
+               "Case: " + data.caseTitle,
+               data.description,
+               "",
+               "Lead ID: " + data.leadId,
+               ss.getUrl(),
+             ].join("\n"),
+           });
+         } catch (err) {
+           console.error("Lead alert email failed: " + err);
+         }
+       }
        return reply({ status: "success" });
      } finally {
        lock.releaseLock();
@@ -216,6 +256,49 @@ Netlify proxies three paths to it, so visitors only ever see lawvoo.com/uk:
 The enquiry form is a Server Action, so `lawvoo.com` is listed in
 `experimental.serverActions.allowedOrigins` in `next.config.ts`. Add any
 other public domain there too.
+
+## Ireland (/ie)
+
+The Irish directory lives in the same app and Vercel project. Nothing under
+/uk changed.
+
+| Path | What it is |
+|---|---|
+| `/ie` | Irish homepage (search by town or Eircode) |
+| `/ie/solicitors`, `/ie/solicitors/[category]`, `/ie/solicitors/[category]/[city]` | Browse by area of law and town |
+| `/ie/locations`, `/ie/locations/[city]` | 20 towns by province, with local courts, probate registry and WRC info |
+| `/ie/lawyer/[id]` | Solicitor profile |
+| `/ie/leads/new` | Irish enquiry form (noindex) |
+| `/ie/tools/stamp-duty-calculator` | Irish stamp duty calculator (footer only) |
+| `/ie/tools/who-inherits-without-a-will`, `/ie/tools/inheritance-tax-calculator`, `/ie/tools/wrc-time-limit-calculator` | Intestacy, CAT and WRC deadline calculators (footer only) |
+| `/ie/guides`, `/ie/guides/[slug]` | Guides to Irish law (`lib/ie/guides.ts`) |
+| `/ie/free-legal-help`, `/ie/irish-language-solicitors` | Free legal help; solicitors on Clár na Gaeilge |
+| `/ie/listings`, `/ie/privacy`, `/ie/terms` | For solicitors; EU-GDPR privacy policy; terms |
+| `/ie/sitemap.xml` | Irish sitemap (only pages that have solicitors) |
+
+**Where things live**
+
+- Irish solicitors: `lib/ie/lawyers.ts` (same fields as the UK file, plus a
+  `verification` note). `IE_REGISTER_CHECKED` at the top stays `false` until
+  you've checked every firm on the Law Society of Ireland register yourself.
+- Towns: `lib/ie/cities.ts`. Irish-law text, courts, probate and FAQs: `lib/ie/content.ts`.
+- Stamp duty rates: `lib/ie/stamp-duty.ts`, CAT thresholds: `lib/ie/cat.ts` — update both after each October Budget.
+- Free help numbers / law centres: `lib/ie/free-help.ts`; Clár na Gaeilge extract: `lib/ie/irish-language.ts` (the register changes monthly).
+- Shared components take a `country` prop (`"uk"` default, or `"ie"`). The
+  navbar and footer pick UK or Irish links from the URL.
+
+**Personal injury in Ireland** — listings only. There is no enquiry form on
+Irish PI pages, the Irish form has no Personal Injury option, and the server
+rejects an Irish PI enquiry even if posted directly. Cards link to the firm's
+own website instead.
+
+**Switches** — `IE_LEADS_ENABLED=false` turns the Irish form off without
+touching the UK. `NEXT_PUBLIC_EU_REPRESENTATIVE` shows your Article 27
+representative on /ie/privacy.
+
+**Netlify** — add the two `/ie` rules at the bottom of `deploy/netlify.toml`
+(or the last two lines of `deploy/_redirects`) to the Netlify site, and add
+`https://www.lawvoo.com/ie/sitemap.xml` to its sitemap_index.xml.
 
 ## Deploying (Vercel)
 

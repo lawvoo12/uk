@@ -7,7 +7,7 @@ import { TOOLS } from "@/lib/tools";
 export const metadata: Metadata = {
   title: "Free legal tools and calculators",
   description: "Free UK calculators for property and legal costs — including a Stamp Duty, LBTT and LTT calculator.",
-  alternates: { canonical: "/uk/tools" },
+  alternates: { canonical: "/uk/tools", languages: { "en-GB": "/uk/tools", "en-IE": "/ie/tools" } },
 };
 
 

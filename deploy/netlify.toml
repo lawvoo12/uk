@@ -22,3 +22,17 @@
   to = "https://lawvoo-uk.vercel.app/uk-static/:splat"
   status = 200
   force = true
+
+# ---- Ireland (/ie) — added 28 Sep 2026. Same Vercel app; its JS/CSS already
+# ---- come through /uk-static/* above, so only these two rules are needed.
+[[redirects]]
+  from = "/ie"
+  to = "https://lawvoo-uk.vercel.app/ie"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/ie/*"
+  to = "https://lawvoo-uk.vercel.app/ie/:splat"
+  status = 200
+  force = true

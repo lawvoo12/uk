@@ -4,6 +4,7 @@ import { Clock, ExternalLink, MapPin, ShieldCheck } from "lucide-react";
 import type { StaticLawyer } from "@/lib/data/static-lawyers";
 import { getFirmWebsite } from "@/lib/data/firm-website";
 import { REGULATORS } from "@/lib/seo/regulators";
+import { COUNTRY_BASE, type Country } from "@/lib/country";
 
 /**
  * Shown instead of the enquiry form while LEADS_ENABLED is off. Points the
@@ -12,9 +13,11 @@ import { REGULATORS } from "@/lib/seo/regulators";
 export function EnquiriesClosedNotice({
   lawyer,
   compact = false,
+  country = "uk",
 }: {
   lawyer?: Pick<StaticLawyer, "id" | "firmName" | "profileUrl" | "registerUrl" | "regulator">;
   compact?: boolean;
+  country?: Country;
 }) {
   return (
     <div className={compact ? "rounded-2xl border border-[#DCD8D0] bg-white p-5" : "mx-auto max-w-xl rounded-2xl border border-[#DCD8D0] bg-white p-6 sm:p-8"}>
@@ -56,7 +59,7 @@ export function EnquiriesClosedNotice({
           </>
         ) : (
           <Link
-            href="/uk/locations"
+            href={`${COUNTRY_BASE[country]}/locations`}
             className="inline-flex items-center gap-1.5 rounded-lg bg-[#10233D] px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-[#1C3A5E]"
           >
             <MapPin className="h-3.5 w-3.5" />

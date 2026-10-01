@@ -1,10 +1,17 @@
 "use server";
 
 import { sendLeadNotificationEmail } from "@/lib/email";
-import { leadIntakeSchema, getPracticeAreaBySlug, type LeadIntakeInput } from "@/lib/validations/lead-intake";
+import {
+  leadIntakeSchema,
+  ieLeadIntakeSchema,
+  getPracticeAreaBySlug,
+  type LeadIntakeInput,
+} from "@/lib/validations/lead-intake";
 import { STATIC_LAWYERS } from "@/lib/data/static-lawyers";
+import { IE_LAWYERS } from "@/lib/ie/lawyers";
 import { getCityBySlug } from "@/lib/seo/uk-cities";
-import { LEADS_ENABLED, SHEETS_WEBHOOK_SECRET, TURNSTILE_SECRET_KEY } from "@/lib/config";
+import { getIeCityBySlug } from "@/lib/ie/cities";
+import { IE_LEADS_ENABLED, LEADS_ENABLED, SHEETS_WEBHOOK_SECRET, TURNSTILE_SECRET_KEY } from "@/lib/config";
 
 // A real person needs at least this long to get through four steps.
 const MIN_FILL_TIME_MS = 8000;
@@ -44,13 +51,17 @@ export type SubmitLeadState =
  * the Apps Script setup (copy-paste, no Google Cloud project needed).
  */
 export async function submitLeadIntake(input: LeadIntakeInput): Promise<SubmitLeadState> {
-  // The form is switched off until the ICO fee is paid (lib/config.ts).
-  // Checked here too, not just in the UI, so nothing can be posted directly.
-  if (!LEADS_ENABLED) {
+  // "UK" unless the form says it came from the Ireland (/ie) pages.
+  const country: "UK" | "IE" = input?.country === "IE" ? "IE" : "UK";
+
+  // The form can be switched off (lib/config.ts). Checked here too, not just
+  // in the UI, so nothing can be posted directly.
+  if (country === "IE" ? !IE_LEADS_ENABLED : !LEADS_ENABLED) {
     return { status: "error", message: "Online enquiries aren't open yet. Please contact the firm directly." };
   }
 
-  const parsed = leadIntakeSchema.safeParse(input);
+  // Irish enquiries use the Irish rules: no personal injury, Eircode, Irish phone numbers.
+  const parsed = (country === "IE" ? ieLeadIntakeSchema : leadIntakeSchema).safeParse(input);
 
   if (!parsed.success) {
     const fieldErrors: Partial<Record<keyof LeadIntakeInput, string>> = {};
@@ -91,10 +102,13 @@ export async function submitLeadIntake(input: LeadIntakeInput): Promise<SubmitLe
   // Which solicitor they clicked "Request a callback" on, if any — resolved
   // server-side from the id so the sheet always shows the real listing.
   const requested = data.requestedSolicitorId
-    ? STATIC_LAWYERS.find((l) => l.id === data.requestedSolicitorId)
+    ? (country === "IE" ? IE_LAWYERS : STATIC_LAWYERS).find((l) => l.id === data.requestedSolicitorId)
+    : undefined;
+  const requestedCityName = requested
+    ? (country === "IE" ? getIeCityBySlug(requested.citySlug) : getCityBySlug(requested.citySlug))?.name
     : undefined;
   const requestedSolicitor = requested
-    ? `${requested.lawyerName} — ${requested.firmName} (${getCityBySlug(requested.citySlug)?.name ?? requested.citySlug})`
+    ? `${requested.lawyerName} — ${requested.firmName} (${requestedCityName ?? requested.citySlug})`
     : "";
 
   try {
@@ -117,6 +131,7 @@ export async function submitLeadIntake(input: LeadIntakeInput): Promise<SubmitLe
         email: data.email,
         phone: data.phone,
         requestedSolicitor,
+        country,
       }),
     });
 
@@ -143,6 +158,7 @@ export async function submitLeadIntake(input: LeadIntakeInput): Promise<SubmitLe
       clientPhone: data.phone,
       postcode: data.postcode,
       requestedSolicitor,
+      ...(country === "IE" ? { country } : {}),
     });
 
     return { status: "success", leadId };

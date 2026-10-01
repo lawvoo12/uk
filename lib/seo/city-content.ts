@@ -275,6 +275,7 @@ export const COURT_SERVICE: Record<Regulator, { name: string; url: string }> = {
   SRA: { name: "GOV.UK Find a court or tribunal", url: `${GOV_COURT_FINDER}/` },
   LSS: { name: "Scottish Courts and Tribunals Service", url: "https://www.scotcourts.gov.uk/" },
   LSNI: { name: "nidirect — courts and tribunals", url: "https://www.nidirect.gov.uk/" },
+  LSI: { name: "Courts Service of Ireland", url: "https://www.courts.ie/offices" },
 };
 
 /** Plain-language note on the legal system a city falls under. */
@@ -290,5 +291,10 @@ export const JURISDICTION_NOTE: Record<Regulator, { title: string; body: string 
   LSNI: {
     title: "Northern Ireland law",
     body: "Northern Ireland has its own legal system and courts. Solicitors are regulated by the Law Society of Northern Ireland. Some rules differ from England and Wales — for example, the online no-fault divorce process used in England and Wales doesn't apply here.",
+  },
+  // Used by the /ie pages (lib/ie/content.ts has the fuller Irish text).
+  LSI: {
+    title: "Irish law",
+    body: "The Republic of Ireland has its own legal system. Solicitors are on the Roll kept by the Law Society of Ireland, and complaints about them go to the Legal Services Regulatory Authority (LSRA).",
   },
 };

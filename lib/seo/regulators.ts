@@ -22,6 +22,12 @@ export const REGULATORS: Record<Regulator, { name: string; shortName: string; re
     registerUrl: "https://lawsoc-ni.org/using-a-solicitor",
     registerLabel: "Law Society of Northern Ireland's solicitor directory",
   },
+  LSI: {
+    name: "Law Society of Ireland",
+    shortName: "Law Society of Ireland",
+    registerUrl: "https://www.lawsociety.ie/find-a-solicitor/Solicitor-Firm-Search/",
+    registerLabel: "Law Society of Ireland's Find a Solicitor register",
+  },
 };
 
 export function regulatorForRegion(region: string): Regulator {

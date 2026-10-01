@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   title: "Browse UK Solicitors by Category & City",
   description:
     "Browse regulated UK solicitors by practice area and city. Immigration, family, personal injury, employment, property, and wills & probate solicitors across the UK's major cities.",
-  alternates: { canonical: "/uk/solicitors" },
+  alternates: { canonical: "/uk/solicitors", languages: { "en-GB": "/uk/solicitors", "en-IE": "/ie/solicitors" } },
 };
 
 // Cities link to their location page (/uk/locations/[city]), which lists

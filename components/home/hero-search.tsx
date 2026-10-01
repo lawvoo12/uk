@@ -6,9 +6,11 @@ import { Search } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { PRACTICE_AREAS } from "@/lib/validations/lead-intake";
-import { resolveSearchDestination } from "@/lib/actions/search";
+import { resolveIeSearchDestination, resolveSearchDestination } from "@/lib/actions/search";
+import type { Country } from "@/lib/country";
 
-export function HeroSearch() {
+export function HeroSearch({ country = "uk" }: { country?: Country } = {}) {
+  const isIe = country === "ie";
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [category, setCategory] = useState<string>(PRACTICE_AREAS[0].slug);
@@ -19,7 +21,9 @@ export function HeroSearch() {
     event.preventDefault();
     setMessage(null);
     startTransition(async () => {
-      const result = await resolveSearchDestination(category, location);
+      const result = isIe
+        ? await resolveIeSearchDestination(category, location)
+        : await resolveSearchDestination(category, location);
       if (result.status === "found") {
         router.push(result.url);
       } else if (result.status === "unsupported-area") {
@@ -53,14 +57,14 @@ export function HeroSearch() {
         </select>
 
         <label className="sr-only" htmlFor="hero-location">
-          City or UK postcode
+          {isIe ? "Town or Eircode" : "City or UK postcode"}
         </label>
         <input
           id="hero-location"
           type="text"
           value={location}
           onChange={(e) => setLocation(e.target.value)}
-          placeholder="City or postcode, e.g. Manchester or SW1A 1AA"
+          placeholder={isIe ? "Town or Eircode, e.g. Cork or D02" : "City or postcode, e.g. Manchester or SW1A 1AA"}
           className="h-11 flex-1 rounded-lg border border-[#DCD8D0] bg-white px-3 text-sm text-[#10233D] placeholder:text-[#A8A398] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B8863B]"
         />
 

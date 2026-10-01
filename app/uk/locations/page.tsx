@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   title: "Find Solicitors by Location | UK Cities",
   description:
     "Browse checked UK solicitors by location — every city we cover across England, Wales, Scotland and Northern Ireland, with named solicitors, office addresses and practice areas.",
-  alternates: { canonical: "/uk/locations" },
+  alternates: { canonical: "/uk/locations", languages: { "en-GB": "/uk/locations", "en-IE": "/ie/locations" } },
 };
 
 export default function LocationsIndexPage() {

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useTransition, type ComponentType } from "react";
+import { createContext, useContext, useEffect, useState, useTransition, type ComponentType } from "react";
 import { FormProvider, useForm, useFormContext } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -22,9 +22,12 @@ import {
 import { cn } from "@/lib/utils";
 import {
   leadIntakeSchema,
+  ieLeadIntakeSchema,
   STEP_FIELDS,
   PRACTICE_AREAS,
+  IE_PRACTICE_AREAS,
   SUB_CATEGORIES,
+  IE_SUB_CATEGORIES,
   type LeadIntakeInput,
   type PracticeAreaSlug,
 } from "@/lib/validations/lead-intake";
@@ -38,6 +41,11 @@ import { Turnstile } from "@/components/leads/turnstile";
 import { TURNSTILE_SITE_KEY } from "@/lib/config";
 
 const TOTAL_STEPS = 4;
+
+// "UK" (default) or "IE". The Irish form has no Personal Injury option, asks
+// for an optional Eircode instead of a UK postcode, and takes Irish numbers.
+type FormCountry = "UK" | "IE";
+const FormCountryContext = createContext<FormCountry>("UK");
 
 const STEP_LABELS = ["Practice area", "Case & location", "Your situation", "Your details"];
 
@@ -82,6 +90,8 @@ function StepPracticeArea() {
   } = useFormContext<LeadIntakeInput>();
 
   const selected = watch("practiceArea");
+  const isIe = useContext(FormCountryContext) === "IE";
+  const areas = isIe ? IE_PRACTICE_AREAS : PRACTICE_AREAS;
 
   return (
     <fieldset>
@@ -91,7 +101,7 @@ function StepPracticeArea() {
       </p>
 
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-        {PRACTICE_AREAS.map((area) => {
+        {areas.map((area) => {
           const Icon = PRACTICE_AREA_ICONS[area.slug];
           const isSelected = selected === area.slug;
           return (
@@ -124,6 +134,15 @@ function StepPracticeArea() {
           {errors.practiceArea.message}
         </p>
       )}
+      {isIe && (
+        <p className="mt-4 text-xs text-[#5B6472]">
+          Personal injury? We don&apos;t take personal injury enquiries in Ireland —{" "}
+          <a href="/ie/solicitors/personal-injury" className="underline underline-offset-2 hover:text-[#B8863B]">
+            see personal injury solicitors
+          </a>{" "}
+          and contact a firm directly.
+        </p>
+      )}
     </fieldset>
   );
 }
@@ -142,7 +161,8 @@ function StepServiceLocation() {
 
   const practiceArea = watch("practiceArea");
   const subCategory = watch("subCategory");
-  const options = practiceArea ? SUB_CATEGORIES[practiceArea] : [];
+  const isIe = useContext(FormCountryContext) === "IE";
+  const options = practiceArea ? (isIe ? IE_SUB_CATEGORIES : SUB_CATEGORIES)[practiceArea] : [];
 
   return (
     <fieldset className="space-y-6">
@@ -182,10 +202,10 @@ function StepServiceLocation() {
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div>
-          <Label htmlFor="postcode">UK postcode</Label>
+          <Label htmlFor="postcode">{isIe ? "Eircode (optional)" : "UK postcode"}</Label>
           <Input
             id="postcode"
-            placeholder="SW1A 1AA"
+            placeholder={isIe ? "A65 F4E2" : "SW1A 1AA"}
             autoCapitalize="characters"
             autoComplete="postal-code"
             {...register("postcode")}
@@ -199,10 +219,10 @@ function StepServiceLocation() {
         </div>
 
         <div>
-          <Label htmlFor="city">Town or city</Label>
+          <Label htmlFor="city">{isIe ? "Town or county" : "Town or city"}</Label>
           <Input
             id="city"
-            placeholder="London"
+            placeholder={isIe ? "Dublin" : "London"}
             autoComplete="address-level2"
             {...register("city")}
             className={cn(errors.city && "border-red-500 focus-visible:ring-red-500")}
@@ -233,6 +253,7 @@ function StepCaseDetails() {
 
   const urgency = watch("urgency");
   const description = watch("description") ?? "";
+  const isIe = useContext(FormCountryContext) === "IE";
 
   return (
     <fieldset className="space-y-6">
@@ -245,7 +266,7 @@ function StepCaseDetails() {
         <Label htmlFor="caseTitle">Give your case a short title</Label>
         <Input
           id="caseTitle"
-          placeholder="e.g. Spouse visa application for my partner"
+          placeholder={isIe ? "e.g. Stamp 4 application after my work permit" : "e.g. Spouse visa application for my partner"}
           {...register("caseTitle")}
           className={cn(errors.caseTitle && "border-red-500 focus-visible:ring-red-500")}
         />
@@ -326,6 +347,7 @@ function StepClientDetails() {
   } = useFormContext<LeadIntakeInput>();
 
   const consent = watch("consent");
+  const isIe = useContext(FormCountryContext) === "IE";
 
   return (
     <fieldset className="space-y-6">
@@ -355,7 +377,7 @@ function StepClientDetails() {
           <Input
             id="phone"
             type="tel"
-            placeholder="07123 456789"
+            placeholder={isIe ? "087 123 4567" : "07123 456789"}
             autoComplete="tel"
             {...register("phone")}
             className={cn(errors.phone && "border-red-500 focus-visible:ring-red-500")}
@@ -399,12 +421,21 @@ function StepClientDetails() {
         />
         <div>
           <Label htmlFor="consent" className="cursor-pointer text-sm font-normal leading-relaxed text-[#10233D]">
-            I agree to Lawvoo reviewing these details and sharing them with a solicitor firm that covers my
-            case (the firm I chose, if I picked one), so that they can contact me about it.
+            {isIe ? (
+              <>
+                I agree to Lawvoo reviewing these details and sharing them with the solicitor firm I chose — or, if I
+                didn&apos;t choose one, with a firm Lawvoo names to me first — so that they can contact me about it.
+              </>
+            ) : (
+              <>
+                I agree to Lawvoo reviewing these details and sharing them with a solicitor firm that covers my
+                case (the firm I chose, if I picked one), so that they can contact me about it.
+              </>
+            )}
           </Label>
           <p className="mt-1 text-xs text-[#5B6472]">
-            Required under UK GDPR. Read our{" "}
-            <a href="/uk/privacy" className="underline underline-offset-2 hover:text-[#B8863B]">
+            {isIe ? "Required under the GDPR." : "Required under UK GDPR."} Read our{" "}
+            <a href={isIe ? "/ie/privacy" : "/uk/privacy"} className="underline underline-offset-2 hover:text-[#B8863B]">
               privacy policy
             </a>{" "}
             for how your data is used and how to withdraw consent at any time.
@@ -467,11 +498,14 @@ export function LeadIntakeForm({
   initialPracticeArea,
   initialCity,
   requestedSolicitorId,
+  country = "UK",
 }: {
   initialPracticeArea?: PracticeAreaSlug;
   initialCity?: string;
-  /** Listing id from lib/data/static-lawyers.ts when opened via "Request a callback". */
+  /** Listing id from lib/data/static-lawyers.ts (or lib/ie/lawyers.ts) when opened via "Request a callback". */
   requestedSolicitorId?: string;
+  /** Which country section the form is on. Sent to the Google Sheet. */
+  country?: FormCountry;
 } = {}) {
   const [step, setStep] = useState(initialPracticeArea ? 1 : 0);
   const [isPending, startTransition] = useTransition();
@@ -479,13 +513,16 @@ export function LeadIntakeForm({
   const [submittedId, setSubmittedId] = useState<string | null>(null);
 
   const methods = useForm<LeadIntakeInput>({
-    resolver: zodResolver(leadIntakeSchema),
+    resolver: zodResolver(
+      country === "IE" ? (ieLeadIntakeSchema as unknown as typeof leadIntakeSchema) : leadIntakeSchema
+    ),
     defaultValues: {
       ...defaultValues,
       practiceArea: initialPracticeArea,
       city: initialCity ?? "",
       requestedSolicitorId,
       website: "",
+      ...(country === "IE" ? { country } : {}),
     },
     mode: "onTouched",
   });
@@ -549,6 +586,7 @@ export function LeadIntakeForm({
 
       <StepIndicator currentStep={step} />
 
+      <FormCountryContext.Provider value={country}>
       <FormProvider {...methods}>
         <form onSubmit={handleSubmit(onSubmit)} className="rounded-2xl border border-[#DCD8D0] bg-white p-6 shadow-sm sm:p-8" noValidate>
           {/* Honeypot: hidden from people and screen readers; bots tend to fill it in. */}
@@ -592,6 +630,7 @@ export function LeadIntakeForm({
           </div>
         </form>
       </FormProvider>
+      </FormCountryContext.Provider>
     </div>
   );
 }

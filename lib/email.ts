@@ -13,6 +13,8 @@ export interface LeadNotificationInput {
   clientPhone: string | null;
   postcode: string;
   requestedSolicitor?: string;
+  /** Only set for Irish leads, which get an [IE] tag in the subject. */
+  country?: "IE";
 }
 
 /**
@@ -41,12 +43,13 @@ export async function sendLeadNotificationEmail(lead: LeadNotificationInput): Pr
       from: "Lawvoo Leads <leads@lawvoo.com>",
       to: notifyEmail,
       replyTo: lead.clientEmail,
-      subject: `New lead: ${lead.caseTitle} (${lead.practiceAreaName})`,
+      subject: `${lead.country ? `[${lead.country}] ` : ""}New lead: ${lead.caseTitle} (${lead.practiceAreaName})`,
       text: [
         `New case submitted — ${lead.urgency}`,
         "",
+        ...(lead.country ? [`Country: ${lead.country}`] : []),
         `Practice area: ${lead.practiceAreaName}`,
-        `Postcode: ${lead.postcode}`,
+        `${lead.country === "IE" ? "Eircode" : "Postcode"}: ${lead.postcode}`,
         ...(lead.requestedSolicitor ? [`Requested callback from: ${lead.requestedSolicitor}`] : []),
         "",
         `Name: ${lead.clientName}`,

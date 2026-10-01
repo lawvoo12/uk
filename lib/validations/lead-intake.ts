@@ -143,14 +143,109 @@ export const antiSpamSchema = z.object({
   turnstileToken: z.string().max(4096).optional(),
 });
 
+// Which country section the form was sent from ("UK" or "IE"). Goes to the
+// Google Sheet's Country column. Missing = UK (older clients).
+export const countryFieldSchema = z.object({
+  country: z.enum(["UK", "IE"]).optional(),
+});
+
 export const leadIntakeSchema = stepOneSchema
   .merge(stepTwoSchema)
   .merge(stepThreeSchema)
   .merge(stepFourSchema)
   .merge(requestedSolicitorSchema)
-  .merge(antiSpamSchema);
+  .merge(antiSpamSchema)
+  .merge(countryFieldSchema);
 
 export type LeadIntakeInput = z.infer<typeof leadIntakeSchema>;
+
+// ============================================================================
+// IRELAND (/ie) — same four steps, Irish details:
+//  - no Personal Injury option (Irish solicitor advertising rules and the
+//    Injuries Resolution Board process — PI pages link to firms instead);
+//  - Eircode (optional) instead of a UK postcode;
+//  - Irish phone numbers (+353 / 0...), or any international +number.
+// ============================================================================
+
+export const IE_PRACTICE_AREAS = PRACTICE_AREAS.filter((a) => a.slug !== "personal-injury");
+const IE_PRACTICE_AREA_SLUGS = IE_PRACTICE_AREAS.map((a) => a.slug) as PracticeAreaSlug[];
+
+export const IE_SUB_CATEGORIES: Record<PracticeAreaSlug, { slug: string; name: string }[]> = {
+  immigration: [
+    { slug: "employment-permit", name: "Employment Permit" },
+    { slug: "stamp-4", name: "Stamp 4 / Long-term Residence" },
+    { slug: "family-reunification", name: "Joining Family in Ireland" },
+    { slug: "eu-treaty-rights", name: "EU Treaty Rights" },
+    { slug: "international-protection", name: "International Protection" },
+    { slug: "citizenship", name: "Irish Citizenship" },
+  ],
+  family: [
+    { slug: "divorce", name: "Divorce & Judicial Separation" },
+    { slug: "guardianship-access", name: "Guardianship, Custody & Access" },
+    { slug: "maintenance", name: "Maintenance" },
+    { slug: "domestic-violence", name: "Safety & Barring Orders" },
+    { slug: "prenuptial", name: "Pre-nup & Cohabitation Agreements" },
+  ],
+  "personal-injury": [],
+  employment: [
+    { slug: "unfair-dismissal", name: "Unfair Dismissal" },
+    { slug: "discrimination", name: "Discrimination" },
+    { slug: "redundancy", name: "Redundancy" },
+    { slug: "pay-contract", name: "Pay, Hours or Contract Dispute" },
+    { slug: "bullying", name: "Bullying & Harassment" },
+  ],
+  property: [
+    { slug: "conveyancing", name: "Buying or Selling a Home" },
+    { slug: "landlord-tenant", name: "Landlord & Tenant" },
+    { slug: "boundary-dispute", name: "Boundary & Right of Way" },
+    { slug: "commercial-lease", name: "Commercial Lease" },
+  ],
+  "wills-probate": [
+    { slug: "will-writing", name: "Making a Will" },
+    { slug: "probate", name: "Probate & Estate Administration" },
+    { slug: "contested-will", name: "Challenging a Will" },
+    { slug: "enduring-power", name: "Enduring Power of Attorney" },
+  ],
+};
+
+const EIRCODE_REGEX = /^(?:[AC-FHKNPRTV-Y]\d{2}|D6W)\s?[0-9AC-FHKNPRTV-Y]{4}$/i;
+const IE_PHONE_REGEX = /^(?:(?:\+353|00353)\d{7,9}|0\d{7,9}|\+\d{10,15})$/;
+
+export const ieStepOneSchema = z.object({
+  practiceArea: z.enum(IE_PRACTICE_AREA_SLUGS, {
+    error: "Select the area of law that matches your case",
+  }),
+});
+
+export const ieStepTwoSchema = z.object({
+  subCategory: stepTwoSchema.shape.subCategory,
+  // Eircode is optional — plenty of people don't know theirs.
+  postcode: z
+    .string()
+    .trim()
+    .transform((val) => val.toUpperCase())
+    .refine((val) => val === "" || EIRCODE_REGEX.test(val), "Enter a valid Eircode, e.g. A65 F4E2 — or leave it blank")
+    .optional()
+    .transform((val) => val ?? ""),
+  city: z.string({ error: "Enter your town or county" }).trim().min(2, "Enter your town or county").max(85),
+});
+
+export const ieStepFourSchema = stepFourSchema.extend({
+  phone: z
+    .string({ error: "Enter your phone number" })
+    .trim()
+    .min(1, "Enter your phone number")
+    .transform((val) => val.replace(/[\s\-()]+/g, ""))
+    .refine((val) => IE_PHONE_REGEX.test(val), "Enter a valid phone number, e.g. 087 123 4567 or +353 87 123 4567"),
+});
+
+export const ieLeadIntakeSchema = ieStepOneSchema
+  .merge(ieStepTwoSchema)
+  .merge(stepThreeSchema)
+  .merge(ieStepFourSchema)
+  .merge(requestedSolicitorSchema)
+  .merge(antiSpamSchema)
+  .merge(countryFieldSchema);
 
 // Field groups used to run partial (per-step) validation with
 // react-hook-form's `trigger()` while keeping one combined resolver schema.

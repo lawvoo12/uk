@@ -54,7 +54,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return {
     title,
     description,
-    alternates: { canonical: canonicalPath },
+    alternates: {
+      canonical: canonicalPath,
+      // The Irish page for the same area of law (hreflang).
+      languages: { "en-GB": canonicalPath, "en-IE": `/ie/solicitors/${category.slug}` },
+    },
     openGraph: { title, description, url: canonicalPath, siteName: SITE_NAME, locale: "en_GB", type: "website" },
   };
 }

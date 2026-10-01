@@ -1,21 +1,25 @@
 import { Clock } from "lucide-react";
 
 import { LeadIntakeForm } from "@/components/LeadIntakeForm";
-import { LEADS_ENABLED } from "@/lib/config";
+import { IE_LEADS_ENABLED, LEADS_ENABLED } from "@/lib/config";
+import type { Country } from "@/lib/country";
 
 export function LeadCaptureSidebar({
   categoryName,
   cityName,
   mobileFirst = true,
+  country = "uk",
 }: {
   categoryName: string;
   cityName: string;
   /** Show the form above the listings on small screens (default). */
   mobileFirst?: boolean;
+  country?: Country;
 }) {
+  const enabled = country === "ie" ? IE_LEADS_ENABLED : LEADS_ENABLED;
   // Form switched off (see lib/config.ts): a short note instead, placed after
   // the listings on mobile so it doesn't push them down.
-  if (!LEADS_ENABLED) {
+  if (!enabled) {
     return (
       <aside id="get-matched" className="lg:sticky lg:top-8">
         <div className="rounded-2xl border border-[#DCD8D0] bg-white p-5">
@@ -42,7 +46,7 @@ export function LeadCaptureSidebar({
         </h2>
         <p className="mt-1 text-sm text-[#5B6472]">Free, no-obligation — takes about 2 minutes.</p>
       </div>
-      <LeadIntakeForm />
+      <LeadIntakeForm {...(country === "ie" ? { country: "IE" as const } : {})} />
     </aside>
   );
 }

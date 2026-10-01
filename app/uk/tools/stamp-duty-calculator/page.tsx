@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   title: "Stamp Duty Calculator 2026 — England, Scotland, Wales & NI",
   description:
     "Work out Stamp Duty (SDLT), Scottish LBTT or Welsh LTT on a home purchase — first-time buyer relief, second homes and non-resident surcharge included. Free, 2026 rates.",
-  alternates: { canonical: PATH },
+  alternates: { canonical: PATH, languages: { "en-GB": PATH, "en-IE": "/ie/tools/stamp-duty-calculator" } },
 };
 
 function nationOf(region: string): Nation {

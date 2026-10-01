@@ -2,6 +2,7 @@
 
 import { findCityByNameOrSlug, TOP_UK_CITIES } from "@/lib/seo/uk-cities";
 import { getPracticeAreaBySlug } from "@/lib/validations/lead-intake";
+import { EIRCODE_REGEX, findIeCityByEircode, findIeCityByNameOrSlug } from "@/lib/ie/cities";
 
 const UK_POSTCODE_REGEX = /^[A-Z]{1,2}\d[A-Z\d]?\s?\d[A-Z]{2}$/i;
 
@@ -56,4 +57,46 @@ export async function resolveSearchDestination(
 
   // 3. Neither a known city nor a valid postcode shape.
   return { status: "error", message: "Enter a valid UK city or postcode, e.g. \"Manchester\" or \"SW1A 1AA\"." };
+}
+
+/**
+ * Ireland (/ie) homepage search: a town name ("Cork", "Co. Kilkenny"
+ * isn't needed — just the town) or an Eircode / routing key ("T12 FK07",
+ * "D02"). Personal injury searches go to the listings page (there's no
+ * enquiry form for PI in Ireland).
+ */
+export async function resolveIeSearchDestination(
+  practiceAreaSlug: string,
+  locationInput: string
+): Promise<SearchDestination> {
+  const practiceArea = getPracticeAreaBySlug(practiceAreaSlug);
+  if (!practiceArea) {
+    return { status: "error", message: "Select a practice area to search." };
+  }
+
+  const location = locationInput.trim();
+  if (!location) {
+    return { status: "error", message: "Enter a town or an Eircode." };
+  }
+
+  const city = findIeCityByNameOrSlug(location) ?? findIeCityByEircode(location);
+  if (city) {
+    return { status: "found", url: `/ie/solicitors/${practiceArea.slug}/${city.slug}` };
+  }
+
+  if (EIRCODE_REGEX.test(location) || /^[A-Z]\d{2}$|^D6W$/i.test(location)) {
+    return practiceArea.slug === "personal-injury"
+      ? {
+          status: "unsupported-area",
+          message: "We don't have a page for that area yet — see personal injury solicitors across Ireland.",
+          fallbackUrl: "/ie/solicitors/personal-injury",
+        }
+      : {
+          status: "unsupported-area",
+          message: "We don't have a page for that area yet, but we can still take your details.",
+          fallbackUrl: `/ie/leads/new?category=${practiceArea.slug}`,
+        };
+  }
+
+  return { status: "error", message: 'Enter one of the towns we cover or an Eircode, e.g. "Galway" or "H91".' };
 }
