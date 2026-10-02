@@ -206,7 +206,9 @@ npm run dev
 
 ## Managing solicitor listings
 
-Edit `lib/data/static-lawyers.ts` directly — it's a plain array, each entry
+Edit `lib/data/static-lawyers.ts` (the original 50 listings) or
+`lib/data/uk-lawyers-extra.ts` (the extra firms added in Oct 2026; both
+lists are joined automatically) — each is a plain array, each entry
 is one solicitor. Save the file, refresh (dev) or redeploy (production). No
 database, no seed command, no migration.
 

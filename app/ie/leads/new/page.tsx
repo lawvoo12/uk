@@ -105,15 +105,20 @@ export default async function IeNewLeadPage({ searchParams }: PageProps) {
             <Link href={`/ie/lawyer/${lawyer.id}`} className="underline underline-offset-2 hover:text-[#5B6472]">
               View profile
             </Link>
-            {" · "}
-            <a
-              href={getFirmWebsite(lawyer)}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-0.5 underline underline-offset-2 hover:text-[#5B6472]"
-            >
-              Firm website <ExternalLink className="h-3 w-3" />
-            </a>
+            {/* The firm's website is only shown when the form is switched off. */}
+            {!IE_LEADS_ENABLED && (
+              <>
+                {" · "}
+                <a
+                  href={getFirmWebsite(lawyer)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-0.5 underline underline-offset-2 hover:text-[#5B6472]"
+                >
+                  Firm website <ExternalLink className="h-3 w-3" />
+                </a>
+              </>
+            )}
           </p>
         </div>
       )}

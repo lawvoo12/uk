@@ -164,8 +164,9 @@
 - **`/ie/free-legal-help`:** covers the Legal Aid Board, FLAC (01 906 10 10), Citizens Information (0818 07 4000), MABS (0818 07 2000), the WRC, the Injuries Resolution Board and the RTB. It lists the nearest law centre for all 20 towns (`lib/ie/free-help.ts`). Every town page now has a "Free legal help nearby" line.
 - All new pages are in `/ie/sitemap.xml`, which now has 184 URLs.
 
-## Update 12 — more UK firms per city (in progress, 1 Oct 2026)
-- New file `lib/data/uk-lawyers-extra.ts` holds the extra UK firms (77 so far). The original 50 entries in `lib/data/static-lawyers.ts` are unchanged; that file now joins both lists into `STATIC_LAWYERS`, so city pages, category/city pages, location counts, profiles, the sitemap and the form all pick them up.
-- Done so far: batches 1-3 (London → Portsmouth, 30 cities). Every England & Wales firm was checked on the SRA register (same firm name; no published disciplinary decisions); NI firms on the Law Society of NI directory. Scottish candidates are not added yet — they are waiting for a manual check on lawscot.org.uk.
-- Still to do: batches 4-5 (York → Worcester) and the confirmed Scottish firms.
-- No change to Ireland (/ie) pages or data, design, URLs, the form or SEO settings.
+## Update 12 — 3-5 UK firms per city (1 Oct 2026)
+- New file `lib/data/uk-lawyers-extra.ts` holds 129 extra UK firms (179 UK listings in total). The original 50 entries in `lib/data/static-lawyers.ts` are unchanged; that file now joins both lists into `STATIC_LAWYERS`, so city pages, category/city pages, location counts, profiles, the sitemap and the form all pick them up.
+- Every city now has 3-5 firms, except Chester (2 — no other verifiable local firm with a named solicitor).
+- Verification: England & Wales firms on the SRA register (same firm name, office in that city, no published disciplinary decisions or settlements); NI firms on the Law Society of NI directory; Scottish firms searched by name on lawscot.org.uk and confirmed by the site owner. Firms with recent AML settlements were left out.
+- Ireland: lawyer profiles and the Irish enquiry form no longer show a "Visit firm website" link, so visitors use "Request a callback". Personal-injury-only listings (no Irish PI form) and the "enquiries closed" notice still link to the firm. No other /ie change.
+- No change to design, URLs, SEO settings, .gitignore, vercel.json or next.config.ts.

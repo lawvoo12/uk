@@ -125,20 +125,24 @@ export default async function IeLawyerProfilePage({ params }: PageProps) {
                   Request a callback
                 </Link>
               )}
-              <a
-                href={getFirmWebsite(lawyer)}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-1.5 rounded-lg border border-[#DCD8D0] px-5 py-2.5 text-sm font-medium text-[#10233D] transition-colors hover:border-[#B8A488]"
-              >
-                Visit firm website <ExternalLink className="h-3.5 w-3.5" />
-              </a>
+              {/* Only personal-injury-only listings (no enquiry form) link to the firm's website. */}
+              {piOnly && (
+                <a
+                  href={getFirmWebsite(lawyer)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-1.5 rounded-lg border border-[#DCD8D0] px-5 py-2.5 text-sm font-medium text-[#10233D] transition-colors hover:border-[#B8A488]"
+                >
+                  Visit firm website <ExternalLink className="h-3.5 w-3.5" />
+                </a>
+              )}
             </div>
           </div>
 
           <p className="mt-2 text-xs text-[#A8A398]">
-            Requesting a callback sends your details to Lawvoo — it doesn&apos;t guarantee this firm will respond. For
-            personal injury, contact the firm directly.
+            {piOnly
+              ? "For personal injury, contact the firm directly."
+              : "Requesting a callback sends your details to Lawvoo — it doesn't guarantee this firm will respond."}
           </p>
         </div>
 
