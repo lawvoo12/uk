@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   title: "Free legal tools and calculators for Ireland",
   description:
     "Free Irish legal calculators: stamp duty, inheritance tax (CAT), who inherits without a will, and WRC complaint deadlines.",
-  alternates: { canonical: "/ie/tools", languages: { "en-GB": "/uk/tools", "en-IE": "/ie/tools" } },
+  alternates: { canonical: "/ie/tools", languages: { "en-GB": "/uk/tools", "en-IE": "/ie/tools", "en-CA": "/ca/tools" } },
 };
 
 

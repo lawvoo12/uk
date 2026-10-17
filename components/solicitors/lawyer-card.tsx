@@ -6,6 +6,7 @@ import { REGULATOR_LABEL } from "@/lib/data/static-lawyers";
 import { PRACTICE_AREAS } from "@/lib/validations/lead-intake";
 import { getFirmWebsite } from "@/lib/data/firm-website";
 import { COUNTRY_BASE, type Country } from "@/lib/country";
+import { CA_PRACTICE_AREAS } from "@/lib/ca/practice-areas";
 
 export function LawyerCard({
   lawyer,
@@ -21,18 +22,20 @@ export function LawyerCard({
   showPracticeAreas?: boolean;
   /** Practice area of the page the card is on — pre-selects it in the callback form. */
   categorySlug?: string;
-  /** Which section the card is on — "uk" (default) or "ie". */
+  /** Which section the card is on — "uk" (default), "ie" or "ca". */
   country?: Country;
-  /** Show "Visit firm website" instead of "Request a callback" (Irish personal injury pages). */
+  /** Show "Visit firm website" instead of "Request a callback" (Irish and Canadian personal injury pages). */
   linkFirmInstead?: boolean;
 }) {
   const base = COUNTRY_BASE[country];
-  // Irish enquiries can't be about personal injury, so don't pre-select it.
-  const callbackCategory = country === "ie" && categorySlug === "personal-injury" ? undefined : categorySlug;
+  // Irish and Canadian enquiries can't be about personal injury, so don't pre-select it.
+  const callbackCategory = country !== "uk" && categorySlug === "personal-injury" ? undefined : categorySlug;
   const callbackHref = `${base}/leads/new?lawyer=${encodeURIComponent(lawyer.id)}${
     callbackCategory ? `&category=${encodeURIComponent(callbackCategory)}` : ""
   }`;
-  const areas = PRACTICE_AREAS.filter((a) => lawyer.practiceAreaSlugs.includes(a.slug));
+  // Canada has its own area names ("Real Estate", "Wills & Estates").
+  const allAreas: readonly { slug: string; name: string }[] = country === "ca" ? CA_PRACTICE_AREAS : PRACTICE_AREAS;
+  const areas = allAreas.filter((a) => lawyer.practiceAreaSlugs.includes(a.slug));
 
   return (
     <article className="flex flex-col gap-4 rounded-xl border border-[#DCD8D0] bg-white p-5 transition-shadow hover:shadow-md sm:flex-row sm:items-start sm:justify-between">

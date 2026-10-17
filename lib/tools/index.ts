@@ -36,3 +36,14 @@ export const IE_TOOLS = [
     blurb: "Enter the date of a dismissal or workplace problem to see your WRC complaint deadlines and the Labour Court appeal date.",
   },
 ];
+
+// Canada (/ca) tools — shown on /ca/tools and in the Canada footer only.
+export const CA_TOOLS: { href: string; name: string; shortName: string; blurb: string }[] = [
+  {
+    href: "/ca/tools/land-transfer-tax-calculator",
+    name: "Land Transfer Tax Calculator",
+    shortName: "Land transfer tax calculator",
+    blurb:
+      "Tax and registration fees on buying a home in nine provinces — Toronto's municipal tax and first-time buyer relief included.",
+  },
+];

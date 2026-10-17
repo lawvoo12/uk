@@ -170,3 +170,69 @@
 - Verification: England & Wales firms on the SRA register (same firm name, office in that city, no published disciplinary decisions or settlements); NI firms on the Law Society of NI directory; Scottish firms searched by name on lawscot.org.uk and confirmed by the site owner. Firms with recent AML settlements were left out.
 - Ireland: lawyer profiles and the Irish enquiry form no longer show a "Visit firm website" link, so visitors use "Request a callback". Personal-injury-only listings (no Irish PI form) and the "enquiries closed" notice still link to the firm. No other /ie change.
 - No change to design, URLs, SEO settings, .gitignore, vercel.json or next.config.ts.
+
+## Update 13 — Canada directory at /ca, Batch 1: Ontario (2 Oct 2026)
+- **New Canadian section at `/ca`** in the same app, built the same way as `/ie`: home, locations, city pages, lawyers hub, 6 practice-area pages, area × city pages, lawyer profiles, enquiry form, listings, privacy (PIPEDA and CASL), terms and `/ca/sitemap.xml`.
+- **Cities so far (Batch 1):** Toronto, Ottawa, Mississauga, Brampton, Hamilton. The plan is 20 cities in 9 provinces (no Quebec), added in batches of 5; a city only gets pages once its lawyers are confirmed.
+- **Data:** 14 lawyers from 14 firms in `lib/ca/lawyers.ts`.
+  - Name, role, address, practice areas and bio come from each firm's own website. Experience is only shown where the firm publishes a call-to-the-bar year.
+  - Each lawyer was confirmed by you on the Law Society of Ontario's public directory on 2 Oct 2026, and the profile shows that date.
+  - **Dropped:** Kate Wright (Mann Lawyers, Ottawa) — the directory shows her at another firm. Ottawa has 2 firms until a replacement is confirmed.
+  - **Not used:** Vasim Shaikh at Nanda & Associate Lawyers is an immigration consultant, not a lawyer; Batra Law Offices (Brampton) could not be read; Kania Lawyers and Simmons da Silva have no individual profile pages that could be read; Minhas Lawyers' office is in Mississauga, not Brampton.
+  - No firm was skipped for a discipline decision: a web search for tribunal decisions found nothing for the 15 names, and the directory entry (which shows discipline history) was checked by you.
+- **Words and URLs:** "lawyer" everywhere, never "solicitor". Area URLs are `/ca/lawyers/real-estate` and `/ca/lawyers/wills-estates`; the Google Sheet still receives the same six practice-area values, shown as "Real Estate" and "Wills & Estates". CAD and `en_CA`.
+- **IDs:** Canadian ids carry the province (`toronto-on-…`); London, Ontario will be `london-on-…` with the city slug `london-ontario`. `npm run check:ids` fails if any id is used twice across UK, Ireland and Canada (233 ids, all unique).
+- **Ontario-law content** (`lib/ca/content.ts`), with sources and the date checked listed at the top of the file: court structure and the $50,000 Small Claims limit; divorce and property division; employment standards and human rights time limits; land transfer tax, the first-time buyer refund, Toronto's municipal tax and the Non-Resident Speculation Tax; probate, Estate Administration Tax and intestacy; accident benefits and limitation periods; citizenship and Federal Court deadlines. Every city page has its own courts (with links), family court, probate and FAQs.
+  - A few rules were taken from the statutes without re-reading them online, because Ontario's e-Laws site and the federal Justice Laws site could not be opened. They are listed at the top of `lib/ca/content.ts`.
+- **Personal injury (Canada):** listings only, as in Ireland — no form on PI pages, no PI option on the form, and the server rejects a Canadian PI enquiry.
+- **Enquiry form:** country-aware (`CA`): optional postal code, North American phone numbers, Canadian sub-categories, PIPEDA consent wording, `/ca/privacy` link. It sends `country: "CA"` to the Sheet, and click tracking sends it too.
+  - **The Canadian form is OFF by default.** It opens only when `CA_LEADS_ENABLED=true` is set in Vercel. Read `deploy/canada-referral-fee-note.md` first. Nothing on the site promises paid referrals.
+  - **Action:** paste the updated Apps Script from README step 2 (it now writes `CA` in the Country column — the old script would have written `UK`), then Deploy → Manage deployments → Edit → New version. No new column is needed.
+- **Footers:** "Lawvoo Canada →" added to the UK and Ireland footers; the Canada footer links to UK and Ireland.
+- **SEO:** canonical URLs on https://lawvoo.com/ca/… (no www); noindex on the form and on area × city pages with no lawyers; `/ca/sitemap.xml` has 60 URLs; robots.txt lists it. `hreflang` `en-CA` was added on the matching UK and Ireland pages (home, hub, the 6 practice-area pages, locations index, listings) and those Canada pages point back. City and profile pages have none.
+- **UK and Ireland unchanged:** all 755 UK and Ireland pages were compared with the build from before this change. After removing the new footer link and the `en-CA` tag, the HTML is identical on every page. Both sitemaps are identical apart from their dates. The UK and Irish forms were re-tested and still send `UK` and `IE`.
+- **Not done yet:** the land transfer tax calculator (comes with the later batches, once every province's rates are checked), and the other 15 cities.
+- No change to `.gitignore`, `vercel.json` or `next.config.ts`.
+
+## Update 14 — Canada Batch 2: London, Kitchener-Waterloo, Vancouver, Surrey, Victoria (3 Oct 2026)
+- **10 cities, 29 lawyers.** British Columbia is now live alongside Ontario.
+  - New Ontario cities: London (`/ca/locations/london-ontario`, ids `london-on-…`) and Kitchener-Waterloo. Searching "London", "Kitchener" or "Waterloo" finds them.
+  - New BC cities: Vancouver, Surrey, Victoria. Regulator code `LSBC`, checked on the Law Society of British Columbia's Lawyer Directory.
+  - Ottawa: Alison Boyce (Mann Lawyers LLP) added, so Ottawa has 3 firms.
+  - **Dropped:** John P. Murray (Giffen LLP, Waterloo) — the directory has several lawyers with that name and the right one could not be told apart. Kitchener-Waterloo has 2 firms until a replacement is confirmed.
+  - **Not used:** Mark & Company Law (Surrey immigration) — its address is a P.O. box; Ng Sidhu Law (Surrey) — "an association of independent law firms" with no street address shown; Brij Mohan & Associates (Surrey) — no named lawyer page could be read.
+- **Legal numbers rule.** A time limit, amount or rate only appears on the /ca pages if it was read on an official source. Where the official source could not be read, the number was removed and the page links to the official source. `deploy/canada-legal-sources.md` lists every number, its source, and the four that are still unverified.
+  - Removed from Ontario pages: the $350,000 intestacy share and its split, the 30-day accident benefits deadline, and the general 10-day municipal notice (Toronto's 10 days stays — verified on toronto.ca).
+  - Newly verified for Ontario: the two-year limit, notice of termination and severance pay, the Federal Court 15/60 days, the Canada Labour Code 90 days, the seven-day insurer notice, and the list of Family Court branch locations.
+  - The privacy page no longer gives an age of majority.
+- **British Columbia content** (`lib/ca/provinces/british-columbia.ts`): property transfer tax, first-time buyer exemption, the 20% foreign buyer tax, the three-day rescission period, family property rules for married and unmarried couples, which court hears what, employment standards and human rights time limits, ICBC's Enhanced Care, intestacy, and courts for each city.
+- **Code layout:** province content moved into `lib/ca/provinces/ontario.ts` and `british-columbia.ts`; federal text shared by all provinces is in `lib/ca/content-shared.ts`. The Canada-wide practice-area pages now show one section per province.
+- `/ca/sitemap.xml` has 109 URLs. UK and Ireland pages were compared again with the original build: still identical apart from the footer link and the `en-CA` tag.
+
+## Update 15 — Canada Batch 3: Kelowna, Calgary, Edmonton, Saskatoon, Regina (3 Oct 2026)
+- **15 cities, 44 lawyers.** Alberta and Saskatchewan are now live.
+  - Kitchener-Waterloo: Jorden P. Gregory (Giffen LLP) added, so it has 3 firms.
+  - New BC city: Kelowna. New Alberta cities: Calgary, Edmonton (regulator code `LSA`). New Saskatchewan cities: Saskatoon, Regina (regulator code `LSSK` — not `LSS`, which is the Law Society of Scotland).
+  - **Regina has 2 firms.** Susan B. Barber (McDougall Gauley LLP) was confirmed on the directory but **not added**: the firm's employment group acts only for employers, so she does not fit the Employment page. A replacement from the same firm (Jyoti S. Haeusler, immigration and family) is waiting for the directory check.
+  - **Skipped:** Scharfstein LLP (Saskatoon) — the Law Society of Saskatchewan's published discipline decisions include a 2020 decision about a lawyer of that name who was then at the firm.
+  - A firm is only listed under an area its own website says it handles for individuals. Left out for that reason: employment at OWZW and Kanuka Thuringer (employer side); personal injury at Robertson Stromberg, McKercher and Kanuka Thuringer (insurer side) and at Bishop & McKenzie and OWZW (side not stated); immigration, employment and real estate at McKercher.
+- **Alberta content** (`lib/ca/provinces/alberta.ts`) and **Saskatchewan content** (`lib/ca/provinces/saskatchewan.ts`), from official sources only: which court hears what, family property rules for married and unmarried couples, employment standards and human rights time limits, notice of termination, Land Titles registration fees, tenancy tribunals, probate fees, auto injury insurance (Alberta's Care-First system from 1 Jan 2027; SGI's No Fault and Tort coverage), and the courts for each city.
+- **Left out because the official source could not be read:** in Alberta, the intestacy shares, the time limit for married spouses to divide property, the minor injury cap amount and the 10-year ultimate limitation period; in Saskatchewan, which court centre a probate application goes to. See `deploy/canada-legal-sources.md`.
+- The pages do not say that Alberta or Saskatchewan "has no land transfer tax" — no official page says so in words. They describe the registration fees that are charged.
+- The Law Society of British Columbia directory link now uses the address the Law Society's own website links to (`…/lkup/directory/mbr-search.cfm`).
+- Search accepts "Calgary, Alberta", "Regina, Saskatchewan" and postal codes starting T2/T3 (Calgary), T5/T6 (Edmonton), S7 (Saskatoon), S4 (Regina) and V1Y (Kelowna).
+- `/ca/sitemap.xml` has 156 URLs. City pages for an area with no listed firm (for example immigration in Saskatoon) are `noindex` and left out of the sitemap. UK and Ireland pages were compared again with the original build: still identical apart from the footer link and the `en-CA` tag.
+
+## Update 16 — Canada Batch 4, gap-fill round and the land transfer tax calculator (4 Oct 2026)
+- **20 cities, 65 lawyers, 9 provinces.** Manitoba, Nova Scotia, New Brunswick, Newfoundland and Labrador and Prince Edward Island are now live.
+  - New cities: Winnipeg (`LSM`), Halifax (`NSBS`), Moncton (`LSNB`), St. John's (`LSNL`, slug `st-johns`), Charlottetown (`LSPEI`).
+  - The Nova Scotia regulator is still called the Nova Scotia Barristers' Society (checked on nsbs.org and in the Legal Profession Act).
+  - Regina: Jyoti S. Haeusler (McDougall Gauley LLP) added.
+  - **Halifax has 2 firms.** Not added: Tara Miller, K.C. (MDW Law) — a link between another partner at the firm and a regulator notice could not be ruled out; Janice E. Beaton, KC (Patterson Law LLP) — not confirmed by the site owner. BOYNECLARKE's office is in Dartmouth, which is part of Halifax Regional Municipality.
+  - **Skipped for discipline:** Haller Law (Moncton) — a current case on the Law Society of New Brunswick's list; Kang & Company (Surrey) — a 2021 suspension of its founder; Daniel Tapp (Regina) — a 2011 decision.
+  - **Skipped as virtual or appointment-only:** Resolute Legal (Moncton), Veeman Law (Saskatoon), Crest Attorneys (Saskatoon).
+- **Gap-fill round** (one lawyer each, all confirmed on the directory): immigration in Brampton (Anita Perera), London (Elena Ashford, Siskinds), Surrey (Puneet Khaira, CityLaw Group) and Saskatoon (Omer Khayyam, Omni Law); employee-side employment in Regina (Samuel I. Schonhoffer, Gerrand Rath Johnson LLP); claimant-side personal injury in Regina (Tim Stodalka, MacLean Keith LLP).
+- **Land transfer tax calculator** at `/ca/tools/land-transfer-tax-calculator` (and a `/ca/tools` page): all nine provinces, Toronto's municipal tax, first-time buyer relief for Ontario, Toronto, BC and PEI, registration fees where the province publishes them, and the official source for every figure. Logic is in `lib/ca/land-transfer-tax.ts`; 28 hand-worked examples were checked. It does not calculate foreign or non-resident buyer taxes, or BC's partial first-time exemption between $835,000 and $860,000.
+- The Canada footer now has a "Free tools" column. The UK and Ireland tools page and stamp duty calculator pages each gained one `en-CA` hreflang line (option A); nothing else on them changed.
+- **Content for the five new provinces** is in `lib/ca/provinces/` (one file each), from official sources only. Left out because the official source could not be read: Manitoba first-time buyer relief, the Nova Scotia time limit to divide property, the New Brunswick employment standards complaint deadline, and the PEI probate fee table. See `deploy/canada-legal-sources.md`.
+- Search accepts the new cities, "Dartmouth" and "Bedford" (Halifax), "St Johns" spellings, province names, and postal codes starting R2/R3, B3, E1, A1 and C1.

@@ -12,6 +12,7 @@
 // ============================================================================
 
 import type { Regulator } from "@/lib/data/static-lawyers";
+import { CA_COURT_SERVICES, CA_JURISDICTION_NOTES } from "@/lib/ca/regulators";
 
 export interface LocalCourt {
   name: string;
@@ -276,6 +277,8 @@ export const COURT_SERVICE: Record<Regulator, { name: string; url: string }> = {
   LSS: { name: "Scottish Courts and Tribunals Service", url: "https://www.scotcourts.gov.uk/" },
   LSNI: { name: "nidirect — courts and tribunals", url: "https://www.nidirect.gov.uk/" },
   LSI: { name: "Courts Service of Ireland", url: "https://www.courts.ie/offices" },
+  // Canadian law societies — lib/ca/regulators.ts (used by the /ca pages only)
+  ...CA_COURT_SERVICES,
 };
 
 /** Plain-language note on the legal system a city falls under. */
@@ -297,4 +300,6 @@ export const JURISDICTION_NOTE: Record<Regulator, { title: string; body: string 
     title: "Irish law",
     body: "The Republic of Ireland has its own legal system. Solicitors are on the Roll kept by the Law Society of Ireland, and complaints about them go to the Legal Services Regulatory Authority (LSRA).",
   },
+  // Canadian law societies — lib/ca/regulators.ts (used by the /ca pages only)
+  ...CA_JURISDICTION_NOTES,
 };

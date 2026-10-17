@@ -9,6 +9,8 @@ import { getCitiesGroupedByRegion } from "@/lib/seo/regions";
 import { getCityBySlug } from "@/lib/seo/uk-cities";
 import { getFAQsForCategory } from "@/lib/seo/faq-content";
 import { SITE_NAME, SITE_URL } from "@/lib/seo/site";
+// Only for the hreflang link to the matching Canada page (/ca/lawyers/real-estate etc.).
+import { caAreaPath } from "@/lib/ca/practice-areas";
 import { BreadcrumbNav } from "@/components/solicitors/breadcrumb-nav";
 import { LawyerCard } from "@/components/solicitors/lawyer-card";
 import { FAQSection } from "@/components/solicitors/faq-section";
@@ -57,7 +59,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     alternates: {
       canonical: canonicalPath,
       // The Irish page for the same area of law (hreflang).
-      languages: { "en-GB": canonicalPath, "en-IE": `/ie/solicitors/${category.slug}` },
+      languages: { "en-GB": canonicalPath, "en-IE": `/ie/solicitors/${category.slug}`, "en-CA": caAreaPath(category.slug) },
     },
     openGraph: { title, description, url: canonicalPath, siteName: SITE_NAME, locale: "en_GB", type: "website" },
   };

@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     "Work out stamp duty on a home in Ireland: 1% up to €1m, 2% to €1.5m and 6% above, VAT removed for new homes, plus a Help to Buy estimate for first-time buyers. Free.",
   alternates: {
     canonical: PATH,
-    languages: { "en-GB": "/uk/tools/stamp-duty-calculator", "en-IE": PATH },
+    languages: { "en-GB": "/uk/tools/stamp-duty-calculator", "en-IE": PATH, "en-CA": "/ca/tools/land-transfer-tax-calculator" },
   },
 };
 

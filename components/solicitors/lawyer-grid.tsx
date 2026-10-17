@@ -25,7 +25,15 @@ export function LawyerGrid({
     return (
       <div className="rounded-xl border border-dashed border-[#DCD8D0] bg-white p-8 text-center">
         <p className="font-medium text-[#10233D]">
-          No {categoryName.toLowerCase()} solicitors listed in {cityName} yet
+          {country === "ca" ? (
+            <>
+              No {categoryName.toLowerCase()} lawyers listed in {cityName} yet
+            </>
+          ) : (
+            <>
+              No {categoryName.toLowerCase()} solicitors listed in {cityName} yet
+            </>
+          )}
         </p>
         <p className="mt-1 text-sm text-[#5B6472]">
           {emptyHint ?? (

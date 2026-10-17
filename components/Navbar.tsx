@@ -4,12 +4,12 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, Scale } from "lucide-react";
 
-import { countryFromPath } from "@/lib/country";
+import { COUNTRY_BASE, countryFromPath } from "@/lib/country";
 
 // No auth, no dashboard: the site shows solicitor listings and collects
 // enquiries through a form. A client component only so it can tell from the
-// URL whether you're on the UK (/uk) or Ireland (/ie) pages and show that
-// country's links. The UK links are exactly what they were before.
+// URL whether you're on the UK (/uk), Ireland (/ie) or Canada (/ca) pages and
+// show that country's links. The UK links are exactly what they were before.
 const LINKS = {
   uk: [
     { href: "/uk/solicitors", label: "Browse solicitors" },
@@ -21,13 +21,20 @@ const LINKS = {
     { href: "/ie/locations", label: "Locations" },
     { href: "/ie/guides", label: "Guides" },
   ],
+  ca: [
+    { href: "/ca/lawyers", label: "Browse lawyers" },
+    { href: "/ca/locations", label: "Locations" },
+  ],
 } as const;
+
+const BADGE = { uk: null, ie: "Ireland", ca: "Canada" } as const;
 
 export function Navbar() {
   const country = countryFromPath(usePathname());
-  const home = country === "ie" ? "/ie" : "/uk";
+  const home = COUNTRY_BASE[country];
   const findHref = `${home}/leads/new`;
   const links = LINKS[country];
+  const findLabel = country === "ca" ? "Find a lawyer" : "Find a solicitor";
 
   return (
     <header className="border-b border-[#DCD8D0] bg-white">
@@ -35,7 +42,7 @@ export function Navbar() {
         <Link href={home} className="flex items-center gap-2 font-serif text-lg text-[#10233D]">
           <Scale className="h-5 w-5 text-[#B8863B]" strokeWidth={1.75} />
           Lawvoo
-          {country === "ie" && <span className="font-sans text-xs font-medium uppercase tracking-wide text-[#B8863B]">Ireland</span>}
+          {BADGE[country] && <span className="font-sans text-xs font-medium uppercase tracking-wide text-[#B8863B]">{BADGE[country]}</span>}
         </Link>
 
         {/* Desktop nav */}
@@ -49,7 +56,7 @@ export function Navbar() {
             href={findHref}
             className="rounded-lg bg-[#10233D] px-4 py-2 text-white transition-colors hover:bg-[#1C3A5E]"
           >
-            Find a solicitor
+            {findLabel}
           </Link>
         </nav>
 
@@ -68,7 +75,7 @@ export function Navbar() {
               </Link>
             ))}
             <Link href={findHref} className="rounded-lg px-3 py-2 hover:bg-[#F8F7F4] hover:text-[#10233D]">
-              Find a solicitor
+              {findLabel}
             </Link>
           </nav>
         </details>

@@ -21,6 +21,16 @@ export const LEADS_ENABLED = process.env.LEADS_ENABLED !== "false";
 export const IE_LEADS_ENABLED = LEADS_ENABLED && process.env.IE_LEADS_ENABLED !== "false";
 
 /**
+ * Canada (/ca) enquiry form. OFF by default: it only opens when
+ * CA_LEADS_ENABLED="true" (and the main LEADS_ENABLED switch is not "false").
+ * Read the referral-fee note (deploy/canada-referral-fee-note.md) and settle
+ * the business model before switching it on. While it is off, "Request a
+ * callback" on /ca pages shows the "opening soon" notice with a link to the
+ * firm, and visits are counted anonymously in the Clicks tab.
+ */
+export const CA_LEADS_ENABLED = LEADS_ENABLED && process.env.CA_LEADS_ENABLED === "true";
+
+/**
  * Your EU GDPR representative (Article 27), shown on /ie/privacy once set —
  * name and postal address in one line, e.g. "Example Rep Ltd, 1 Street, Dublin 2, D02 XXXX".
  */
