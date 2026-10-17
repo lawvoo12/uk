@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   title: "Compare Regulated Solicitors Across the UK",
   description:
     "Find and compare verified UK solicitors by practice area and location. Free to search, no obligation — tell us about your case and we'll be in touch.",
-  alternates: { canonical: "/uk", languages: { "en-GB": "/uk", "en-IE": "/ie" } },
+  alternates: { canonical: "/uk", languages: { "en-GB": "/uk", "en-IE": "/ie", "en-CA": "/ca" } },
 };
 
 // This is the marketing homepage for the /uk zone — the root of this app

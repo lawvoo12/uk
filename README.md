@@ -1,7 +1,8 @@
-# Lawvoo — UK & Ireland Solicitor Directory (informational site)
+# Lawvoo — UK, Ireland & Canada Lawyer Directory (informational site)
 
-Two country sections in one app: **/uk** (England, Wales, Scotland, Northern
-Ireland) and **/ie** (Republic of Ireland). See "Ireland (/ie)" below.
+Three country sections in one app: **/uk** (England, Wales, Scotland, Northern
+Ireland), **/ie** (Republic of Ireland) and **/ca** (Canada). See "Ireland
+(/ie)" and "Canada (/ca)" below.
 
 No database. Solicitor listings live in a plain TypeScript file
 (`lib/data/static-lawyers.ts`), and the lead form writes straight to a
@@ -19,9 +20,9 @@ npm install
    ```
    Lead ID | Submitted At | Practice Area | Sub-Category | Case Title | Description | Urgency | Postcode | City | Full Name | Email | Phone | Requested Solicitor | Country
    ```
-   **Country** (column N) is `UK` or `IE` — which section of the site the enquiry came
-   from. For Irish enquiries the Postcode column holds the Eircode (it's optional, so it
-   can be blank). A second tab called **Clicks** is created automatically the first time
+   **Country** (column N) is `UK`, `IE` or `CA` — which section of the site the enquiry
+   came from. For Irish enquiries the Postcode column holds the Eircode, and for Canadian
+   enquiries the postal code (both optional, so the cell can be blank). A second tab called **Clicks** is created automatically the first time
    someone clicks "Request a callback" while the form is switched off (its 5th column is
    also Country).
 2. Make up a long random secret (e.g. from a password generator). You'll put
@@ -39,7 +40,7 @@ npm install
      var data = JSON.parse(e.postData.contents);
      if (data.secret !== SECRET) return reply({ status: "forbidden" });
 
-     var country = data.country === "IE" ? "IE" : "UK";
+     var country = data.country === "IE" ? "IE" : data.country === "CA" ? "CA" : "UK";
      var lock = LockService.getScriptLock();
      lock.waitLock(10000);
      try {
@@ -55,14 +56,14 @@ npm install
            MailApp.sendEmail(
              NOTIFY_EMAIL,
              "Lawvoo: " + total + " people tried to enquire",
-             total + " visitors have clicked 'Request a callback' or 'Find a solicitor'.\n\n" +
+             total + " visitors have clicked 'Request a callback' or 'Find a solicitor / lawyer'.\n\n" +
                "(Clicks are only counted while the form is switched off.)\n\n" + ss.getUrl()
            );
          }
          return reply({ status: "success" });
        }
 
-       // A real enquiry from the form (UK or Ireland).
+       // A real enquiry from the form (UK, Ireland or Canada).
        ss.getSheetByName("Sheet1").appendRow([
          data.leadId,
          data.submittedAt,
@@ -92,7 +93,7 @@ npm install
                "Country: " + country,
                "Practice area: " + data.practiceArea + " (" + data.subCategory + ")",
                "Urgency: " + data.urgency,
-               (country === "IE" ? "Eircode: " : "Postcode: ") + (data.postcode || "-") + "   Town: " + data.city,
+               (country === "IE" ? "Eircode: " : country === "CA" ? "Postal code: " : "Postcode: ") + (data.postcode || "-") + "   Town: " + data.city,
                data.requestedSolicitor ? "Requested solicitor: " + data.requestedSolicitor : "Requested solicitor: none",
                "",
                "Name: " + data.fullName,
@@ -144,6 +145,7 @@ same variables in Vercel → Settings → Environment Variables.
 | `GOOGLE_SHEETS_WEBHOOK_SECRET` | The secret from step 2 — the script rejects anything without it |
 | `NEXT_PUBLIC_SITE_URL` | Your real domain, e.g. `https://lawvoo.com` |
 | `LEADS_ENABLED` | Enquiry form is **on** unless this is `false`. Set `false` to switch it off (pay the ICO data protection fee while it's on) |
+| `CA_LEADS_ENABLED` | Canada (/ca) enquiry form is **off** unless this is `true` — see "Canada (/ca)" |
 | `NEXT_PUBLIC_BUSINESS_NAME` / `NEXT_PUBLIC_CONTACT_EMAIL` | Shown on Privacy/Terms (default Lawvoo / lawvoo12@gmail.com) |
 | `NEXT_PUBLIC_BUSINESS_ADDRESS` | Postal address for Privacy/Terms — add before launch (a virtual office is fine) |
 | `NEXT_PUBLIC_ICO_NUMBER` | Your ICO registration number, once the fee is paid |
@@ -301,6 +303,72 @@ representative on /ie/privacy.
 **Netlify** — add the two `/ie` rules at the bottom of `deploy/netlify.toml`
 (or the last two lines of `deploy/_redirects`) to the Netlify site, and add
 `https://www.lawvoo.com/ie/sitemap.xml` to its sitemap_index.xml.
+
+## Canada (/ca)
+
+The Canadian directory lives in the same app and Vercel project, built the
+same way as /ie. It covers 20 cities in nine provinces (no Quebec). Nothing
+under /uk or /ie changed except one "Lawvoo Canada" footer link and an
+`en-CA` hreflang tag on the matching pages.
+
+| Path | What it is |
+|---|---|
+| `/ca` | Canadian homepage (search by city or postal code) |
+| `/ca/lawyers`, `/ca/lawyers/[area]`, `/ca/lawyers/[area]/[city]` | Browse by area of law and city |
+| `/ca/locations`, `/ca/locations/[city]` | Cities by province, with local courts, family court and probate info |
+| `/ca/lawyer/[id]` | Lawyer profile |
+| `/ca/leads/new` | Canadian enquiry form (noindex) — **off by default** |
+| `/ca/listings`, `/ca/privacy`, `/ca/terms` | For lawyers; PIPEDA / CASL privacy policy; terms |
+| `/ca/tools`, `/ca/tools/land-transfer-tax-calculator` | Free tools: land transfer tax and registration fees for nine provinces |
+| `/ca/sitemap.xml` | Canadian sitemap (only pages that have lawyers) |
+
+Area URLs are `immigration`, `family`, `personal-injury`, `employment`,
+`real-estate` and `wills-estates`. Inside the code (and in the Google Sheet)
+the last two are still `property` and `wills-probate`, shown as "Real Estate"
+and "Wills & Estates".
+
+**Where things live**
+
+- Lawyers: `lib/ca/lawyers.ts` (same fields as the UK file, plus `province`,
+  a `verification` note and the `registerChecked` date). Every entry was
+  confirmed by you on the law society's public directory before it was added.
+- Cities: `lib/ca/cities.ts`. Provinces: `lib/ca/provinces.ts`. Law societies
+  (one entry each — Saskatchewan must be `LSSK`, not `LSS`): `lib/ca/regulators.ts`.
+- Province-by-province law text, courts and FAQs: one file per province in
+  `lib/ca/provinces/` (sources and the date checked are at the top of each),
+  federal text in `lib/ca/content-shared.ts`, joined in `lib/ca/content.ts`.
+  Re-check the tax figures after each provincial and Toronto budget.
+- `deploy/canada-legal-sources.md` lists every legal number on the /ca pages,
+  its official source, and anything still unverified. A number is only shown
+  if it was read on an official source.
+- Practice-area names and URL names: `lib/ca/practice-areas.ts`.
+- Land transfer tax calculator: rates and maths in `lib/ca/land-transfer-tax.ts`
+  (the official source for each province is in `CA_LTT_PROVINCES`), the form
+  in `components/tools/ca-land-transfer-tax-calculator.tsx`. After a budget,
+  change the figures there and update `CA_LTT_CHECKED`.
+- `npm run check:ids` checks that no lawyer id is used twice across the UK,
+  Ireland and Canada (Canadian ids look like `toronto-on-…`, `london-on-…`).
+
+**Adding a province** — add its law society to `lib/ca/regulators.ts`, the
+province to `CA_PROVINCES` in `lib/ca/provinces.ts`, a content file in
+`lib/ca/provinces/` (then list it in `lib/ca/content.ts`), its cities to
+`lib/ca/cities.ts`, then its lawyers.
+
+**Personal injury in Canada** — listings only, as in Ireland. There is no
+enquiry form on Canadian PI pages, the Canadian form has no Personal Injury
+option, and the server rejects a Canadian PI enquiry even if posted directly.
+
+**The Canadian enquiry form is OFF by default.** `CA_LEADS_ENABLED` must be
+set to `true` in Vercel (and the site redeployed) before it opens. While it
+is off, "Request a callback" shows the "opening soon" notice with the firm's
+website and law society directory link, and visits are counted in the Clicks
+tab with country `CA`. Read `deploy/canada-referral-fee-note.md` first — the
+site does not promise paid referrals anywhere, and the Terms say lawyers do
+not pay Lawvoo for referrals.
+
+**Netlify** — add the two `/ca` rules at the bottom of `deploy/netlify.toml`
+(or the last two lines of `deploy/_redirects`) to the Netlify site, and add
+`Sitemap: https://lawvoo.com/ca/sitemap.xml` to its robots.txt.
 
 ## Deploying (Vercel)
 

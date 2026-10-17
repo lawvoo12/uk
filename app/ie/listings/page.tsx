@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   title: "For solicitors — update or remove your listing",
   description:
     "Are you a solicitor or firm in Ireland listed on Lawvoo? Ask us to correct your details or remove your listing — we'll act on it promptly.",
-  alternates: { canonical: "/ie/listings", languages: { "en-GB": "/uk/listings", "en-IE": "/ie/listings" } },
+  alternates: { canonical: "/ie/listings", languages: { "en-GB": "/uk/listings", "en-IE": "/ie/listings", "en-CA": "/ca/listings" } },
 };
 
 function mailto(subject: string, body: string) {

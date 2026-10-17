@@ -1,11 +1,14 @@
 import { STATIC_LAWYERS, type Regulator, type StaticLawyer } from "@/lib/data/static-lawyers";
 import { IE_LAWYERS } from "@/lib/ie/lawyers";
+import { CA_LAWYERS } from "@/lib/ca/lawyers";
 import type { Country } from "@/lib/country";
 import type { PracticeAreaSlug } from "@/lib/validations/lead-intake";
 
-/** The listings for one country section: UK (default) or Ireland. */
+/** The listings for one country section: UK (default), Ireland or Canada. */
 export function lawyersFor(country: Country = "uk"): StaticLawyer[] {
-  return country === "ie" ? IE_LAWYERS : STATIC_LAWYERS;
+  if (country === "ie") return IE_LAWYERS;
+  if (country === "ca") return CA_LAWYERS;
+  return STATIC_LAWYERS;
 }
 
 export interface LawyerListing {

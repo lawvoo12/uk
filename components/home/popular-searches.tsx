@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import type { Country } from "@/lib/country";
+import { LISTINGS_BASE, type Country } from "@/lib/country";
 
 const POPULAR_SEARCHES: { category: string; categoryName: string; city: string; cityName: string }[] = [
   { category: "immigration", categoryName: "Immigration", city: "london", cityName: "London" },
@@ -24,8 +24,21 @@ const IE_POPULAR_SEARCHES: typeof POPULAR_SEARCHES = [
   { category: "wills-probate", categoryName: "Wills & Probate", city: "mullingar", cityName: "Mullingar" },
 ];
 
+// Canada: `category` is the /ca URL name (real-estate, wills-estates).
+const CA_POPULAR_SEARCHES: typeof POPULAR_SEARCHES = [
+  { category: "immigration", categoryName: "Immigration", city: "toronto", cityName: "Toronto" },
+  { category: "family", categoryName: "Family", city: "toronto", cityName: "Toronto" },
+  { category: "employment", categoryName: "Employment", city: "ottawa", cityName: "Ottawa" },
+  { category: "immigration", categoryName: "Immigration", city: "mississauga", cityName: "Mississauga" },
+  { category: "immigration", categoryName: "Immigration", city: "vancouver", cityName: "Vancouver" },
+  { category: "family", categoryName: "Family", city: "surrey", cityName: "Surrey" },
+  { category: "real-estate", categoryName: "Real estate", city: "victoria", cityName: "Victoria" },
+  { category: "wills-estates", categoryName: "Wills & estates", city: "mississauga", cityName: "Mississauga" },
+  { category: "employment", categoryName: "Employment", city: "hamilton", cityName: "Hamilton" },
+];
+
 export function PopularSearches({ country = "uk" }: { country?: Country } = {}) {
-  const searches = country === "ie" ? IE_POPULAR_SEARCHES : POPULAR_SEARCHES;
+  const searches = country === "ca" ? CA_POPULAR_SEARCHES : country === "ie" ? IE_POPULAR_SEARCHES : POPULAR_SEARCHES;
   return (
     <section aria-labelledby="popular-searches-heading" className="mx-auto max-w-5xl px-4 py-14">
       <h2 id="popular-searches-heading" className="text-center font-serif text-2xl text-[#10233D] sm:text-3xl">
@@ -35,10 +48,18 @@ export function PopularSearches({ country = "uk" }: { country?: Country } = {}) 
         {searches.map((item) => (
           <Link
             key={`${item.category}-${item.city}`}
-            href={`/${country}/solicitors/${item.category}/${item.city}`}
+            href={`${LISTINGS_BASE[country]}/${item.category}/${item.city}`}
             className="rounded-full border border-[#DCD8D0] bg-white px-4 py-2 text-sm text-[#5B6472] transition-colors hover:border-[#B8A488] hover:text-[#10233D]"
           >
-            {item.categoryName} solicitors in {item.cityName}
+            {country === "ca" ? (
+              <>
+                {item.categoryName} lawyers in {item.cityName}
+              </>
+            ) : (
+              <>
+                {item.categoryName} solicitors in {item.cityName}
+              </>
+            )}
           </Link>
         ))}
       </div>

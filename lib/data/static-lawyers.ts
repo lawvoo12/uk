@@ -23,13 +23,18 @@
 // "LSI" = Law Society of Ireland (Republic of Ireland listings, lib/ie/lawyers.ts).
 import { UK_LAWYERS_EXTRA } from "@/lib/data/uk-lawyers-extra";
 
-export type Regulator = "SRA" | "LSS" | "LSNI" | "LSI";
+// Canadian law societies (Canada listings, lib/ca/lawyers.ts) are defined in
+// lib/ca/regulators.ts and joined in here.
+import { CA_REGULATOR_LABELS, type CaRegulator } from "@/lib/ca/regulators";
+
+export type Regulator = "SRA" | "LSS" | "LSNI" | "LSI" | CaRegulator;
 
 export const REGULATOR_LABEL: Record<Regulator, string> = {
   SRA: "SRA regulated",
   LSS: "Law Society of Scotland",
   LSNI: "Law Society of NI",
   LSI: "Law Society of Ireland",
+  ...CA_REGULATOR_LABELS,
 };
 
 export interface StaticLawyer {

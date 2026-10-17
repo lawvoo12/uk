@@ -3,6 +3,9 @@
 import { findCityByNameOrSlug, TOP_UK_CITIES } from "@/lib/seo/uk-cities";
 import { getPracticeAreaBySlug } from "@/lib/validations/lead-intake";
 import { EIRCODE_REGEX, findIeCityByEircode, findIeCityByNameOrSlug } from "@/lib/ie/cities";
+import { CA_FSA_REGEX, CA_POSTAL_CODE_REGEX, findCaCityByNameOrSlug, findCaCityByPostalCode } from "@/lib/ca/cities";
+import { caAreaPath, getCaArea } from "@/lib/ca/practice-areas";
+import { CA_LEADS_ENABLED } from "@/lib/config";
 
 const UK_POSTCODE_REGEX = /^[A-Z]{1,2}\d[A-Z\d]?\s?\d[A-Z]{2}$/i;
 
@@ -99,4 +102,44 @@ export async function resolveIeSearchDestination(
   }
 
   return { status: "error", message: 'Enter one of the towns we cover or an Eircode, e.g. "Galway" or "H91".' };
+}
+
+/**
+ * Canada (/ca) homepage search: a city name ("Toronto", "Ottawa, ON") or a
+ * postal code / its first three characters ("M5H 3S5", "L5B"). Results go to
+ * /ca/lawyers/[area]/[city], using Canada's URL names (real-estate,
+ * wills-estates).
+ */
+export async function resolveCaSearchDestination(
+  practiceAreaSlug: string,
+  locationInput: string
+): Promise<SearchDestination> {
+  const practiceArea = getCaArea(practiceAreaSlug);
+  if (!practiceArea) {
+    return { status: "error", message: "Select a practice area to search." };
+  }
+
+  const location = locationInput.trim();
+  if (!location) {
+    return { status: "error", message: "Enter a city or a postal code." };
+  }
+
+  const city = findCaCityByNameOrSlug(location) ?? findCaCityByPostalCode(location);
+  if (city) {
+    return { status: "found", url: caAreaPath(practiceArea.slug, city.slug) };
+  }
+
+  const compact = location.replace(/\s+/g, "");
+  if (CA_POSTAL_CODE_REGEX.test(location) || CA_FSA_REGEX.test(compact)) {
+    // The enquiry form is only offered when it's switched on, and never for personal injury.
+    return CA_LEADS_ENABLED && practiceArea.slug !== "personal-injury"
+      ? {
+          status: "unsupported-area",
+          message: "We don't have a page for that area yet, but we can still take your details.",
+          fallbackUrl: `/ca/leads/new?category=${practiceArea.urlSlug}`,
+        }
+      : { status: "error", message: `We don't have a page for that postal code yet — see ${practiceArea.lower} lawyers in the cities we cover.` };
+  }
+
+  return { status: "error", message: 'Enter one of the cities we cover or a postal code, e.g. "Toronto" or "M5H".' };
 }

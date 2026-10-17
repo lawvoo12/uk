@@ -2,7 +2,8 @@ import Link from "next/link";
 import { Briefcase, HeartPulse, Home, Plane, ScrollText, Users, type LucideIcon } from "lucide-react";
 
 import { PRACTICE_AREAS, type PracticeAreaSlug } from "@/lib/validations/lead-intake";
-import { COUNTRY_BASE, type Country } from "@/lib/country";
+import { LISTINGS_BASE, type Country } from "@/lib/country";
+import { CA_PRACTICE_AREAS } from "@/lib/ca/practice-areas";
 
 const ICONS: Record<PracticeAreaSlug, LucideIcon> = {
   immigration: Plane,
@@ -17,13 +18,18 @@ const ICONS: Record<PracticeAreaSlug, LucideIcon> = {
 // which lists every city with a solicitor covering it.
 
 export function PracticeAreaGrid({ country = "uk" }: { country?: Country } = {}) {
+  // Canada has its own area names and URLs ("Real Estate" → /ca/lawyers/real-estate).
+  const areas: readonly { slug: PracticeAreaSlug; name: string; description: string; urlSlug?: string }[] =
+    country === "ca" ? CA_PRACTICE_AREAS : PRACTICE_AREAS;
   return (
     <section aria-labelledby="practice-areas-heading" className="mx-auto max-w-5xl px-4 py-14">
       <h2 id="practice-areas-heading" className="text-center font-serif text-2xl text-[#10233D] sm:text-3xl">
         Popular practice areas
       </h2>
       <p className="mx-auto mt-2 max-w-lg text-center text-sm text-[#5B6472]">
-        {country === "ie" ? (
+        {country === "ca" ? (
+          <>Every lawyer listed was checked on their provincial law society&apos;s public directory before being added.</>
+        ) : country === "ie" ? (
           <>Listings come from each firm&apos;s own published details. Check any firm on the Law Society of Ireland register before you instruct it.</>
         ) : (
           <>Every firm listed has been checked on its regulator&apos;s register.</>
@@ -31,12 +37,12 @@ export function PracticeAreaGrid({ country = "uk" }: { country?: Country } = {})
       </p>
 
       <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {PRACTICE_AREAS.map((area) => {
+        {areas.map((area) => {
           const Icon = ICONS[area.slug];
           return (
             <Link
               key={area.slug}
-              href={`${COUNTRY_BASE[country]}/solicitors/${area.slug}`}
+              href={`${LISTINGS_BASE[country]}/${area.urlSlug ?? area.slug}`}
               className="flex items-start gap-3 rounded-xl border border-[#DCD8D0] bg-white p-5 transition-all hover:border-[#B8A488] hover:shadow-sm"
             >
               <Icon className="mt-0.5 h-5 w-5 shrink-0 text-[#B8863B]" strokeWidth={1.5} />

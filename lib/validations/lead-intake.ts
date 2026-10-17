@@ -143,10 +143,10 @@ export const antiSpamSchema = z.object({
   turnstileToken: z.string().max(4096).optional(),
 });
 
-// Which country section the form was sent from ("UK" or "IE"). Goes to the
-// Google Sheet's Country column. Missing = UK (older clients).
+// Which country section the form was sent from ("UK", "IE" or "CA"). Goes to
+// the Google Sheet's Country column. Missing = UK (older clients).
 export const countryFieldSchema = z.object({
-  country: z.enum(["UK", "IE"]).optional(),
+  country: z.enum(["UK", "IE", "CA"]).optional(),
 });
 
 export const leadIntakeSchema = stepOneSchema
@@ -243,6 +243,98 @@ export const ieLeadIntakeSchema = ieStepOneSchema
   .merge(ieStepTwoSchema)
   .merge(stepThreeSchema)
   .merge(ieStepFourSchema)
+  .merge(requestedSolicitorSchema)
+  .merge(antiSpamSchema)
+  .merge(countryFieldSchema);
+
+// ============================================================================
+// CANADA (/ca) — same four steps, Canadian details:
+//  - no Personal Injury option (PI pages list firms only, as in Ireland);
+//  - "property" is shown as Real Estate and "wills-probate" as Wills &
+//    Estates (lib/ca/practice-areas.ts) — the stored values are unchanged;
+//  - postal code (optional) instead of a UK postcode;
+//  - North American phone numbers, or any international +number.
+// ============================================================================
+
+const CA_FORM_AREAS = PRACTICE_AREAS.filter((a) => a.slug !== "personal-injury");
+const CA_PRACTICE_AREA_SLUGS = CA_FORM_AREAS.map((a) => a.slug) as PracticeAreaSlug[];
+
+export const CA_SUB_CATEGORIES: Record<PracticeAreaSlug, { slug: string; name: string }[]> = {
+  immigration: [
+    { slug: "work-permit", name: "Work Permit" },
+    { slug: "study-permit", name: "Study Permit" },
+    { slug: "permanent-residence", name: "Permanent Residence / Express Entry" },
+    { slug: "family-sponsorship", name: "Family Sponsorship" },
+    { slug: "refugee-claim", name: "Refugee Claim" },
+    { slug: "citizenship", name: "Canadian Citizenship" },
+    { slug: "refusal-appeal", name: "Refusal or Appeal" },
+  ],
+  family: [
+    { slug: "divorce", name: "Divorce & Separation" },
+    { slug: "parenting", name: "Parenting Time & Decision-Making" },
+    { slug: "support", name: "Child or Spousal Support" },
+    { slug: "property-division", name: "Dividing Property" },
+    { slug: "agreement", name: "Marriage or Cohabitation Agreement" },
+  ],
+  "personal-injury": [],
+  employment: [
+    { slug: "wrongful-dismissal", name: "Wrongful Dismissal & Severance" },
+    { slug: "discrimination", name: "Discrimination or Harassment" },
+    { slug: "unpaid-wages", name: "Unpaid Wages or Overtime" },
+    { slug: "contract-review", name: "Employment Contract Review" },
+  ],
+  property: [
+    { slug: "buying-selling", name: "Buying or Selling a Home" },
+    { slug: "mortgage-refinance", name: "Mortgage or Refinance" },
+    { slug: "landlord-tenant", name: "Landlord & Tenant" },
+    { slug: "title-boundary", name: "Title or Boundary Problem" },
+    { slug: "commercial-lease", name: "Commercial Lease" },
+  ],
+  "wills-probate": [
+    { slug: "will-writing", name: "Making a Will" },
+    { slug: "power-of-attorney", name: "Power of Attorney" },
+    { slug: "probate", name: "Probate & Estate Administration" },
+    { slug: "estate-dispute", name: "Estate Dispute" },
+  ],
+};
+
+const CA_POSTAL_CODE_REGEX = /^[ABCEGHJ-NPRSTVXY]\d[ABCEGHJ-NPRSTV-Z]\s?\d[ABCEGHJ-NPRSTV-Z]\d$/i;
+// 10-digit North American number with optional +1 / 1, or any international +number.
+const CA_PHONE_REGEX = /^(?:(?:\+?1)?[2-9]\d{2}[2-9]\d{6}|\+\d{10,15})$/;
+
+export const caStepOneSchema = z.object({
+  practiceArea: z.enum(CA_PRACTICE_AREA_SLUGS, {
+    error: "Select the area of law that matches your case",
+  }),
+});
+
+export const caStepTwoSchema = z.object({
+  subCategory: stepTwoSchema.shape.subCategory,
+  // Postal code is optional. Stored as "A1A 1A1".
+  postcode: z
+    .string()
+    .trim()
+    .transform((val) => val.toUpperCase())
+    .refine((val) => val === "" || CA_POSTAL_CODE_REGEX.test(val), "Enter a valid postal code, e.g. M5H 3S5 — or leave it blank")
+    .transform((val) => (val === "" ? "" : `${val.replace(/\s+/g, "").slice(0, 3)} ${val.replace(/\s+/g, "").slice(3)}`))
+    .optional()
+    .transform((val) => val ?? ""),
+  city: z.string({ error: "Enter your city or town" }).trim().min(2, "Enter your city or town").max(85),
+});
+
+export const caStepFourSchema = stepFourSchema.extend({
+  phone: z
+    .string({ error: "Enter your phone number" })
+    .trim()
+    .min(1, "Enter your phone number")
+    .transform((val) => val.replace(/[\s\-().]+/g, ""))
+    .refine((val) => CA_PHONE_REGEX.test(val), "Enter a valid phone number, e.g. 416 555 0123 or +1 416 555 0123"),
+});
+
+export const caLeadIntakeSchema = caStepOneSchema
+  .merge(caStepTwoSchema)
+  .merge(stepThreeSchema)
+  .merge(caStepFourSchema)
   .merge(requestedSolicitorSchema)
   .merge(antiSpamSchema)
   .merge(countryFieldSchema);
