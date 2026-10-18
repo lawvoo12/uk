@@ -11,7 +11,10 @@ import { BreadcrumbNav } from "@/components/solicitors/breadcrumb-nav";
 export const metadata: Metadata = {
   title: `Lawyers by Location in the US | ${US_CITIES.length} Cities`,
   description: `Browse lawyers in ${US_CITIES.length} US cities — named lawyers, office addresses and practice areas, grouped by state, with local court information.`,
-  alternates: { canonical: "/us/locations" },
+  alternates: {
+    canonical: "/us/locations",
+    languages: { "en-GB": "/uk/locations", "en-IE": "/ie/locations", "en-CA": "/ca/locations", "en-US": "/us/locations" },
+  },
 };
 
 export default function UsLocationsIndexPage() {

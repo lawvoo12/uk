@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   title: { absolute: "Find a Solicitor in Ireland — Compare Firms by Town | Lawvoo Ireland" },
   description:
     "Find solicitors across Ireland — Dublin, Cork, Limerick, Galway and 16 more towns. Family, immigration, employment, property and probate. Free to use, no obligation.",
-  alternates: { canonical: "/ie", languages: { "en-GB": "/uk", "en-IE": "/ie", "en-CA": "/ca" } },
+  alternates: { canonical: "/ie", languages: { "en-GB": "/uk", "en-IE": "/ie", "en-CA": "/ca", "en-US": "/us" } },
 };
 
 export default function IrelandHomePage() {

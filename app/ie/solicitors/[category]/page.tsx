@@ -17,6 +17,7 @@ import { LeadCaptureSidebar } from "@/components/solicitors/lead-capture-sidebar
 import { IeStampDutyCard } from "@/components/ie/ie-stamp-duty-card";
 import { PiNotice } from "@/components/ie/pi-notice";
 import { IE_GUIDES } from "@/lib/ie/guides";
+import { usAreaPath } from "@/lib/us/practice-areas";
 
 interface PageProps {
   params: Promise<{ category: string }>;
@@ -46,7 +47,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     description,
     alternates: {
       canonical: canonicalPath,
-      languages: { "en-GB": `/uk/solicitors/${category.slug}`, "en-IE": canonicalPath, "en-CA": caAreaPath(category.slug) },
+      languages: { "en-GB": `/uk/solicitors/${category.slug}`, "en-IE": canonicalPath, "en-CA": caAreaPath(category.slug), "en-US": usAreaPath(category.slug) },
     },
     openGraph: { title, description, url: canonicalPath, siteName: SITE_NAME, locale: "en_IE", type: "website" },
   };

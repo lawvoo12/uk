@@ -15,7 +15,15 @@ export const metadata: Metadata = {
   title: "Alabama Deed Tax & Mortgage Tax Calculator 2026",
   description:
     "Work out Alabama recordation tax on a home purchase: deed tax ($.50 per $500) and mortgage tax ($.15 per $100), including the deduction when the mortgage is recorded with the deed. Official sources linked. Free.",
-  alternates: { canonical: PATH },
+  alternates: {
+    canonical: PATH,
+    languages: {
+      "en-GB": "/uk/tools/stamp-duty-calculator",
+      "en-IE": "/ie/tools/stamp-duty-calculator",
+      "en-CA": "/ca/tools/land-transfer-tax-calculator",
+      "en-US": PATH,
+    },
+  },
 };
 
 const FAQS = [

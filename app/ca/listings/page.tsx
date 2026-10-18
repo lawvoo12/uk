@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     "Are you a lawyer or law firm in Canada listed on Lawvoo? Ask us to correct your details or remove your listing — we'll act on it promptly.",
   alternates: {
     canonical: "/ca/listings",
-    languages: { "en-GB": "/uk/listings", "en-IE": "/ie/listings", "en-CA": "/ca/listings" },
+    languages: { "en-GB": "/uk/listings", "en-IE": "/ie/listings", "en-CA": "/ca/listings", "en-US": "/us/listings" },
   },
 };
 

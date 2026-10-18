@@ -16,6 +16,7 @@ import { LawyerCard } from "@/components/solicitors/lawyer-card";
 import { FAQSection } from "@/components/solicitors/faq-section";
 import { StampDutyCard } from "@/components/tools/stamp-duty-card";
 import { LeadCaptureSidebar } from "@/components/solicitors/lead-capture-sidebar";
+import { usAreaPath } from "@/lib/us/practice-areas";
 
 interface PageProps {
   params: Promise<{ category: string }>;
@@ -59,7 +60,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     alternates: {
       canonical: canonicalPath,
       // The Irish page for the same area of law (hreflang).
-      languages: { "en-GB": canonicalPath, "en-IE": `/ie/solicitors/${category.slug}`, "en-CA": caAreaPath(category.slug) },
+      languages: { "en-GB": canonicalPath, "en-IE": `/ie/solicitors/${category.slug}`, "en-CA": caAreaPath(category.slug), "en-US": usAreaPath(category.slug) },
     },
     openGraph: { title, description, url: canonicalPath, siteName: SITE_NAME, locale: "en_GB", type: "website" },
   };

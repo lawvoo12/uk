@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   // "absolute": a layout's title template doesn't apply to the page in its own segment.
   title: { absolute: "Find a Lawyer in the US — Compare Law Firms by City | Lawvoo US" },
   description: `Find lawyers in ${cityNames} and more. Immigration, family, personal injury, employment, real estate, and estate planning and probate. Every lawyer checked on a state bar directory. Free to use.`,
-  alternates: { canonical: "/us" },
+  alternates: { canonical: "/us", languages: { "en-GB": "/uk", "en-IE": "/ie", "en-CA": "/ca", "en-US": "/us" } },
 };
 
 export default function UsHomePage() {

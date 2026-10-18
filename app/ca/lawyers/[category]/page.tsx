@@ -14,6 +14,7 @@ import { LawyerCard } from "@/components/solicitors/lawyer-card";
 import { FAQSection } from "@/components/solicitors/faq-section";
 import { LeadCaptureSidebar } from "@/components/solicitors/lead-capture-sidebar";
 import { CaPiNotice } from "@/components/ca/pi-notice";
+import { usAreaPath } from "@/lib/us/practice-areas";
 
 interface PageProps {
   params: Promise<{ category: string }>;
@@ -36,6 +37,7 @@ function alternates(category: { slug: string; urlSlug: string }) {
       "en-GB": `/uk/solicitors/${category.slug}`,
       "en-IE": `/ie/solicitors/${category.slug}`,
       "en-CA": canonicalPath,
+      "en-US": usAreaPath(category.slug),
     },
   };
 }

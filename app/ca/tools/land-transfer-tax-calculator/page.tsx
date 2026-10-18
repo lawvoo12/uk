@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     "Work out land transfer tax, property transfer tax, deed transfer tax or registration fees on a home in nine provinces, with first-time buyer relief for Ontario, Toronto, BC and PEI. Official sources linked. Free.",
   alternates: {
     canonical: PATH,
-    languages: { "en-GB": "/uk/tools/stamp-duty-calculator", "en-IE": "/ie/tools/stamp-duty-calculator", "en-CA": PATH },
+    languages: { "en-GB": "/uk/tools/stamp-duty-calculator", "en-IE": "/ie/tools/stamp-duty-calculator", "en-CA": PATH, "en-US": "/us/tools/alabama-deed-mortgage-tax-calculator" },
   },
 };
 

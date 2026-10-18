@@ -152,6 +152,11 @@ function UkFooter() {
                 </Link>
               </li>
               <li>
+                <Link href="/us" className="hover:text-[#10233D]">
+                  Lawvoo US →
+                </Link>
+              </li>
+              <li>
                 <Link href="/uk/terms" className="hover:text-[#10233D]">
                   Terms of Use
                 </Link>
@@ -310,6 +315,11 @@ function IrelandFooter() {
                   Lawvoo Canada →
                 </Link>
               </li>
+              <li>
+                <Link href="/us" className="hover:text-[#10233D]">
+                  Lawvoo US →
+                </Link>
+              </li>
             </ul>
           </div>
         </div>
@@ -422,6 +432,11 @@ function CanadaFooter() {
               <li>
                 <Link href="/ie" className="hover:text-[#10233D]">
                   Lawvoo Ireland →
+                </Link>
+              </li>
+              <li>
+                <Link href="/us" className="hover:text-[#10233D]">
+                  Lawvoo US →
                 </Link>
               </li>
             </ul>

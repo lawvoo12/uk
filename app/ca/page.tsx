@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   // "absolute": a layout's title template doesn't apply to the page in its own segment.
   title: { absolute: "Find a Lawyer in Canada — Compare Law Firms by City | Lawvoo Canada" },
   description: `Find lawyers in Canada — ${cityNames} and more. Immigration, family, employment, real estate, and wills and estates. Every lawyer checked on a law society directory. Free to use.`,
-  alternates: { canonical: "/ca", languages: { "en-GB": "/uk", "en-IE": "/ie", "en-CA": "/ca" } },
+  alternates: { canonical: "/ca", languages: { "en-GB": "/uk", "en-IE": "/ie", "en-CA": "/ca", "en-US": "/us" } },
 };
 
 export default function CanadaHomePage() {

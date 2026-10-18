@@ -7,7 +7,7 @@ import { CA_TOOLS } from "@/lib/tools";
 export const metadata: Metadata = {
   title: "Free legal tools and calculators for Canada",
   description: "Free Canadian legal calculators: land transfer tax and registration fees for every province we cover.",
-  alternates: { canonical: "/ca/tools", languages: { "en-GB": "/uk/tools", "en-IE": "/ie/tools", "en-CA": "/ca/tools" } },
+  alternates: { canonical: "/ca/tools", languages: { "en-GB": "/uk/tools", "en-IE": "/ie/tools", "en-CA": "/ca/tools", "en-US": "/us/tools" } },
 };
 
 export default function CaToolsPage() {
