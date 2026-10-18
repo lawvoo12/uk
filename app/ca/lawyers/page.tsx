@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     "Browse Canadian lawyers by practice area and city: immigration, family, personal injury, employment, real estate, and wills and estates lawyers, each checked on a law society directory.",
   alternates: {
     canonical: "/ca/lawyers",
-    languages: { "en-GB": "/uk/solicitors", "en-IE": "/ie/solicitors", "en-CA": "/ca/lawyers" },
+    languages: { "en-GB": "/uk/solicitors", "en-IE": "/ie/solicitors", "en-CA": "/ca/lawyers", "en-US": "/us/lawyers" },
   },
 };
 

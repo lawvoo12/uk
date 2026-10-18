@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   title: "Solicitors by Location in Ireland | 20 Towns",
   description:
     "Browse solicitors in 20 Irish cities and towns, from Dublin and Cork to Letterkenny and Castlebar — named solicitors, office addresses and practice areas, grouped by province.",
-  alternates: { canonical: "/ie/locations", languages: { "en-GB": "/uk/locations", "en-IE": "/ie/locations", "en-CA": "/ca/locations" } },
+  alternates: { canonical: "/ie/locations", languages: { "en-GB": "/uk/locations", "en-IE": "/ie/locations", "en-CA": "/ca/locations", "en-US": "/us/locations" } },
 };
 
 export default function IeLocationsIndexPage() {

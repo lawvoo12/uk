@@ -280,3 +280,14 @@
   have these lawyers.
 - `/us` is still noindex and not proxied from Netlify.
 
+## Update 19 — US section goes live (18 Oct 2026)
+
+- `US_SECTION_LIVE = true`: /us pages are indexable (city and area pages
+  with no lawyers stay noindex, as in the other sections).
+- `en-US` hreflang added to the matching UK, Ireland and Canada pages, and
+  the US pages now link back to them.
+- UK, Ireland and Canada footers get a "Lawvoo US →" link.
+- `app/robots.ts` (vercel.app only) lists the US sitemap and disallows /us/api/.
+- Netlify (repo lawvoo12/law): /us and /us/* rules and the robots.txt lines
+  are in a separate PR — merge that one after this one has deployed.
+

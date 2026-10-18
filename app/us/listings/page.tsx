@@ -9,7 +9,10 @@ export const metadata: Metadata = {
   title: "For lawyers — update or remove your listing",
   description:
     "Are you a lawyer or law firm in the US listed on Lawvoo? Ask us to correct your details or remove your listing — we'll act on it promptly.",
-  alternates: { canonical: "/us/listings" },
+  alternates: {
+    canonical: "/us/listings",
+    languages: { "en-GB": "/uk/listings", "en-IE": "/ie/listings", "en-CA": "/ca/listings", "en-US": "/us/listings" },
+  },
 };
 
 function mailto(subject: string, body: string) {

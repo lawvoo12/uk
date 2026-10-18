@@ -5,6 +5,7 @@ import { ChevronRight, ExternalLink, MapPin, Users } from "lucide-react";
 
 import { getLawyersByCategory } from "@/lib/data/lawyers";
 import { US_PRACTICE_AREAS, getUsAreaByUrlSlug } from "@/lib/us/practice-areas";
+import { caAreaPath } from "@/lib/ca/practice-areas";
 import { getUsCitiesGroupedByState, getUsCityBySlug } from "@/lib/us/cities";
 import { US_AREA_INTROS, US_CHECKED_SENTENCE, getUsStateContent } from "@/lib/us/content";
 import type { FAQItem } from "@/lib/seo/faq-content";
@@ -27,10 +28,18 @@ export function generateStaticParams() {
 export const dynamicParams = false;
 export const revalidate = 3600;
 
-// No hreflang links to the UK / Ireland / Canada pages yet: those pages don't
-// point back to /us until the US section goes live.
-function alternates(category: { urlSlug: string }) {
-  return { canonical: `/us/lawyers/${category.urlSlug}` };
+/** The matching UK / Ireland page uses the shared slug (property, wills-probate). */
+function alternates(category: { slug: string; urlSlug: string }) {
+  const canonicalPath = `/us/lawyers/${category.urlSlug}`;
+  return {
+    canonical: canonicalPath,
+    languages: {
+      "en-GB": `/uk/solicitors/${category.slug}`,
+      "en-IE": `/ie/solicitors/${category.slug}`,
+      "en-CA": caAreaPath(category.slug),
+      "en-US": canonicalPath,
+    },
+  };
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {

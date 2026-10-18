@@ -11,7 +11,10 @@ export const metadata: Metadata = {
   title: "Browse Lawyers in the US by Area of Law & City",
   description:
     "Browse US lawyers by practice area and city: immigration, family, personal injury, employment, real estate, and estate planning and probate lawyers, each checked on a state bar directory.",
-  alternates: { canonical: "/us/lawyers" },
+  alternates: {
+    canonical: "/us/lawyers",
+    languages: { "en-GB": "/uk/solicitors", "en-IE": "/ie/solicitors", "en-CA": "/ca/lawyers", "en-US": "/us/lawyers" },
+  },
 };
 
 export default function CaLawyersHubPage() {

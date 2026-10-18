@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   description: `Browse lawyers in ${CA_CITIES.length} Canadian cities — named lawyers, office addresses and practice areas, grouped by province, with local court information.`,
   alternates: {
     canonical: "/ca/locations",
-    languages: { "en-GB": "/uk/locations", "en-IE": "/ie/locations", "en-CA": "/ca/locations" },
+    languages: { "en-GB": "/uk/locations", "en-IE": "/ie/locations", "en-CA": "/ca/locations", "en-US": "/us/locations" },
   },
 };
 

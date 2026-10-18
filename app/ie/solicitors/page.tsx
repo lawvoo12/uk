@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   title: "Browse Solicitors in Ireland by Area of Law & Town",
   description:
     "Browse Irish solicitors by practice area and town: immigration, family, personal injury, employment, property and wills & probate solicitors in 20 cities and towns.",
-  alternates: { canonical: "/ie/solicitors", languages: { "en-GB": "/uk/solicitors", "en-IE": "/ie/solicitors", "en-CA": "/ca/lawyers" } },
+  alternates: { canonical: "/ie/solicitors", languages: { "en-GB": "/uk/solicitors", "en-IE": "/ie/solicitors", "en-CA": "/ca/lawyers", "en-US": "/us/lawyers" } },
 };
 
 export default function IeSolicitorsHubPage() {

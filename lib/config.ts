@@ -47,7 +47,7 @@ export const US_LEADS_ENABLED = LEADS_ENABLED && process.env.US_LEADS_ENABLED ==
  * gets indexed early. Set to true in the same change that adds the Netlify
  * /us rules, the robots.txt sitemap line and the en-US hreflang links.
  */
-export const US_SECTION_LIVE = false;
+export const US_SECTION_LIVE = true;
 
 /**
  * Your EU GDPR representative (Article 27), shown on /ie/privacy once set —
