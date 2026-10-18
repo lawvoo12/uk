@@ -1,4 +1,4 @@
-# US batch 1 (Alabama) — candidates waiting for the site owner's ✅/❌
+# US batch 1 (Alabama) — candidates and what was added
 
 Read on each firm's own website on 17 Oct 2026. Nothing here is on the site
 until the owner confirms the lawyer on the Alabama State Bar's Find a Member
@@ -34,3 +34,12 @@ search (https://members.alabar.org/Member_Portal/Member_Portal/Member-Search.asp
 - Immigration: Montgomery, Mobile, Dothan
 - Family: Mobile, Dothan
 - Employment (employee side): Huntsville, Mobile, Dothan
+
+## Added 18 Oct 2026 — one lawyer per practice area for the state
+The site owner chose one lawyer per area and confirmed all six on the
+Alabama State Bar's Find a Member search (18 Oct 2026):
+US9 Stephen Davis (immigration), US6 John Tyler Winans (family),
+US10 Lucy E. Tufts (personal injury), US2 Rocco Calamusa Jr. (employment),
+US13 Ashton Holmes Ott (real estate), US1 Christopher R. Owens (estate
+planning & probate). The others in the table above were not added; the site
+owner will add more lawyers later.

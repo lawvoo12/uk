@@ -40,8 +40,6 @@ export interface UsLawyer extends StaticLawyer {
 
 type UsEntry = Omit<UsLawyer, "regulator" | "sraNumber" | "registerUrl" | "state" | "registerChecked">;
 
-// Used once the first Alabama lawyers are confirmed:
-//   const al = forState("AL", "<date>");  US_LAWYERS = [al({ id: "birmingham-al-…", … })]
 export function forState(code: UsStateCode, registerChecked: string) {
   const state = getUsState(code);
   return (entry: UsEntry): UsLawyer => ({
@@ -54,6 +52,106 @@ export function forState(code: UsStateCode, registerChecked: string) {
   });
 }
 
-// No US lawyers yet — Alabama batch 1 is waiting for the site owner's
-// confirmation on the Alabama State Bar directory.
-export const US_LAWYERS: UsLawyer[] = [];
+// Alabama batch 1 — one lawyer per practice area for the whole state.
+// Confirmed by the site owner on the Alabama State Bar's Find a Member search, 18 Oct 2026.
+const al = forState("AL", "18 October 2026");
+
+const SITE = "Firm website, read 17 Oct 2026";
+
+export const US_LAWYERS: UsLawyer[] = [
+  // ------------------------------------------------------------ Birmingham
+  al({
+    id: "birmingham-al-rocco-calamusa",
+    firmName: "Wiggins Childs Pantazis Fisher Goldfarb LLC",
+    lawyerName: "Rocco Calamusa Jr.",
+    role: "Member",
+    citySlug: "birmingham-alabama",
+    practiceAreaSlugs: ["employment", "personal-injury"],
+    primaryPracticeArea: "employment",
+    bio: "Member of a Birmingham firm of plaintiffs' attorneys. His practice covers discrimination and retaliation, harassment, wage and hour claims, whistleblower and qui tam cases, civil rights, and class and collective actions.",
+    addressLine1: "The Kress Building, 301 19th Street North, Birmingham, AL 35203",
+    yearsExperience: null,
+    experienceNote: "Not published",
+    profileUrl: "https://www.wigginschilds.com/attorneys/rocco-calamusa-jr/",
+    verification: `${SITE}: profile page (role, practice areas, bar admission Alabama, office); home page ("plaintiffs' attorneys", address); practice areas page (personal injury and wrongful death).`,
+  }),
+  al({
+    id: "birmingham-al-christopher-owens",
+    firmName: "The Harris Firm LLC",
+    lawyerName: "Christopher R. Owens",
+    role: "Probate and Estate Planning Attorney",
+    citySlug: "birmingham-alabama",
+    practiceAreaSlugs: ["wills-probate", "family"],
+    primaryPracticeArea: "wills-probate",
+    bio: "Probate and estate planning attorney. He handles wills, trusts, powers of attorney, living wills and advance directives, property deeds, guardianships and conservatorships, and the probate of estates, including small estates and estates without a will. He meets clients at the firm's Birmingham and Chelsea offices.",
+    addressLine1: "2101 1st Avenue North, Suite 320, Birmingham, AL 35203",
+    yearsExperience: null,
+    experienceNote: "Not published",
+    profileUrl: "https://www.theharrisfirmllc.com/meet-our-team/attorney-christopher-owens/",
+    verification: `${SITE}: profile page (role, practice areas, offices); Areas We Serve page (Birmingham office address; firm areas: family law, divorce, probate, estate planning, adoption).`,
+  }),
+  // ------------------------------------------------------------ Montgomery
+  al({
+    id: "montgomery-al-john-tyler-winans",
+    firmName: "The Harris Firm LLC",
+    lawyerName: "John Tyler Winans",
+    role: "Partner, Family Law and Probate",
+    citySlug: "montgomery",
+    practiceAreaSlugs: ["family", "wills-probate"],
+    primaryPracticeArea: "family",
+    bio: "Partner and family law and probate attorney in the firm's Montgomery office. He handles divorce, custody and support, adoptions and estate administration, and is a member of the Montgomery Bar Association.",
+    addressLine1: "60 Commerce Street, Suite 1210, Montgomery, AL 36104",
+    yearsExperience: null,
+    experienceNote: "Not published",
+    profileUrl: "https://www.theharrisfirmllc.com/meet-our-team/john-tyler-winans/",
+    verification: `${SITE}: profile page (role, practice areas, Montgomery office address); Montgomery office page (hours Monday to Friday, 8 a.m. to 5 p.m.).`,
+  }),
+  // ------------------------------------------------------------ Huntsville
+  al({
+    id: "huntsville-al-stephen-davis",
+    firmName: "Butler Snow LLP",
+    lawyerName: "Stephen Davis",
+    role: "Business Immigration Attorney",
+    citySlug: "huntsville",
+    practiceAreaSlugs: ["immigration"],
+    primaryPracticeArea: "immigration",
+    bio: "Business immigration attorney in Butler Snow's Huntsville office. He joined the office in February 2025, when the firm added two immigration attorneys in Huntsville.",
+    addressLine1: "200 West Side Square, Suite 100, Huntsville, AL 35801",
+    yearsExperience: 18,
+    experienceNote: "18 (admitted to the Alabama Bar 2008)",
+    profileUrl: "https://butlersnow.com/professionals/stephen-davis",
+    verification: `${SITE}: profile page (practice, Alabama admission 2008, Huntsville office); Huntsville location page (address); news release of 24 Feb 2025 (joined the Huntsville office).`,
+  }),
+  // ------------------------------------------------------------ Mobile
+  al({
+    id: "mobile-al-lucy-tufts",
+    firmName: "Cunningham Bounds",
+    lawyerName: "Lucy E. Tufts",
+    role: "Attorney",
+    citySlug: "mobile",
+    practiceAreaSlugs: ["personal-injury"],
+    primaryPracticeArea: "personal-injury",
+    bio: "Personal injury trial lawyer at a Mobile firm that handles car and truck accidents, catastrophic injuries, medical malpractice, product liability, wrongful death and industrial accidents. Her listed results include auto collision, trucking, product liability and wrongful death cases.",
+    addressLine1: "1601 Dauphin Street, Mobile, AL 36604",
+    yearsExperience: 17,
+    experienceNote: "17 (admitted to the Alabama Bar 2009)",
+    profileUrl: "https://www.cunninghambounds.com/legal-team/lucy-e-tufts/",
+    verification: `${SITE}: profile page (role, practice, Alabama admission 2009, Mobile office); home page (Alabama office address and practice areas).`,
+  }),
+  // ------------------------------------------------------------ Dothan
+  al({
+    id: "dothan-al-ashton-ott",
+    firmName: "FarmerPrice LLP",
+    lawyerName: "Ashton Holmes Ott",
+    role: "Partner",
+    citySlug: "dothan",
+    practiceAreaSlugs: ["property", "wills-probate", "personal-injury"],
+    primaryPracticeArea: "property",
+    bio: "Partner at a Dothan firm whose services include residential and commercial real estate, probate and estate matters, and personal injury. Ott's own practice includes commercial leasing, employment contracts and commercial litigation, and mediation.",
+    addressLine1: "100 Adris Place, Dothan, AL 36303",
+    yearsExperience: 33,
+    experienceNote: "33 (admitted to the Alabama Bar 1993)",
+    profileUrl: "https://www.farmerprice.com/our-attorneys/ott/",
+    verification: `${SITE}: profile page (practice areas, Alabama admission 1993, office); attorneys page (Partner); home page (address and firm practice areas).`,
+  }),
+];
