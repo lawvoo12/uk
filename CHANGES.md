@@ -236,3 +236,32 @@
 - The Canada footer now has a "Free tools" column. The UK and Ireland tools page and stamp duty calculator pages each gained one `en-CA` hreflang line (option A); nothing else on them changed.
 - **Content for the five new provinces** is in `lib/ca/provinces/` (one file each), from official sources only. Left out because the official source could not be read: Manitoba first-time buyer relief, the Nova Scotia time limit to divide property, the New Brunswick employment standards complaint deadline, and the PEI probate fee table. See `deploy/canada-legal-sources.md`.
 - Search accepts the new cities, "Dartmouth" and "Bedford" (Halifax), "St Johns" spellings, province names, and postal codes starting R2/R3, B3, E1, A1 and C1.
+
+## Update 17 — United States section at /us, Alabama first (17 Oct 2026)
+
+- New `/us` section built like `/ca`: homepage, practice areas (Immigration,
+  Family, Personal Injury, Employment, Real Estate, Estate Planning &
+  Probate), locations, 5 Alabama cities (Birmingham — slug
+  `birmingham-alabama`, Montgomery, Huntsville, Mobile, Dothan), city ×
+  area pages, lawyer profiles, privacy, terms, `/us/sitemap.xml`.
+- Data in `lib/us/` (states, regulators — Alabama State Bar `ASB`, cities
+  with ZIP prefixes, content, lawyers). Alabama law content in
+  `lib/us/states/alabama.ts`, official sources only; see
+  `deploy/us-legal-sources.md` for what is verified and what was left out.
+- No US lawyers yet: candidates waiting for the owner's ✅/❌ are in
+  `deploy/us-batch1-candidates.md`. The plan is one lawyer per practice area
+  per state to start.
+- US enquiry form added (ZIP code, US phone numbers, US sub-categories, US
+  consent wording) but OFF unless `US_LEADS_ENABLED="true"`. Personal injury
+  is not on the form.
+- `US_SECTION_LIVE = false` (lib/config.ts) keeps every `/us` page noindex.
+  Netlify has no `/us` rule yet, so lawvoo.com/us does not exist.
+- UK, Ireland and Canada pages unchanged (978 built pages compared).
+- Apps Script: accepts country "US" (paste the new `deploy/lawvoo-apps-script.js`).
+- Added US guides (`lib/us/guides.ts`, `/us/guides`): Alabama child support
+  (Rule 32), Alabama deed and mortgage tax, filing an EEOC charge, and the
+  US citizenship five-year and three-year rules — official sources only.
+- Added the Alabama Deed & Mortgage Tax Calculator
+  (`/us/tools/alabama-deed-mortgage-tax-calculator`, `lib/us/recordation-tax.ts`),
+  including the deduction when the mortgage is recorded with the deed.
+- US navbar now has Guides; US footer has Free tools and Guides & advice.

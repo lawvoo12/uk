@@ -11,11 +11,13 @@ const FILES = {
   uk: ["lib/data/static-lawyers.ts", "lib/data/uk-lawyers-extra.ts"],
   ie: ["lib/ie/lawyers.ts"],
   ca: ["lib/ca/lawyers.ts"],
+  us: ["lib/us/lawyers.ts"],
 };
 
 // Matches both `id: "…"` and `"id": "…"` (the original UK file uses quoted keys).
 const ID_LINE = /^\s*["']?id["']?:\s*["']([^"']+)["']/gm;
 const CA_ID = /^[a-z0-9-]+-(on|bc|ab|sk|mb|ns|nb|nl|pe)-[a-z0-9-]+$/;
+const US_ID = /^[a-z0-9-]+-(al)-[a-z0-9-]+$/;
 
 const seen = new Map(); // id -> "country (file)"
 const problems = [];
@@ -30,6 +32,9 @@ for (const [country, files] of Object.entries(FILES)) {
       counts[country] += 1;
       if (seen.has(id)) problems.push(`Duplicate id "${id}": ${seen.get(id)} and ${country} (${file})`);
       else seen.set(id, `${country} (${file})`);
+      if (country === "us" && !US_ID.test(id)) {
+        problems.push(`US id "${id}" must look like <city>-<state code>-<name>, e.g. birmingham-al-jane-smith`);
+      }
       if (country === "ca" && !CA_ID.test(id)) {
         problems.push(`Canadian id "${id}" must look like <city>-<province code>-<name>, e.g. toronto-on-jane-smith`);
       }
@@ -37,7 +42,7 @@ for (const [country, files] of Object.entries(FILES)) {
   }
 }
 
-console.log(`Lawyer ids — UK: ${counts.uk}, Ireland: ${counts.ie}, Canada: ${counts.ca}, total: ${seen.size}`);
+console.log(`Lawyer ids — UK: ${counts.uk}, Ireland: ${counts.ie}, Canada: ${counts.ca}, US: ${counts.us}, total: ${seen.size}`);
 if (problems.length > 0) {
   console.error(problems.join("\n"));
   process.exit(1);

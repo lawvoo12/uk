@@ -30,7 +30,7 @@ export function EnquiriesClosedNotice({
           <p className="mt-2 text-sm text-[#5B6472]">
             {lawyer
               ? `We're not taking enquiries through Lawvoo just yet. In the meantime you can contact ${lawyer.firmName} directly — they handle their own enquiries.`
-              : country === "ca"
+              : country === "ca" || country === "us"
                 ? "We're not taking enquiries through Lawvoo just yet. In the meantime, browse lawyers by location and contact a firm directly."
                 : "We're not taking enquiries through Lawvoo just yet. In the meantime, browse solicitors by location and contact a firm directly."}
           </p>
@@ -56,7 +56,7 @@ export function EnquiriesClosedNotice({
               className="inline-flex items-center gap-1.5 rounded-lg border border-[#DCD8D0] px-4 py-2 text-sm font-medium text-[#10233D] hover:border-[#B8A488]"
             >
               <ShieldCheck className="h-3.5 w-3.5 text-[#B8863B]" />
-              {country === "ca" ? (
+              {country === "ca" || country === "us" ? (
                 <>Check in the {REGULATORS[lawyer.regulator].shortName} directory</>
               ) : (
                 <>Check on the {REGULATORS[lawyer.regulator].shortName} register</>
@@ -69,7 +69,7 @@ export function EnquiriesClosedNotice({
             className="inline-flex items-center gap-1.5 rounded-lg bg-[#10233D] px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-[#1C3A5E]"
           >
             <MapPin className="h-3.5 w-3.5" />
-            {country === "ca" ? "Browse lawyers by location" : "Browse solicitors by location"}
+            {country === "ca" || country === "us" ? "Browse lawyers by location" : "Browse solicitors by location"}
           </Link>
         )}
       </div>

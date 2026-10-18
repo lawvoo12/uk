@@ -6,15 +6,22 @@ import { Search } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { PRACTICE_AREAS } from "@/lib/validations/lead-intake";
-import { resolveCaSearchDestination, resolveIeSearchDestination, resolveSearchDestination } from "@/lib/actions/search";
+import {
+  resolveCaSearchDestination,
+  resolveIeSearchDestination,
+  resolveSearchDestination,
+  resolveUsSearchDestination,
+} from "@/lib/actions/search";
 import { CA_PRACTICE_AREAS } from "@/lib/ca/practice-areas";
+import { US_PRACTICE_AREAS } from "@/lib/us/practice-areas";
 import type { Country } from "@/lib/country";
 
 export function HeroSearch({ country = "uk" }: { country?: Country } = {}) {
   const isIe = country === "ie";
   const isCa = country === "ca";
-  // Canada has its own area names ("Real Estate", "Wills & Estates").
-  const areas: readonly { slug: string; name: string }[] = isCa ? CA_PRACTICE_AREAS : PRACTICE_AREAS;
+  const isUs = country === "us";
+  // Canada and the US have their own area names ("Real Estate", "Wills & Estates", "Estate Planning & Probate").
+  const areas: readonly { slug: string; name: string }[] = isCa ? CA_PRACTICE_AREAS : isUs ? US_PRACTICE_AREAS : PRACTICE_AREAS;
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [category, setCategory] = useState<string>(PRACTICE_AREAS[0].slug);
@@ -27,7 +34,9 @@ export function HeroSearch({ country = "uk" }: { country?: Country } = {}) {
     startTransition(async () => {
       const result = isCa
         ? await resolveCaSearchDestination(category, location)
-        : isIe
+        : isUs
+          ? await resolveUsSearchDestination(category, location)
+          : isIe
           ? await resolveIeSearchDestination(category, location)
           : await resolveSearchDestination(category, location);
       if (result.status === "found") {
@@ -63,7 +72,7 @@ export function HeroSearch({ country = "uk" }: { country?: Country } = {}) {
         </select>
 
         <label className="sr-only" htmlFor="hero-location">
-          {isCa ? "City or postal code" : isIe ? "Town or Eircode" : "City or UK postcode"}
+          {isCa ? "City or postal code" : isUs ? "City or ZIP code" : isIe ? "Town or Eircode" : "City or UK postcode"}
         </label>
         <input
           id="hero-location"
@@ -73,7 +82,9 @@ export function HeroSearch({ country = "uk" }: { country?: Country } = {}) {
           placeholder={
             isCa
               ? "City or postal code, e.g. Toronto or M5H"
-              : isIe
+              : isUs
+                ? "City or ZIP code, e.g. Birmingham or 35203"
+                : isIe
                 ? "Town or Eircode, e.g. Cork or D02"
                 : "City or postcode, e.g. Manchester or SW1A 1AA"
           }
@@ -89,7 +100,7 @@ export function HeroSearch({ country = "uk" }: { country?: Country } = {}) {
           )}
         >
           <Search className="h-4 w-4" strokeWidth={2} />
-          {isPending ? "Searching…" : isCa ? "Find a lawyer" : "Find a solicitor"}
+          {isPending ? "Searching…" : isCa || isUs ? "Find a lawyer" : "Find a solicitor"}
         </button>
       </form>
 

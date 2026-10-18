@@ -7,6 +7,7 @@ import { PRACTICE_AREAS } from "@/lib/validations/lead-intake";
 import { getFirmWebsite } from "@/lib/data/firm-website";
 import { COUNTRY_BASE, type Country } from "@/lib/country";
 import { CA_PRACTICE_AREAS } from "@/lib/ca/practice-areas";
+import { US_PRACTICE_AREAS } from "@/lib/us/practice-areas";
 
 export function LawyerCard({
   lawyer,
@@ -22,7 +23,7 @@ export function LawyerCard({
   showPracticeAreas?: boolean;
   /** Practice area of the page the card is on — pre-selects it in the callback form. */
   categorySlug?: string;
-  /** Which section the card is on — "uk" (default), "ie" or "ca". */
+  /** Which section the card is on — "uk" (default), "ie", "ca" or "us". */
   country?: Country;
   /** Show "Visit firm website" instead of "Request a callback" (Irish and Canadian personal injury pages). */
   linkFirmInstead?: boolean;
@@ -34,7 +35,8 @@ export function LawyerCard({
     callbackCategory ? `&category=${encodeURIComponent(callbackCategory)}` : ""
   }`;
   // Canada has its own area names ("Real Estate", "Wills & Estates").
-  const allAreas: readonly { slug: string; name: string }[] = country === "ca" ? CA_PRACTICE_AREAS : PRACTICE_AREAS;
+  const allAreas: readonly { slug: string; name: string }[] =
+    country === "ca" ? CA_PRACTICE_AREAS : country === "us" ? US_PRACTICE_AREAS : PRACTICE_AREAS;
   const areas = allAreas.filter((a) => lawyer.practiceAreaSlugs.includes(a.slug));
 
   return (

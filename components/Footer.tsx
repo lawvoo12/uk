@@ -5,8 +5,9 @@ import { usePathname } from "next/navigation";
 import { Scale } from "lucide-react";
 
 import { PRACTICE_AREAS } from "@/lib/validations/lead-intake";
-import { CA_TOOLS, IE_TOOLS, TOOLS } from "@/lib/tools";
+import { CA_TOOLS, IE_TOOLS, TOOLS, US_TOOLS } from "@/lib/tools";
 import { CA_PRACTICE_AREAS } from "@/lib/ca/practice-areas";
+import { US_PRACTICE_AREAS } from "@/lib/us/practice-areas";
 import { countryFromPath } from "@/lib/country";
 
 // A client component only so it can read the URL and show UK (/uk), Ireland
@@ -40,9 +41,19 @@ const CA_POPULAR_CITIES = [
   { slug: "victoria", name: "Victoria" },
 ];
 
+// United States (/us): its own footer. Batch 1 is Alabama.
+const US_POPULAR_CITIES = [
+  { slug: "birmingham-alabama", name: "Birmingham, AL" },
+  { slug: "montgomery", name: "Montgomery, AL" },
+  { slug: "huntsville", name: "Huntsville, AL" },
+  { slug: "mobile", name: "Mobile, AL" },
+  { slug: "dothan", name: "Dothan, AL" },
+];
+
 export function Footer() {
   const country = countryFromPath(usePathname());
   if (country === "ca") return <CanadaFooter />;
+  if (country === "us") return <UsFooter />;
   return country === "ie" ? <IrelandFooter /> : <UkFooter />;
 }
 
@@ -420,6 +431,130 @@ function CanadaFooter() {
         <div className="mt-10 border-t border-[#DCD8D0] pt-6 text-xs text-[#A8A398]">
           <p>
             © {year} Lawvoo Canada. We are a directory, not a law firm — we don&apos;t provide legal advice, and using
+            this site doesn&apos;t create a lawyer-client relationship with us.
+          </p>
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+function UsFooter() {
+  const year = new Date().getFullYear();
+
+  return (
+    <footer className="border-t border-[#DCD8D0] bg-white">
+      <div className="mx-auto max-w-6xl px-4 py-12">
+        <div className={`grid grid-cols-2 gap-8 sm:grid-cols-3 ${US_TOOLS.length > 0 ? "lg:grid-cols-5" : "lg:grid-cols-4"}`}>
+          <div className="col-span-2 sm:col-span-3 lg:col-span-1">
+            <Link href="/us" className="flex items-center gap-2 font-serif text-lg text-[#10233D]">
+              <Scale className="h-5 w-5 text-[#B8863B]" strokeWidth={1.75} />
+              Lawvoo US
+            </Link>
+            <p className="mt-3 text-sm text-[#5B6472]">Find lawyers in the United States by area of law and city — free to use.</p>
+          </div>
+
+          <div>
+            <h3 className="text-sm font-medium text-[#10233D]">Practice areas</h3>
+            <ul className="mt-3 space-y-2 text-sm text-[#5B6472]">
+              {US_PRACTICE_AREAS.map((area) => (
+                <li key={area.slug}>
+                  <Link href={`/us/lawyers/${area.urlSlug}`} className="hover:text-[#10233D]">
+                    {area.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <h3 className="text-sm font-medium text-[#10233D]">Popular cities</h3>
+            <ul className="mt-3 space-y-2 text-sm text-[#5B6472]">
+              {US_POPULAR_CITIES.map((city) => (
+                <li key={city.slug}>
+                  <Link href={`/us/locations/${city.slug}`} className="hover:text-[#10233D]">
+                    Lawyers in {city.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {US_TOOLS.length > 0 && (
+            <div>
+              <h3 className="text-sm font-medium text-[#10233D]">Free tools</h3>
+              <ul className="mt-3 space-y-2 text-sm text-[#5B6472]">
+                {US_TOOLS.map((tool) => (
+                  <li key={tool.href}>
+                    <Link href={tool.href} className="hover:text-[#10233D]">
+                      {tool.shortName}
+                    </Link>
+                  </li>
+                ))}
+                <li>
+                  <Link href="/us/tools" className="hover:text-[#10233D]">
+                    All tools
+                  </Link>
+                </li>
+              </ul>
+            </div>
+          )}
+
+          <div>
+            <h3 className="text-sm font-medium text-[#10233D]">Company</h3>
+            <ul className="mt-3 space-y-2 text-sm text-[#5B6472]">
+              <li>
+                <Link href="/us/leads/new" className="hover:text-[#10233D]">
+                  Find a lawyer
+                </Link>
+              </li>
+              <li>
+                <Link href="/us/locations" className="hover:text-[#10233D]">
+                  All locations
+                </Link>
+              </li>
+              <li>
+                <Link href="/us/guides" className="hover:text-[#10233D]">
+                  Guides & advice
+                </Link>
+              </li>
+              <li>
+                <Link href="/us/listings" className="hover:text-[#10233D]">
+                  For lawyers: update or remove a listing
+                </Link>
+              </li>
+              <li>
+                <Link href="/us/terms" className="hover:text-[#10233D]">
+                  Terms of Use
+                </Link>
+              </li>
+              <li>
+                <Link href="/us/privacy" className="hover:text-[#10233D]">
+                  Privacy Policy
+                </Link>
+              </li>
+              <li>
+                <Link href="/uk" className="hover:text-[#10233D]">
+                  Lawvoo UK →
+                </Link>
+              </li>
+              <li>
+                <Link href="/ie" className="hover:text-[#10233D]">
+                  Lawvoo Ireland →
+                </Link>
+              </li>
+              <li>
+                <Link href="/ca" className="hover:text-[#10233D]">
+                  Lawvoo Canada →
+                </Link>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div className="mt-10 border-t border-[#DCD8D0] pt-6 text-xs text-[#A8A398]">
+          <p>
+            © {year} Lawvoo US. We are a directory, not a law firm — we don&apos;t provide legal advice, and using
             this site doesn&apos;t create a lawyer-client relationship with us.
           </p>
         </div>

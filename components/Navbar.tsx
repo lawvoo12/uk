@@ -25,16 +25,21 @@ const LINKS = {
     { href: "/ca/lawyers", label: "Browse lawyers" },
     { href: "/ca/locations", label: "Locations" },
   ],
+  us: [
+    { href: "/us/lawyers", label: "Browse lawyers" },
+    { href: "/us/locations", label: "Locations" },
+    { href: "/us/guides", label: "Guides" },
+  ],
 } as const;
 
-const BADGE = { uk: null, ie: "Ireland", ca: "Canada" } as const;
+const BADGE = { uk: null, ie: "Ireland", ca: "Canada", us: "US" } as const;
 
 export function Navbar() {
   const country = countryFromPath(usePathname());
   const home = COUNTRY_BASE[country];
   const findHref = `${home}/leads/new`;
   const links = LINKS[country];
-  const findLabel = country === "ca" ? "Find a lawyer" : "Find a solicitor";
+  const findLabel = country === "ca" || country === "us" ? "Find a lawyer" : "Find a solicitor";
 
   return (
     <header className="border-b border-[#DCD8D0] bg-white">

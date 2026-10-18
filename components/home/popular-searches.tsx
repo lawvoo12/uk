@@ -37,8 +37,19 @@ const CA_POPULAR_SEARCHES: typeof POPULAR_SEARCHES = [
   { category: "employment", categoryName: "Employment", city: "hamilton", cityName: "Hamilton" },
 ];
 
+// United States: `category` is the /us URL name (real-estate, estate-planning-probate).
+const US_POPULAR_SEARCHES: typeof POPULAR_SEARCHES = [
+  { category: "family", categoryName: "Family", city: "birmingham-alabama", cityName: "Birmingham, AL" },
+  { category: "personal-injury", categoryName: "Personal injury", city: "montgomery", cityName: "Montgomery, AL" },
+  { category: "immigration", categoryName: "Immigration", city: "huntsville", cityName: "Huntsville, AL" },
+  { category: "employment", categoryName: "Employment", city: "birmingham-alabama", cityName: "Birmingham, AL" },
+  { category: "estate-planning-probate", categoryName: "Estate planning & probate", city: "mobile", cityName: "Mobile, AL" },
+  { category: "personal-injury", categoryName: "Personal injury", city: "dothan", cityName: "Dothan, AL" },
+];
+
 export function PopularSearches({ country = "uk" }: { country?: Country } = {}) {
-  const searches = country === "ca" ? CA_POPULAR_SEARCHES : country === "ie" ? IE_POPULAR_SEARCHES : POPULAR_SEARCHES;
+  const searches =
+    country === "ca" ? CA_POPULAR_SEARCHES : country === "us" ? US_POPULAR_SEARCHES : country === "ie" ? IE_POPULAR_SEARCHES : POPULAR_SEARCHES;
   return (
     <section aria-labelledby="popular-searches-heading" className="mx-auto max-w-5xl px-4 py-14">
       <h2 id="popular-searches-heading" className="text-center font-serif text-2xl text-[#10233D] sm:text-3xl">
@@ -51,7 +62,7 @@ export function PopularSearches({ country = "uk" }: { country?: Country } = {}) 
             href={`${LISTINGS_BASE[country]}/${item.category}/${item.city}`}
             className="rounded-full border border-[#DCD8D0] bg-white px-4 py-2 text-sm text-[#5B6472] transition-colors hover:border-[#B8A488] hover:text-[#10233D]"
           >
-            {country === "ca" ? (
+            {country === "ca" || country === "us" ? (
               <>
                 {item.categoryName} lawyers in {item.cityName}
               </>

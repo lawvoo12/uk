@@ -4,6 +4,7 @@ import { Briefcase, HeartPulse, Home, Plane, ScrollText, Users, type LucideIcon 
 import { PRACTICE_AREAS, type PracticeAreaSlug } from "@/lib/validations/lead-intake";
 import { LISTINGS_BASE, type Country } from "@/lib/country";
 import { CA_PRACTICE_AREAS } from "@/lib/ca/practice-areas";
+import { US_PRACTICE_AREAS } from "@/lib/us/practice-areas";
 
 const ICONS: Record<PracticeAreaSlug, LucideIcon> = {
   immigration: Plane,
@@ -20,7 +21,7 @@ const ICONS: Record<PracticeAreaSlug, LucideIcon> = {
 export function PracticeAreaGrid({ country = "uk" }: { country?: Country } = {}) {
   // Canada has its own area names and URLs ("Real Estate" → /ca/lawyers/real-estate).
   const areas: readonly { slug: PracticeAreaSlug; name: string; description: string; urlSlug?: string }[] =
-    country === "ca" ? CA_PRACTICE_AREAS : PRACTICE_AREAS;
+    country === "ca" ? CA_PRACTICE_AREAS : country === "us" ? US_PRACTICE_AREAS : PRACTICE_AREAS;
   return (
     <section aria-labelledby="practice-areas-heading" className="mx-auto max-w-5xl px-4 py-14">
       <h2 id="practice-areas-heading" className="text-center font-serif text-2xl text-[#10233D] sm:text-3xl">
@@ -29,6 +30,8 @@ export function PracticeAreaGrid({ country = "uk" }: { country?: Country } = {})
       <p className="mx-auto mt-2 max-w-lg text-center text-sm text-[#5B6472]">
         {country === "ca" ? (
           <>Every lawyer listed was checked on their provincial law society&apos;s public directory before being added.</>
+        ) : country === "us" ? (
+          <>Every lawyer listed is checked on their state bar&apos;s public directory before being added.</>
         ) : country === "ie" ? (
           <>Listings come from each firm&apos;s own published details. Check any firm on the Law Society of Ireland register before you instruct it.</>
         ) : (

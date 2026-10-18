@@ -47,3 +47,13 @@ export const CA_TOOLS: { href: string; name: string; shortName: string; blurb: s
       "Tax and registration fees on buying a home in nine provinces — Toronto's municipal tax and first-time buyer relief included.",
   },
 ];
+
+// United States (/us) tools — shown on /us/tools and in the US footer only.
+export const US_TOOLS: { href: string; name: string; shortName: string; blurb: string }[] = [
+  {
+    href: "/us/tools/alabama-deed-mortgage-tax-calculator",
+    name: "Alabama Deed & Mortgage Tax Calculator",
+    shortName: "Alabama deed & mortgage tax",
+    blurb: "Recordation tax on buying a home in Alabama — deed tax and mortgage tax, with the deduction when the mortgage is recorded at the same time.",
+  },
+];

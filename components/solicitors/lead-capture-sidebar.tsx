@@ -1,7 +1,7 @@
 import { Clock } from "lucide-react";
 
 import { LeadIntakeForm } from "@/components/LeadIntakeForm";
-import { CA_LEADS_ENABLED, IE_LEADS_ENABLED, LEADS_ENABLED } from "@/lib/config";
+import { CA_LEADS_ENABLED, IE_LEADS_ENABLED, LEADS_ENABLED, US_LEADS_ENABLED } from "@/lib/config";
 import type { Country } from "@/lib/country";
 
 export function LeadCaptureSidebar({
@@ -16,7 +16,8 @@ export function LeadCaptureSidebar({
   mobileFirst?: boolean;
   country?: Country;
 }) {
-  const enabled = country === "ie" ? IE_LEADS_ENABLED : country === "ca" ? CA_LEADS_ENABLED : LEADS_ENABLED;
+  const enabled =
+    country === "ie" ? IE_LEADS_ENABLED : country === "ca" ? CA_LEADS_ENABLED : country === "us" ? US_LEADS_ENABLED : LEADS_ENABLED;
   // Form switched off (see lib/config.ts): a short note instead, placed after
   // the listings on mobile so it doesn't push them down.
   if (!enabled) {
@@ -31,6 +32,11 @@ export function LeadCaptureSidebar({
                 <p className="mt-1 text-sm text-[#5B6472]">
                   For now, contact a firm on this page directly — use &ldquo;Request a callback&rdquo; on any listing
                   to get the firm&apos;s website and its law society directory link.
+                </p>
+              ) : country === "us" ? (
+                <p className="mt-1 text-sm text-[#5B6472]">
+                  For now, contact a firm on this page directly — use &ldquo;Request a callback&rdquo; on any listing
+                  to get the firm&apos;s website and its state bar directory link.
                 </p>
               ) : (
                 <p className="mt-1 text-sm text-[#5B6472]">
@@ -49,7 +55,7 @@ export function LeadCaptureSidebar({
     <aside id="get-matched" className={`${mobileFirst ? "order-first" : ""} lg:order-last lg:sticky lg:top-8`}>
       <div className="mb-4">
         <h2 className="font-serif text-xl text-[#10233D]">
-          {country === "ca" ? (
+          {country === "ca" || country === "us" ? (
             <>
               Get in touch about {categoryName.toLowerCase()} lawyers in {cityName}
             </>
@@ -61,7 +67,15 @@ export function LeadCaptureSidebar({
         </h2>
         <p className="mt-1 text-sm text-[#5B6472]">Free, no-obligation — takes about 2 minutes.</p>
       </div>
-      <LeadIntakeForm {...(country === "ie" ? { country: "IE" as const } : country === "ca" ? { country: "CA" as const } : {})} />
+      <LeadIntakeForm
+        {...(country === "ie"
+          ? { country: "IE" as const }
+          : country === "ca"
+            ? { country: "CA" as const }
+            : country === "us"
+              ? { country: "US" as const }
+              : {})}
+      />
     </aside>
   );
 }
