@@ -265,3 +265,18 @@
   (`/us/tools/alabama-deed-mortgage-tax-calculator`, `lib/us/recordation-tax.ts`),
   including the deduction when the mortgage is recorded with the deed.
 - US navbar now has Guides; US footer has Free tools and Guides & advice.
+
+## Update 18 — First US lawyers: Alabama, one per practice area (18 Oct 2026)
+
+- Added six lawyers to `lib/us/lawyers.ts`, each confirmed by the site owner
+  on the Alabama State Bar's Find a Member search on 18 Oct 2026: Stephen
+  Davis (Butler Snow, Huntsville — immigration), John Tyler Winans (The
+  Harris Firm, Montgomery — family), Lucy E. Tufts (Cunningham Bounds,
+  Mobile — personal injury), Rocco Calamusa Jr. (Wiggins Childs,
+  Birmingham — employment), Ashton Holmes Ott (FarmerPrice, Dothan — real
+  estate) and Christopher R. Owens (The Harris Firm, Birmingham — estate
+  planning & probate).
+- US homepage "Popular searches" now point at the city and area pages that
+  have these lawyers.
+- `/us` is still noindex and not proxied from Netlify.
+

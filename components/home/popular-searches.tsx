@@ -39,12 +39,12 @@ const CA_POPULAR_SEARCHES: typeof POPULAR_SEARCHES = [
 
 // United States: `category` is the /us URL name (real-estate, estate-planning-probate).
 const US_POPULAR_SEARCHES: typeof POPULAR_SEARCHES = [
-  { category: "family", categoryName: "Family", city: "birmingham-alabama", cityName: "Birmingham, AL" },
-  { category: "personal-injury", categoryName: "Personal injury", city: "montgomery", cityName: "Montgomery, AL" },
   { category: "immigration", categoryName: "Immigration", city: "huntsville", cityName: "Huntsville, AL" },
+  { category: "family", categoryName: "Family", city: "montgomery", cityName: "Montgomery, AL" },
+  { category: "personal-injury", categoryName: "Personal injury", city: "mobile", cityName: "Mobile, AL" },
   { category: "employment", categoryName: "Employment", city: "birmingham-alabama", cityName: "Birmingham, AL" },
-  { category: "estate-planning-probate", categoryName: "Estate planning & probate", city: "mobile", cityName: "Mobile, AL" },
-  { category: "personal-injury", categoryName: "Personal injury", city: "dothan", cityName: "Dothan, AL" },
+  { category: "real-estate", categoryName: "Real estate", city: "dothan", cityName: "Dothan, AL" },
+  { category: "estate-planning-probate", categoryName: "Estate planning & probate", city: "birmingham-alabama", cityName: "Birmingham, AL" },
 ];
 
 export function PopularSearches({ country = "uk" }: { country?: Country } = {}) {
