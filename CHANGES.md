@@ -291,3 +291,11 @@
 - Netlify (repo lawvoo12/law): /us and /us/* rules and the robots.txt lines
   are in a separate PR — merge that one after this one has deployed.
 
+## Update 20 — US enquiry form switched on (18 Oct 2026)
+
+- `US_LEADS_ENABLED` is now on unless set to "false" (site owner's request).
+  Personal injury stays off the US form. Paste the updated
+  `deploy/lawvoo-apps-script.js` so US leads are saved with country "US".
+- US privacy policy: added "Where your information is stored" and
+  "Security" sections, to match the other countries.
+

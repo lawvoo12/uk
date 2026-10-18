@@ -31,14 +31,14 @@ export const IE_LEADS_ENABLED = LEADS_ENABLED && process.env.IE_LEADS_ENABLED !=
 export const CA_LEADS_ENABLED = LEADS_ENABLED && process.env.CA_LEADS_ENABLED === "true";
 
 /**
- * United States (/us) enquiry form. OFF by default, like Canada: it only
- * opens when US_LEADS_ENABLED="true" (and LEADS_ENABLED is not "false").
- * US states restrict paying lawyers' referral fees — read the US
- * referral-fee note and settle the business model before switching it on.
- * While it is off, "Request a callback" on /us pages shows the "opening
- * soon" notice with a link to the firm, and visits are counted anonymously.
+ * United States (/us) enquiry form. ON (switched on by the site owner,
+ * 18 Oct 2026) unless US_LEADS_ENABLED="false" or LEADS_ENABLED="false".
+ * Personal injury is never on the US form. US states restrict paying
+ * lawyers for referrals — don't charge firms for US enquiries without
+ * checking the rules first. Set US_LEADS_ENABLED="false" in Vercel to pause
+ * it: "Request a callback" then shows the "opening soon" notice.
  */
-export const US_LEADS_ENABLED = LEADS_ENABLED && process.env.US_LEADS_ENABLED === "true";
+export const US_LEADS_ENABLED = LEADS_ENABLED && process.env.US_LEADS_ENABLED !== "false";
 
 /**
  * United States (/us) section: false until lawyers are confirmed and

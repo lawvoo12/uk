@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   alternates: { canonical: "/us/privacy" },
 };
 
-const LAST_UPDATED = "17 October 2026";
+const LAST_UPDATED = "18 October 2026";
 const SITE_HOST = SITE_URL.replace(/^https?:\/\//, "").replace(/\/$/, "");
 
 function Mail() {
@@ -136,7 +136,16 @@ export default function UsPrivacyPolicyPage() {
           </section>
 
           <section>
-            <h2 className="mb-2 font-serif text-xl text-[#10233D]">5. How long we keep it</h2>
+            <h2 className="mb-2 font-serif text-xl text-[#10233D]">5. Where your information is stored</h2>
+            <p>
+              We are based in the United Kingdom, and our service providers store and process information in the United
+              States and other countries. We remain responsible for your information wherever it is processed, and our
+              providers are bound by contract to protect it.
+            </p>
+          </section>
+
+          <section>
+            <h2 className="mb-2 font-serif text-xl text-[#10233D]">6. How long we keep it</h2>
             <ul className="mt-2 list-disc space-y-1 pl-5">
               <li>Enquiries: 12 months from when you send them, then deleted — sooner if you ask.</li>
               <li>Emails you send us: up to 2 years, so we can deal with any follow-up.</li>
@@ -145,7 +154,7 @@ export default function UsPrivacyPolicyPage() {
           </section>
 
           <section>
-            <h2 className="mb-2 font-serif text-xl text-[#10233D]">6. Your choices</h2>
+            <h2 className="mb-2 font-serif text-xl text-[#10233D]">7. Your choices</h2>
             <p>
               You can ask what information we hold about you, ask us to correct or delete it, and withdraw your consent,
               by emailing <Mail />. We reply within 30 days, at no cost. A firm that already has your enquiry must be
@@ -154,7 +163,7 @@ export default function UsPrivacyPolicyPage() {
           </section>
 
           <section>
-            <h2 className="mb-2 font-serif text-xl text-[#10233D]">7. Cookies</h2>
+            <h2 className="mb-2 font-serif text-xl text-[#10233D]">8. Cookies</h2>
             <p>
               We don&apos;t use advertising or analytics cookies on the US pages. Cloudflare Turnstile may use strictly
               necessary technical data to check the form isn&apos;t being sent by a bot. If we ever add optional cookies,
@@ -163,12 +172,21 @@ export default function UsPrivacyPolicyPage() {
           </section>
 
           <section>
-            <h2 className="mb-2 font-serif text-xl text-[#10233D]">8. Children</h2>
+            <h2 className="mb-2 font-serif text-xl text-[#10233D]">9. Security</h2>
+            <p>
+              The site is served over HTTPS, access to enquiries is limited to us, and our accounts use strong passwords
+              and two-step verification. No system is perfectly secure; if a breach puts your information at risk, we
+              will tell you.
+            </p>
+          </section>
+
+          <section>
+            <h2 className="mb-2 font-serif text-xl text-[#10233D]">10. Children</h2>
             <p>The enquiry form is for adults (18 or older). We don&apos;t knowingly collect information from children.</p>
           </section>
 
           <section>
-            <h2 className="mb-2 font-serif text-xl text-[#10233D]">9. Lawyers listed on this site</h2>
+            <h2 className="mb-2 font-serif text-xl text-[#10233D]">11. Lawyers listed on this site</h2>
             <p>
               Our US listings use business and professional information that firms and lawyers publish on their own
               websites, and we check each lawyer in the state bar&apos;s public directory. We don&apos;t publish ratings
@@ -181,14 +199,14 @@ export default function UsPrivacyPolicyPage() {
           </section>
 
           <section>
-            <h2 className="mb-2 font-serif text-xl text-[#10233D]">10. Changes to this policy</h2>
+            <h2 className="mb-2 font-serif text-xl text-[#10233D]">12. Changes to this policy</h2>
             <p>
               We&apos;ll update this page if anything changes, and change the &quot;last updated&quot; date above.
             </p>
           </section>
 
           <section>
-            <h2 className="mb-2 font-serif text-xl text-[#10233D]">11. Contact us</h2>
+            <h2 className="mb-2 font-serif text-xl text-[#10233D]">13. Contact us</h2>
             <p>
               {BUSINESS_NAME}
               {BUSINESS_ADDRESS && <>, {BUSINESS_ADDRESS}</>} — <Mail />
