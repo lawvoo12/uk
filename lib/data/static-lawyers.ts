@@ -26,8 +26,10 @@ import { UK_LAWYERS_EXTRA } from "@/lib/data/uk-lawyers-extra";
 // Canadian law societies (Canada listings, lib/ca/lawyers.ts) are defined in
 // lib/ca/regulators.ts and joined in here.
 import { CA_REGULATOR_LABELS, type CaRegulator } from "@/lib/ca/regulators";
+// US state bars (lib/us/regulators.ts), joined in the same way.
+import { US_REGULATOR_LABELS, type UsRegulator } from "@/lib/us/regulators";
 
-export type Regulator = "SRA" | "LSS" | "LSNI" | "LSI" | CaRegulator;
+export type Regulator = "SRA" | "LSS" | "LSNI" | "LSI" | CaRegulator | UsRegulator;
 
 export const REGULATOR_LABEL: Record<Regulator, string> = {
   SRA: "SRA regulated",
@@ -35,6 +37,7 @@ export const REGULATOR_LABEL: Record<Regulator, string> = {
   LSNI: "Law Society of NI",
   LSI: "Law Society of Ireland",
   ...CA_REGULATOR_LABELS,
+  ...US_REGULATOR_LABELS,
 };
 
 export interface StaticLawyer {

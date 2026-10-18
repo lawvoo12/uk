@@ -1,5 +1,6 @@
 import type { Regulator } from "@/lib/data/static-lawyers";
 import { CA_REGULATOR_DETAILS } from "@/lib/ca/regulators";
+import { US_REGULATOR_DETAILS } from "@/lib/us/regulators";
 
 // Solicitors in England & Wales are regulated by the SRA; Scotland and
 // Northern Ireland have their own regulators. Copy on a page should name the
@@ -31,6 +32,8 @@ export const REGULATORS: Record<Regulator, { name: string; shortName: string; re
   },
   // Canadian law societies — lib/ca/regulators.ts
   ...CA_REGULATOR_DETAILS,
+  // US state bars — lib/us/regulators.ts
+  ...US_REGULATOR_DETAILS,
 };
 
 export function regulatorForRegion(region: string): Regulator {

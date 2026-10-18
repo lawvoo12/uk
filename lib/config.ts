@@ -31,6 +31,25 @@ export const IE_LEADS_ENABLED = LEADS_ENABLED && process.env.IE_LEADS_ENABLED !=
 export const CA_LEADS_ENABLED = LEADS_ENABLED && process.env.CA_LEADS_ENABLED === "true";
 
 /**
+ * United States (/us) enquiry form. OFF by default, like Canada: it only
+ * opens when US_LEADS_ENABLED="true" (and LEADS_ENABLED is not "false").
+ * US states restrict paying lawyers' referral fees — read the US
+ * referral-fee note and settle the business model before switching it on.
+ * While it is off, "Request a callback" on /us pages shows the "opening
+ * soon" notice with a link to the firm, and visits are counted anonymously.
+ */
+export const US_LEADS_ENABLED = LEADS_ENABLED && process.env.US_LEADS_ENABLED === "true";
+
+/**
+ * United States (/us) section: false until lawyers are confirmed and
+ * lawvoo.com/us is proxied from Netlify. While false, every /us page is
+ * marked noindex (app/us/layout.tsx), so nothing on lawvoo-uk.vercel.app/us
+ * gets indexed early. Set to true in the same change that adds the Netlify
+ * /us rules, the robots.txt sitemap line and the en-US hreflang links.
+ */
+export const US_SECTION_LIVE = false;
+
+/**
  * Your EU GDPR representative (Article 27), shown on /ie/privacy once set —
  * name and postal address in one line, e.g. "Example Rep Ltd, 1 Street, Dublin 2, D02 XXXX".
  */

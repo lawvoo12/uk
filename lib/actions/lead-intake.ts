@@ -5,6 +5,7 @@ import {
   leadIntakeSchema,
   ieLeadIntakeSchema,
   caLeadIntakeSchema,
+  usLeadIntakeSchema,
   getPracticeAreaBySlug,
   type LeadIntakeInput,
 } from "@/lib/validations/lead-intake";
@@ -15,10 +16,14 @@ import { getIeCityBySlug } from "@/lib/ie/cities";
 import { CA_LAWYERS } from "@/lib/ca/lawyers";
 import { getCaCityBySlug } from "@/lib/ca/cities";
 import { getCaArea } from "@/lib/ca/practice-areas";
+import { US_LAWYERS } from "@/lib/us/lawyers";
+import { getUsCityBySlug } from "@/lib/us/cities";
+import { getUsArea } from "@/lib/us/practice-areas";
 import {
   CA_LEADS_ENABLED,
   IE_LEADS_ENABLED,
   LEADS_ENABLED,
+  US_LEADS_ENABLED,
   SHEETS_WEBHOOK_SECRET,
   TURNSTILE_SECRET_KEY,
 } from "@/lib/config";
@@ -61,13 +66,15 @@ export type SubmitLeadState =
  * the Apps Script setup (copy-paste, no Google Cloud project needed).
  */
 export async function submitLeadIntake(input: LeadIntakeInput): Promise<SubmitLeadState> {
-  // "UK" unless the form says it came from the Ireland (/ie) or Canada (/ca) pages.
-  const country: "UK" | "IE" | "CA" = input?.country === "IE" ? "IE" : input?.country === "CA" ? "CA" : "UK";
+  // "UK" unless the form says it came from the Ireland (/ie), Canada (/ca) or US (/us) pages.
+  const country: "UK" | "IE" | "CA" | "US" =
+    input?.country === "IE" ? "IE" : input?.country === "CA" ? "CA" : input?.country === "US" ? "US" : "UK";
 
   // The form can be switched off (lib/config.ts). Checked here too, not just
   // in the UI, so nothing can be posted directly. The Canadian form is off
-  // unless CA_LEADS_ENABLED="true".
-  const enabled = country === "IE" ? IE_LEADS_ENABLED : country === "CA" ? CA_LEADS_ENABLED : LEADS_ENABLED;
+  // unless CA_LEADS_ENABLED="true", and the US form unless US_LEADS_ENABLED="true".
+  const enabled =
+    country === "IE" ? IE_LEADS_ENABLED : country === "CA" ? CA_LEADS_ENABLED : country === "US" ? US_LEADS_ENABLED : LEADS_ENABLED;
   if (!enabled) {
     return { status: "error", message: "Online enquiries aren't open yet. Please contact the firm directly." };
   }
@@ -75,7 +82,13 @@ export async function submitLeadIntake(input: LeadIntakeInput): Promise<SubmitLe
   // Irish and Canadian enquiries use their own rules: no personal injury,
   // Eircode / postal code, local phone numbers.
   const parsed = (
-    country === "IE" ? ieLeadIntakeSchema : country === "CA" ? caLeadIntakeSchema : leadIntakeSchema
+    country === "IE"
+      ? ieLeadIntakeSchema
+      : country === "CA"
+        ? caLeadIntakeSchema
+        : country === "US"
+          ? usLeadIntakeSchema
+          : leadIntakeSchema
   ).safeParse(input);
 
   if (!parsed.success) {
@@ -109,8 +122,10 @@ export async function submitLeadIntake(input: LeadIntakeInput): Promise<SubmitLe
     };
   }
 
-  // Canada shows "Real Estate" and "Wills & Estates" — send the name the visitor saw.
-  const practiceArea = (country === "CA" ? getCaArea(data.practiceArea) : undefined) ?? getPracticeAreaBySlug(data.practiceArea);
+  // Canada and the US show their own area names — send the name the visitor saw.
+  const practiceArea =
+    (country === "CA" ? getCaArea(data.practiceArea) : country === "US" ? getUsArea(data.practiceArea) : undefined) ??
+    getPracticeAreaBySlug(data.practiceArea);
   // A unique-enough reference for the person to quote if they contact you —
   // not a database ID (there's no database), just a readable timestamp tag.
   const leadId = `lead-${Date.now().toString(36)}`;
@@ -118,7 +133,7 @@ export async function submitLeadIntake(input: LeadIntakeInput): Promise<SubmitLe
   // Which solicitor they clicked "Request a callback" on, if any — resolved
   // server-side from the id so the sheet always shows the real listing.
   const requested = data.requestedSolicitorId
-    ? (country === "IE" ? IE_LAWYERS : country === "CA" ? CA_LAWYERS : STATIC_LAWYERS).find(
+    ? (country === "IE" ? IE_LAWYERS : country === "CA" ? CA_LAWYERS : country === "US" ? US_LAWYERS : STATIC_LAWYERS).find(
         (l) => l.id === data.requestedSolicitorId
       )
     : undefined;
@@ -127,7 +142,9 @@ export async function submitLeadIntake(input: LeadIntakeInput): Promise<SubmitLe
         ? getIeCityBySlug(requested.citySlug)
         : country === "CA"
           ? getCaCityBySlug(requested.citySlug)
-          : getCityBySlug(requested.citySlug)
+          : country === "US"
+            ? getUsCityBySlug(requested.citySlug)
+            : getCityBySlug(requested.citySlug)
       )?.name
     : undefined;
   const requestedSolicitor = requested

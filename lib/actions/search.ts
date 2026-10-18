@@ -5,6 +5,8 @@ import { getPracticeAreaBySlug } from "@/lib/validations/lead-intake";
 import { EIRCODE_REGEX, findIeCityByEircode, findIeCityByNameOrSlug } from "@/lib/ie/cities";
 import { CA_FSA_REGEX, CA_POSTAL_CODE_REGEX, findCaCityByNameOrSlug, findCaCityByPostalCode } from "@/lib/ca/cities";
 import { caAreaPath, getCaArea } from "@/lib/ca/practice-areas";
+import { findUsCityByNameOrSlug, findUsCityByZip, US_ZIP3_REGEX, US_ZIP_REGEX } from "@/lib/us/cities";
+import { getUsArea, usAreaPath } from "@/lib/us/practice-areas";
 import { CA_LEADS_ENABLED } from "@/lib/config";
 
 const UK_POSTCODE_REGEX = /^[A-Z]{1,2}\d[A-Z\d]?\s?\d[A-Z]{2}$/i;
@@ -142,4 +144,38 @@ export async function resolveCaSearchDestination(
   }
 
   return { status: "error", message: 'Enter one of the cities we cover or a postal code, e.g. "Toronto" or "M5H".' };
+}
+
+/**
+ * United States (/us) homepage search: a city name ("Birmingham",
+ * "Mobile, AL") or a ZIP code / its first three digits ("35203", "352").
+ * Results go to /us/lawyers/[area]/[city], using the US URL names
+ * (real-estate, estate-planning-probate). The US enquiry form isn't open,
+ * so there is no "submit your case instead" fallback.
+ */
+export async function resolveUsSearchDestination(
+  practiceAreaSlug: string,
+  locationInput: string
+): Promise<SearchDestination> {
+  const practiceArea = getUsArea(practiceAreaSlug);
+  if (!practiceArea) {
+    return { status: "error", message: "Select a practice area to search." };
+  }
+
+  const location = locationInput.trim();
+  if (!location) {
+    return { status: "error", message: "Enter a city or a ZIP code." };
+  }
+
+  const city = findUsCityByNameOrSlug(location) ?? findUsCityByZip(location);
+  if (city) {
+    return { status: "found", url: usAreaPath(practiceArea.slug, city.slug) };
+  }
+
+  const compact = location.replace(/\s+/g, "");
+  if (US_ZIP_REGEX.test(compact) || US_ZIP3_REGEX.test(compact)) {
+    return { status: "error", message: `We don't have a page for that ZIP code yet — see ${practiceArea.lower} lawyers in the cities we cover.` };
+  }
+
+  return { status: "error", message: 'Enter one of the cities we cover or a ZIP code, e.g. "Birmingham" or "35203".' };
 }

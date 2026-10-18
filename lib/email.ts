@@ -13,8 +13,8 @@ export interface LeadNotificationInput {
   clientPhone: string | null;
   postcode: string;
   requestedSolicitor?: string;
-  /** Only set for Irish and Canadian leads, which get an [IE] / [CA] tag in the subject. */
-  country?: "IE" | "CA";
+  /** Only set for Irish, Canadian and US leads, which get an [IE] / [CA] / [US] tag in the subject. */
+  country?: "IE" | "CA" | "US";
 }
 
 /**
@@ -49,7 +49,7 @@ export async function sendLeadNotificationEmail(lead: LeadNotificationInput): Pr
         "",
         ...(lead.country ? [`Country: ${lead.country}`] : []),
         `Practice area: ${lead.practiceAreaName}`,
-        `${lead.country === "IE" ? "Eircode" : lead.country === "CA" ? "Postal code" : "Postcode"}: ${lead.postcode}`,
+        `${lead.country === "IE" ? "Eircode" : lead.country === "CA" ? "Postal code" : lead.country === "US" ? "ZIP code" : "Postcode"}: ${lead.postcode}`,
         ...(lead.requestedSolicitor ? [`Requested callback from: ${lead.requestedSolicitor}`] : []),
         "",
         `Name: ${lead.clientName}`,

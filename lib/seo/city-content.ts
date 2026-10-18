@@ -13,6 +13,7 @@
 
 import type { Regulator } from "@/lib/data/static-lawyers";
 import { CA_COURT_SERVICES, CA_JURISDICTION_NOTES } from "@/lib/ca/regulators";
+import { US_COURT_SERVICES, US_JURISDICTION_NOTES } from "@/lib/us/regulators";
 
 export interface LocalCourt {
   name: string;
@@ -279,6 +280,8 @@ export const COURT_SERVICE: Record<Regulator, { name: string; url: string }> = {
   LSI: { name: "Courts Service of Ireland", url: "https://www.courts.ie/offices" },
   // Canadian law societies — lib/ca/regulators.ts (used by the /ca pages only)
   ...CA_COURT_SERVICES,
+  // US state bars — lib/us/regulators.ts (used by the /us pages only)
+  ...US_COURT_SERVICES,
 };
 
 /** Plain-language note on the legal system a city falls under. */
@@ -302,4 +305,6 @@ export const JURISDICTION_NOTE: Record<Regulator, { title: string; body: string 
   },
   // Canadian law societies — lib/ca/regulators.ts (used by the /ca pages only)
   ...CA_JURISDICTION_NOTES,
+  // US state bars — lib/us/regulators.ts (used by the /us pages only)
+  ...US_JURISDICTION_NOTES,
 };
