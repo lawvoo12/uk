@@ -8,6 +8,7 @@ import { TOP_UK_CITIES, getCityBySlug } from "@/lib/seo/uk-cities";
 import { getFAQsForCategory } from "@/lib/seo/faq-content";
 import { getLawyersByCategoryAndCity } from "@/lib/data/lawyers";
 import { SITE_NAME, SITE_URL } from "@/lib/seo/site";
+import { directoryPageJsonLd } from "@/lib/seo/directory-schema";
 import { REGULATORS, regulatedPhrase, regulatorForRegion } from "@/lib/seo/regulators";
 import { BreadcrumbNav } from "@/components/solicitors/breadcrumb-nav";
 import { LawyerGrid } from "@/components/solicitors/lawyer-grid";
@@ -104,31 +105,20 @@ export default async function UkSolicitorsCategoryCityPage({ params }: PageProps
       : undefined;
 
   // --------------------------------------------------------------------
-  // JSON-LD: LegalService (drives the local-business style rich result)
+  // JSON-LD: CollectionPage — this page is a directory listing, not a law
+  // firm, so the listed firms go in its ItemList (lib/seo/directory-schema.ts).
   // --------------------------------------------------------------------
-  const legalServiceJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "LegalService",
+  const collectionJsonLd = directoryPageJsonLd({
     name: `${category.name} Solicitors in ${city.name}`,
     description: `Directory of ${regulated} ${category.name.toLowerCase()} solicitors serving ${city.name}, ${city.region}.`,
     url: canonicalUrl,
-    areaServed: {
-      "@type": "City",
-      name: city.name,
-      containedInPlace: { "@type": "AdministrativeArea", name: city.region },
-    },
-    ...(avgRating && lawyers.length > 0
-      ? {
-          aggregateRating: {
-            "@type": "AggregateRating",
-            ratingValue: avgRating,
-            reviewCount: totalReviews,
-            bestRating: 5,
-            worstRating: 1,
-          },
-        }
-      : {}),
-  };
+    base: "/uk",
+    locale: "en-GB",
+    country: "GB",
+    cityName: city.name,
+    regionName: city.region,
+    lawyers,
+  });
 
   // --------------------------------------------------------------------
   // JSON-LD: BreadcrumbList
@@ -149,27 +139,6 @@ export default async function UkSolicitorsCategoryCityPage({ params }: PageProps
     ],
   };
 
-  // --------------------------------------------------------------------
-  // JSON-LD: ItemList — tells Google this page IS a listing of N distinct
-  // solicitor profiles (each with its own URL), separate from LegalService
-  // above (which describes the page's own aggregate business identity).
-  // Omitted entirely when there are no listings — an empty ItemList is
-  // meaningless structured data, not a graceful empty state.
-  // --------------------------------------------------------------------
-  const itemListJsonLd =
-    lawyers.length > 0
-      ? {
-          "@context": "https://schema.org",
-          "@type": "ItemList",
-          itemListElement: lawyers.map((lawyer, index) => ({
-            "@type": "ListItem",
-            position: index + 1,
-            url: `${SITE_URL}/uk/lawyer/${lawyer.id}`,
-            name: lawyer.firmName,
-          })),
-        }
-      : null;
-
   // Bonus: FAQPage JSON-LD — reuses the FAQ content already on the page for
   // a low-cost shot at an FAQ rich result alongside the others.
   const faqJsonLd =
@@ -187,11 +156,8 @@ export default async function UkSolicitorsCategoryCityPage({ params }: PageProps
 
   return (
     <main className="min-h-screen bg-[#F8F7F4]">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(legalServiceJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
-      {itemListJsonLd && (
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListJsonLd) }} />
-      )}
       {faqJsonLd && (
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
       )}

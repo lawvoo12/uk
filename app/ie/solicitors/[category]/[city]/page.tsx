@@ -8,6 +8,7 @@ import { IE_CITIES, getIeCityBySlug } from "@/lib/ie/cities";
 import { getLawyersByCategoryAndCity } from "@/lib/data/lawyers";
 import { IE_AREA_INTROS, IE_CHECKED_SENTENCE, IE_LINKS, getIeCategoryFaqs } from "@/lib/ie/content";
 import { SITE_NAME, SITE_URL } from "@/lib/seo/site";
+import { directoryPageJsonLd } from "@/lib/seo/directory-schema";
 import { BreadcrumbNav } from "@/components/solicitors/breadcrumb-nav";
 import { LawyerGrid } from "@/components/solicitors/lawyer-grid";
 import { FAQSection } from "@/components/solicitors/faq-section";
@@ -73,18 +74,18 @@ export default async function IeCategoryCityPage({ params }: PageProps) {
   const firmCount = new Set(lawyers.map((l) => l.firmName)).size;
   const otherTowns = IE_CITIES.filter((c) => c.province === city.province && c.slug !== city.slug);
 
-  const legalServiceJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "LegalService",
+  // A directory listing, not a law firm — see lib/seo/directory-schema.ts.
+  const collectionJsonLd = directoryPageJsonLd({
     name: `${category.name} Solicitors in ${city.name}`,
     description: `Directory of ${category.name.toLowerCase()} solicitors serving ${city.name}, Co. ${city.county}, Ireland.`,
     url: canonicalUrl,
-    areaServed: {
-      "@type": "City",
-      name: city.name,
-      containedInPlace: { "@type": "AdministrativeArea", name: `County ${city.county}, Ireland` },
-    },
-  };
+    base: "/ie",
+    locale: "en-IE",
+    country: "IE",
+    cityName: city.name,
+    regionName: `County ${city.county}, Ireland`,
+    lawyers,
+  });
   const breadcrumbJsonLd = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -95,19 +96,6 @@ export default async function IeCategoryCityPage({ params }: PageProps) {
       { "@type": "ListItem", position: 4, name: city.name, item: canonicalUrl },
     ],
   };
-  const itemListJsonLd =
-    lawyers.length > 0
-      ? {
-          "@context": "https://schema.org",
-          "@type": "ItemList",
-          itemListElement: lawyers.map((lawyer, index) => ({
-            "@type": "ListItem",
-            position: index + 1,
-            url: `${SITE_URL}/ie/lawyer/${lawyer.id}`,
-            name: lawyer.firmName,
-          })),
-        }
-      : null;
   const faqJsonLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -120,11 +108,8 @@ export default async function IeCategoryCityPage({ params }: PageProps) {
 
   return (
     <main className="min-h-screen bg-[#F8F7F4]">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(legalServiceJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
-      {itemListJsonLd && (
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListJsonLd) }} />
-      )}
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
 
       <div className="mx-auto max-w-6xl px-4 py-10 sm:py-14">

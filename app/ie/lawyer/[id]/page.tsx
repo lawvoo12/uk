@@ -10,6 +10,9 @@ import { getFirmWebsite } from "@/lib/data/firm-website";
 import { REGULATORS } from "@/lib/seo/regulators";
 import { LISTINGS_EMAIL } from "@/lib/config";
 import { SITE_URL } from "@/lib/seo/site";
+import { IE_DATES } from "@/lib/seo/page-dates";
+import { contentDateIso } from "@/lib/seo/dates";
+import { personalFocus, profilePageJsonLd } from "@/lib/seo/directory-schema";
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -69,6 +72,26 @@ export default async function IeLawyerProfilePage({ params }: PageProps) {
 
   return (
     <main className="min-h-screen bg-[#F8F7F4] px-4 py-12">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(
+            // No memberOf until the Law Society of Ireland register check is done (IE_REGISTER_CHECKED).
+            profilePageJsonLd({
+              url: `${SITE_URL}/ie/lawyer/${lawyer.id}`,
+              country: "IE",
+              lawyerName: lawyer.lawyerName,
+              role: lawyer.role,
+              firmName: lawyer.firmName,
+              firmUrl: getFirmWebsite(lawyer),
+              addressLine1: lawyer.addressLine1,
+              sourceProfileUrl: lawyer.profileUrl,
+              focusArea: personalFocus(lawyer),
+              dateModified: contentDateIso(IE_DATES.listings),
+            })
+          ),
+        }}
+      />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
       <div className="mx-auto max-w-3xl">
         {lawyer.cityName && (

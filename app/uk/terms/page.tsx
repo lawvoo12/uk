@@ -3,6 +3,7 @@ import Link from "next/link";
 
 import { BUSINESS_ADDRESS, BUSINESS_NAME, CONTACT_EMAIL } from "@/lib/config";
 import { SITE_URL } from "@/lib/seo/site";
+import { UK_DATES } from "@/lib/seo/page-dates";
 
 export const metadata: Metadata = {
   title: "Terms of Use",
@@ -10,7 +11,7 @@ export const metadata: Metadata = {
   alternates: { canonical: "/uk/terms" },
 };
 
-const LAST_UPDATED = "28 September 2026";
+const LAST_UPDATED = UK_DATES.terms;
 const SITE_HOST = SITE_URL.replace(/^https?:\/\//, "").replace(/\/$/, "");
 
 function Mail() {

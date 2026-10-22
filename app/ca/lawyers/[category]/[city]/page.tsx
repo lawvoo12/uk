@@ -9,6 +9,7 @@ import { getCaProvince } from "@/lib/ca/provinces";
 import { getLawyersByCategoryAndCity } from "@/lib/data/lawyers";
 import { CA_CHECKED_SENTENCE, CA_CITY_INFO, getCaProvinceContent } from "@/lib/ca/content";
 import { SITE_NAME, SITE_URL } from "@/lib/seo/site";
+import { directoryPageJsonLd } from "@/lib/seo/directory-schema";
 import { BreadcrumbNav } from "@/components/solicitors/breadcrumb-nav";
 import { LawyerGrid } from "@/components/solicitors/lawyer-grid";
 import { FAQSection } from "@/components/solicitors/faq-section";
@@ -78,18 +79,18 @@ export default async function CaCategoryCityPage({ params }: PageProps) {
   const firmCount = new Set(lawyers.map((l) => l.firmName)).size;
   const otherCities = CA_CITIES.filter((c) => c.province === city.province && c.slug !== city.slug);
 
-  const legalServiceJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "LegalService",
+  // A directory listing, not a law firm — see lib/seo/directory-schema.ts.
+  const collectionJsonLd = directoryPageJsonLd({
     name: `${category.name} Lawyers in ${city.name}`,
     description: `Directory of ${category.lower} lawyers serving ${city.name}, ${province.name}, Canada.`,
     url: canonicalUrl,
-    areaServed: {
-      "@type": "City",
-      name: city.name,
-      containedInPlace: { "@type": "AdministrativeArea", name: `${province.name}, Canada` },
-    },
-  };
+    base: "/ca",
+    locale: "en-CA",
+    country: "CA",
+    cityName: city.name,
+    regionName: `${province.name}, Canada`,
+    lawyers,
+  });
   const breadcrumbJsonLd = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -100,19 +101,6 @@ export default async function CaCategoryCityPage({ params }: PageProps) {
       { "@type": "ListItem", position: 4, name: city.name, item: canonicalUrl },
     ],
   };
-  const itemListJsonLd =
-    lawyers.length > 0
-      ? {
-          "@context": "https://schema.org",
-          "@type": "ItemList",
-          itemListElement: lawyers.map((lawyer, index) => ({
-            "@type": "ListItem",
-            position: index + 1,
-            url: `${SITE_URL}/ca/lawyer/${lawyer.id}`,
-            name: lawyer.firmName,
-          })),
-        }
-      : null;
   const faqJsonLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -125,11 +113,8 @@ export default async function CaCategoryCityPage({ params }: PageProps) {
 
   return (
     <main className="min-h-screen bg-[#F8F7F4]">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(legalServiceJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
-      {itemListJsonLd && (
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListJsonLd) }} />
-      )}
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
 
       <div className="mx-auto max-w-6xl px-4 py-10 sm:py-14">

@@ -8,6 +8,11 @@ import { STATIC_LAWYERS, REGULATOR_LABEL } from "@/lib/data/static-lawyers";
 import { REGULATORS } from "@/lib/seo/regulators";
 import { LISTINGS_EMAIL } from "@/lib/config";
 import { SITE_URL } from "@/lib/seo/site";
+import { getFirmWebsite } from "@/lib/data/firm-website";
+import { UK_LAWYERS_EXTRA } from "@/lib/data/uk-lawyers-extra";
+import { UK_DATES } from "@/lib/seo/page-dates";
+import { contentDateIso } from "@/lib/seo/dates";
+import { personalFocus, profilePageJsonLd } from "@/lib/seo/directory-schema";
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -45,8 +50,23 @@ export default async function LawyerProfilePage({ params }: PageProps) {
   // experienceNote looks like "22 (qualified 2004)" — show the bracketed basis.
   const experienceBasis = lawyer.experienceNote.match(/\((.+)\)/)?.[1] ?? null;
 
+  const isExtra = UK_LAWYERS_EXTRA.some((l) => l.id === lawyer.id);
+  const profileJsonLd = profilePageJsonLd({
+    url: `${SITE_URL}/uk/lawyer/${lawyer.id}`,
+    country: "GB",
+    lawyerName: lawyer.lawyerName,
+    role: lawyer.role,
+    firmName: lawyer.firmName,
+    firmUrl: getFirmWebsite(lawyer),
+    addressLine1: lawyer.addressLine1,
+    sourceProfileUrl: lawyer.profileUrl,
+    focusArea: personalFocus(lawyer),
+    dateModified: contentDateIso(isExtra ? UK_DATES.listingsExtra : UK_DATES.listingsOriginal),
+  });
+
   return (
     <main className="min-h-screen bg-[#F8F7F4] px-4 py-12">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(profileJsonLd) }} />
       <div className="mx-auto max-w-3xl">
         {lawyer.cityName && (
           <p className="mb-4 text-sm text-[#5B6472]">

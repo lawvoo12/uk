@@ -137,6 +137,21 @@ function UkFooter() {
                 </Link>
               </li>
               <li>
+                <Link href="/uk/about" className="hover:text-[#10233D]">
+                  About Lawvoo UK
+                </Link>
+              </li>
+              <li>
+                <Link href="/uk/how-we-verify" className="hover:text-[#10233D]">
+                  How we check listings
+                </Link>
+              </li>
+              <li>
+                <Link href="/uk/contact" className="hover:text-[#10233D]">
+                  Contact
+                </Link>
+              </li>
+              <li>
                 <Link href="/uk/listings" className="hover:text-[#10233D]">
                   For solicitors: update or remove a listing
                 </Link>
@@ -281,6 +296,21 @@ function IrelandFooter() {
                 </Link>
               </li>
               <li>
+                <Link href="/ie/about" className="hover:text-[#10233D]">
+                  About Lawvoo Ireland
+                </Link>
+              </li>
+              <li>
+                <Link href="/ie/how-we-verify" className="hover:text-[#10233D]">
+                  How we check listings
+                </Link>
+              </li>
+              <li>
+                <Link href="/ie/contact" className="hover:text-[#10233D]">
+                  Contact
+                </Link>
+              </li>
+              <li>
                 <Link href="/ie/listings" className="hover:text-[#10233D]">
                   For solicitors: update or remove a listing
                 </Link>
@@ -407,6 +437,21 @@ function CanadaFooter() {
               <li>
                 <Link href="/ca/locations" className="hover:text-[#10233D]">
                   All locations
+                </Link>
+              </li>
+              <li>
+                <Link href="/ca/about" className="hover:text-[#10233D]">
+                  About Lawvoo Canada
+                </Link>
+              </li>
+              <li>
+                <Link href="/ca/how-we-verify" className="hover:text-[#10233D]">
+                  How we check listings
+                </Link>
+              </li>
+              <li>
+                <Link href="/ca/contact" className="hover:text-[#10233D]">
+                  Contact
                 </Link>
               </li>
               <li>

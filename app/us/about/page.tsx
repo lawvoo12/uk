@@ -62,7 +62,7 @@ export default function UsAboutPage() {
           <section>
             <h2 className="mb-2 font-serif text-xl text-[#10233D]">Who runs it</h2>
             <p>
-              {SITE_NAME} is run by {BUSINESS_NAME}, based in the United Kingdom. Lawvoo also runs
+              {BUSINESS_NAME === SITE_NAME ? `${SITE_NAME} is run from the United Kingdom.` : `${SITE_NAME} is run by ${BUSINESS_NAME}, based in the United Kingdom.`} Lawvoo also runs
               directories for the{" "}
               <Link href="/uk" className={link}>
                 UK
