@@ -322,6 +322,8 @@ export const ALABAMA_CITY_INFO: Record<string, UsCityInfo> = {
       "For Birmingham, divorce and other domestic relations cases are heard by the Circuit Court of Jefferson County.",
     estates:
       "Wills and estates are handled by the Probate Court of Jefferson County; its Birmingham Division is at 716 North Richard Arrington Jr. Blvd., Birmingham, and there is also a Bessemer Division at 1801 3rd Avenue North, Bessemer.",
+    employmentNote:
+      "The EEOC's Birmingham District Office is at Ridge Park Place, 1130 22nd Street South, Birmingham. You can also start online by submitting an inquiry through the EEOC Public Portal.",
   },
   montgomery: {
     local:

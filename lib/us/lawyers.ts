@@ -36,6 +36,13 @@ export interface UsLawyer extends StaticLawyer {
   verification: string;
   /** Date the site owner confirmed this lawyer on the state bar directory. */
   registerChecked: string;
+  /**
+   * Optional: the link to this lawyer's own record on the state bar directory
+   * (paste it from the browser after opening their entry). When set, every
+   * "check the state bar" link for this lawyer goes straight to the record
+   * instead of the search page.
+   */
+  barRecordUrl?: string;
 }
 
 type UsEntry = Omit<UsLawyer, "regulator" | "sraNumber" | "registerUrl" | "state" | "registerChecked">;
@@ -45,10 +52,10 @@ export function forState(code: UsStateCode, registerChecked: string) {
   return (entry: UsEntry): UsLawyer => ({
     regulator: state.regulator,
     sraNumber: null,
-    registerUrl: state.directoryUrl,
     state: code,
     registerChecked,
     ...entry,
+    registerUrl: entry.barRecordUrl ?? state.directoryUrl,
   });
 }
 

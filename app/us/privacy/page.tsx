@@ -3,6 +3,7 @@ import Link from "next/link";
 
 import { BUSINESS_ADDRESS, BUSINESS_NAME, CONTACT_EMAIL, US_LEADS_ENABLED } from "@/lib/config";
 import { SITE_URL } from "@/lib/seo/site";
+import { US_PAGE_UPDATED } from "@/lib/us/page-dates";
 
 // Covers browsing, the anonymous click counter and — once US_LEADS_ENABLED is
 // switched on — the enquiry form. Review it before switching the form on.
@@ -12,7 +13,7 @@ export const metadata: Metadata = {
   alternates: { canonical: "/us/privacy" },
 };
 
-const LAST_UPDATED = "18 October 2026";
+const LAST_UPDATED = US_PAGE_UPDATED.privacy;
 const SITE_HOST = SITE_URL.replace(/^https?:\/\//, "").replace(/\/$/, "");
 
 function Mail() {

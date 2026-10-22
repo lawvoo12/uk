@@ -15,13 +15,15 @@ import { FAQSection } from "@/components/solicitors/faq-section";
 import { LeadCaptureSidebar } from "@/components/solicitors/lead-capture-sidebar";
 import { UsPiNotice } from "@/components/us/pi-notice";
 import { US_LEADS_ENABLED } from "@/lib/config";
+import { getUsLocalBlock, shouldIndexUsAreaCity } from "@/lib/us/indexing";
 
 interface PageProps {
   params: Promise<{ category: string; city: string }>;
 }
 
-// 6 practice areas × every city, all built ahead of time. Only combinations
-// with at least one lawyer are in /us/sitemap.xml; the rest are noindex.
+// 6 practice areas × every city, all built ahead of time. Only pages with
+// city-specific substance (lib/us/indexing.ts) are indexed and in
+// /us/sitemap.xml; the rest stay reachable but noindex.
 export function generateStaticParams() {
   return US_PRACTICE_AREAS.flatMap((area) => US_CITIES.map((city) => ({ category: area.urlSlug, city: city.slug })));
 }
@@ -55,14 +57,16 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     title,
     description,
     alternates: { canonical: canonicalPath },
-    // Pages without listings stay reachable but out of the index (and out of the sitemap).
-    ...(lawyers.length === 0 ? { robots: { index: false, follow: true } } : {}),
+    // Same rule as /us/sitemap.xml — see lib/us/indexing.ts.
+    ...(shouldIndexUsAreaCity(lawyers.length, getUsLocalBlock(category.slug, city))
+      ? {}
+      : { robots: { index: false, follow: true } }),
     openGraph: { title, description, url: canonicalPath, siteName: SITE_NAME, locale: "en_US", type: "website" },
     twitter: { card: "summary_large_image", title, description },
   };
 }
 
-export default async function CaCategoryCityPage({ params }: PageProps) {
+export default async function UsCategoryCityPage({ params }: PageProps) {
   const { category: categorySlug, city: citySlug } = await params;
   const resolved = resolveParams(categorySlug, citySlug);
   if (!resolved) notFound();
@@ -77,18 +81,41 @@ export default async function CaCategoryCityPage({ params }: PageProps) {
   const canonicalUrl = `${SITE_URL}/us/lawyers/${category.urlSlug}/${city.slug}`;
   const firmCount = new Set(lawyers.map((l) => l.firmName)).size;
   const otherCities = US_CITIES.filter((c) => c.state === city.state && c.slug !== city.slug);
+  const localBlock = getUsLocalBlock(category.slug, city);
 
-  const legalServiceJsonLd = {
+  // The page is a directory listing, not a law firm — so CollectionPage, with
+  // each listed firm as a LegalService in the ItemList.
+  const collectionJsonLd = {
     "@context": "https://schema.org",
-    "@type": "LegalService",
-    name: `${category.name} Lawyers in ${city.name}`,
+    "@type": "CollectionPage",
+    name: `${category.name} Lawyers in ${city.name}, ${state.name}`,
     description: `Directory of ${category.lower} lawyers serving ${city.name}, ${state.name}, United States.`,
     url: canonicalUrl,
-    areaServed: {
+    inLanguage: "en-US",
+    isPartOf: { "@type": "WebSite", name: SITE_NAME, url: `${SITE_URL}/us` },
+    about: {
       "@type": "City",
       name: city.name,
       containedInPlace: { "@type": "AdministrativeArea", name: `${state.name}, United States` },
     },
+    ...(lawyers.length > 0
+      ? {
+          mainEntity: {
+            "@type": "ItemList",
+            numberOfItems: lawyers.length,
+            itemListElement: lawyers.map((lawyer, index) => ({
+              "@type": "ListItem",
+              position: index + 1,
+              item: {
+                "@type": "LegalService",
+                name: lawyer.firmName,
+                url: `${SITE_URL}/us/lawyer/${lawyer.id}`,
+                address: { "@type": "PostalAddress", streetAddress: lawyer.addressLine1, addressRegion: city.state, addressCountry: "US" },
+              },
+            })),
+          },
+        }
+      : {}),
   };
   const breadcrumbJsonLd = {
     "@context": "https://schema.org",
@@ -100,19 +127,6 @@ export default async function CaCategoryCityPage({ params }: PageProps) {
       { "@type": "ListItem", position: 4, name: city.name, item: canonicalUrl },
     ],
   };
-  const itemListJsonLd =
-    lawyers.length > 0
-      ? {
-          "@context": "https://schema.org",
-          "@type": "ItemList",
-          itemListElement: lawyers.map((lawyer, index) => ({
-            "@type": "ListItem",
-            position: index + 1,
-            url: `${SITE_URL}/us/lawyer/${lawyer.id}`,
-            name: lawyer.firmName,
-          })),
-        }
-      : null;
   const faqJsonLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -125,11 +139,8 @@ export default async function CaCategoryCityPage({ params }: PageProps) {
 
   return (
     <main className="min-h-screen bg-[#F8F7F4]">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(legalServiceJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
-      {itemListJsonLd && (
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListJsonLd) }} />
-      )}
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
 
       <div className="mx-auto max-w-6xl px-4 py-10 sm:py-14">
@@ -180,6 +191,25 @@ export default async function CaCategoryCityPage({ params }: PageProps) {
             </dl>
           )}
         </div>
+
+        {localBlock && (
+          <section aria-labelledby="local-h" className="mt-8 max-w-2xl rounded-2xl border border-[#DCD8D0] bg-white p-5">
+            <h2 id="local-h" className="font-serif text-lg text-[#10233D]">
+              {localBlock.heading}
+            </h2>
+            <p className="mt-1.5 text-sm leading-relaxed text-[#5B6472]">{localBlock.body}</p>
+            {localBlock.link && (
+              <a
+                href={localBlock.link.href}
+                className="mt-2 inline-block text-sm font-medium text-[#B8863B] underline underline-offset-2"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {localBlock.link.label} — official site
+              </a>
+            )}
+          </section>
+        )}
 
         <div className="mt-10 grid grid-cols-1 gap-10 lg:grid-cols-[1fr_380px]">
           <div>
