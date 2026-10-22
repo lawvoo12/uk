@@ -420,3 +420,25 @@ also matches whole ZIP codes, so cities sharing three digits (Decatur,
 Florence, Athens) are told apart; Cullman ZIPs no longer land on Birmingham.
 Left out for now: cities split across counties (e.g. Hoover, Madison,
 Prattville, Enterprise) — they need both counties' courts.
+
+## Update 27 — 12 more Alabama cities, including two-county cities (22 Oct 2026)
+
+Hoover, Madison, Vestavia Hills (each in two counties), Phenix City,
+Prattville, Enterprise, Bessemer, Alabaster, Northport, Daphne, Fairhope and
+Foley — 29 Alabama cities in all.
+
+- Counties checked on the Encyclopedia of Alabama, atlasalabama.gov and
+  shelbyal.com. Probate offices: Alabama Department of Revenue directory;
+  Shelby County's address from the Alabama Secretary of State county officials
+  lookup; Baldwin County from baldwincountyal.gov (probate court only at Bay
+  Minette, recording also at Fairhope, Foley and Robertsdale); Jefferson
+  County's Bessemer Division from jeffcoprobatecourt.com.
+- Cities can now be in two counties (`otherCounties` in lib/us/cities.ts):
+  pages name both counties' circuit and probate courts, and the state page
+  shows "Jefferson & Shelby counties". `recording` (lib/us/content-shared.ts)
+  lets a city say where deeds are recorded when it's more than one office.
+- Birmingham's text now says part of the city is in Shelby County (per
+  shelbyal.com).
+- Hoover and Vestavia Hills have no ZIP prefixes of their own (their ZIP codes
+  are shared with Birmingham); search by name works.
+- As before, new pages stay noindex until a lawyer is listed.

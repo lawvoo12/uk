@@ -22,8 +22,10 @@ export interface UsCity {
   slug: string;
   name: string;
   state: UsStateCode;
-  /** The county the city's courts belong to (used in page copy). */
+  /** The county the city's courts belong to (used in page copy). For a city in two counties, the main one. */
   county: string;
+  /** Other counties part of the city lies in (Hoover: Shelby County). */
+  otherCounties?: string[];
   latitude: number;
   longitude: number;
   zipPrefixes: string[];
@@ -61,7 +63,31 @@ export const US_CITIES: UsCity[] = [
   { slug: "troy-al", name: "Troy", state: "AL", county: "Pike County", latitude: 31.8088, longitude: -85.97, zipPrefixes: ["36079", "36081", "36082"] },
   { slug: "jasper-al", name: "Jasper", state: "AL", county: "Walker County", latitude: 33.8312, longitude: -87.2775, zipPrefixes: ["355"] },
   { slug: "selma-al", name: "Selma", state: "AL", county: "Dallas County", latitude: 32.4074, longitude: -87.0211, zipPrefixes: ["367"] },
+  // ------------------------------------------------------------ Batch 3 (Alabama, 22 Oct 2026)
+  // Counties: Encyclopedia of Alabama, atlasalabama.gov and shelbyal.com.
+  // Hoover, Madison and Vestavia Hills lie in two counties (otherCounties).
+  // Hoover and Vestavia Hills have no ZIP prefixes of their own here — their
+  // ZIP codes are shared with Birmingham, so a ZIP search lands on Birmingham.
+  { slug: "hoover-al", name: "Hoover", state: "AL", county: "Jefferson County", otherCounties: ["Shelby County"], latitude: 33.4054, longitude: -86.8114, zipPrefixes: [] },
+  { slug: "madison-al", name: "Madison", state: "AL", county: "Madison County", otherCounties: ["Limestone County"], latitude: 34.6993, longitude: -86.7483, zipPrefixes: ["35756", "35757", "35758"] },
+  { slug: "vestavia-hills-al", name: "Vestavia Hills", state: "AL", county: "Jefferson County", otherCounties: ["Shelby County"], latitude: 33.4487, longitude: -86.7878, zipPrefixes: [] },
+  { slug: "phenix-city-al", name: "Phenix City", state: "AL", county: "Russell County", latitude: 32.471, longitude: -85.0008, zipPrefixes: ["36867", "36868", "36869", "36870"] },
+  { slug: "prattville-al", name: "Prattville", state: "AL", county: "Autauga County", latitude: 32.464, longitude: -86.4597, zipPrefixes: ["36066", "36067", "36068"] },
+  { slug: "enterprise-al", name: "Enterprise", state: "AL", county: "Coffee County", latitude: 31.3152, longitude: -85.8552, zipPrefixes: ["36330", "36331"] },
+  { slug: "bessemer-al", name: "Bessemer", state: "AL", county: "Jefferson County", latitude: 33.4018, longitude: -86.9544, zipPrefixes: ["35020", "35021", "35022", "35023"] },
+  { slug: "alabaster-al", name: "Alabaster", state: "AL", county: "Shelby County", latitude: 33.2443, longitude: -86.8164, zipPrefixes: ["35007"] },
+  { slug: "northport-al", name: "Northport", state: "AL", county: "Tuscaloosa County", latitude: 33.229, longitude: -87.5772, zipPrefixes: ["35473", "35475", "35476"] },
+  { slug: "daphne-al", name: "Daphne", state: "AL", county: "Baldwin County", latitude: 30.6035, longitude: -87.9036, zipPrefixes: ["36526"] },
+  { slug: "fairhope-al", name: "Fairhope", state: "AL", county: "Baldwin County", latitude: 30.523, longitude: -87.9033, zipPrefixes: ["36532", "36533"] },
+  { slug: "foley-al", name: "Foley", state: "AL", county: "Baldwin County", latitude: 30.4066, longitude: -87.6836, zipPrefixes: ["36535", "36536"] },
 ];
+
+/** "Tuscaloosa County", or "Jefferson & Shelby counties" for a city in two counties. */
+export function usCountyLabel(city: Pick<UsCity, "county" | "otherCounties">): string {
+  if (!city.otherCounties?.length) return city.county;
+  const names = [city.county, ...city.otherCounties].map((c) => c.replace(/ County$/, ""));
+  return `${names.join(" & ")} counties`;
+}
 
 export function stateName(code: UsStateCode): string {
   return US_STATE_NAMES[code];

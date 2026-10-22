@@ -85,6 +85,8 @@ export interface UsCityInfo {
   estates: string;
   /** Optional: a federal or state office in this city that takes employment complaints. */
   employmentNote?: string;
+  /** Optional: where deeds are recorded, when it isn't just the one probate office in `courts`. */
+  recording?: string;
 }
 
 export interface UsStateContent {

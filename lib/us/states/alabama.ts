@@ -73,6 +73,7 @@ const L = {
   code: "https://alison.legislature.state.al.us/code-of-alabama",
   recordationTax: "https://www.revenue.alabama.gov/?p=56784",
   probateDirectory: "https://www.revenue.alabama.gov/business-license/county-probate-office-directory/",
+  sosLookup: "https://www.sos.alabama.gov/city-county-lookup",
   eeocBirmingham: "https://www.eeoc.gov/field-office/birmingham",
 };
 
@@ -302,6 +303,11 @@ export const ALABAMA: UsStateContent = {
 // Alabama cities
 // ---------------------------------------------------------------------------
 
+/** For a city in two counties. */
+function twoCountyNote(a: string, b: string) {
+  return `Divorce and the larger civil cases go to the circuit court of the county — ${a} or ${b} — and smaller civil cases to the district court; find both on the Alabama Judicial System's map of judicial circuits.`;
+}
+
 function circuitNote(county: string) {
   return `Divorce and the larger civil cases go to the Circuit Court of ${county}, and smaller civil cases to the District Court — find both on the Alabama Judicial System's map of judicial circuits.`;
 }
@@ -309,7 +315,7 @@ function circuitNote(county: string) {
 export const ALABAMA_CITY_INFO: Record<string, UsCityInfo> = {
   "birmingham-al": {
     local:
-      "Birmingham is in Jefferson County. The Probate Court's Birmingham Division is at 716 North Richard Arrington Jr. Boulevard, and the county also has a Bessemer Division at 1801 3rd Avenue North in Bessemer. The EEOC's Birmingham District Office is at Ridge Park Place, 1130 22nd Street South.",
+      "Birmingham lies in Jefferson County, and part of the city is in Shelby County. The Jefferson County Probate Court's Birmingham Division is at 716 North Richard Arrington Jr. Boulevard, and the county also has a Bessemer Division at 1801 3rd Avenue North in Bessemer. The EEOC's Birmingham District Office is at Ridge Park Place, 1130 22nd Street South.",
     courts: [
       {
         name: "Probate Court of Jefferson County, Birmingham Division",
@@ -320,7 +326,7 @@ export const ALABAMA_CITY_INFO: Record<string, UsCityInfo> = {
     ],
     courtNote: circuitNote("Jefferson County"),
     familyCourt:
-      "For Birmingham, divorce and other domestic relations cases are heard by the Circuit Court of Jefferson County.",
+      "For Birmingham, divorce and other domestic relations cases are heard by the Circuit Court of Jefferson County; the part of the city in Shelby County comes under the Circuit Court of Shelby County.",
     estates:
       "Wills and estates are handled by the Probate Court of Jefferson County; its Birmingham Division is at 716 North Richard Arrington Jr. Blvd., Birmingham, and there is also a Bessemer Division at 1801 3rd Avenue North, Bessemer.",
     employmentNote:
@@ -558,5 +564,243 @@ export const ALABAMA_CITY_INFO: Record<string, UsCityInfo> = {
     courtNote: circuitNote("Dallas County"),
     familyCourt: "For Selma, divorce and other domestic relations cases are heard by the Circuit Court of Dallas County.",
     estates: "Wills and estates are handled by the Dallas County probate court; its office is at 105 Lauderdale St., Selma.",
+  },
+  // Batch 3 (22 Oct 2026) — probate offices: Alabama Department of Revenue
+  // directory; Shelby County's from the Alabama Secretary of State county
+  // officials lookup (Judge of Probate, 112 North Main Street, Columbiana);
+  // Baldwin County's from baldwincountyal.gov (probate court only at Bay
+  // Minette; recording also at Fairhope, Foley and Robertsdale); Jefferson
+  // County's Bessemer Division from jeffcoprobatecourt.com.
+  "hoover-al": {
+    local:
+      "Hoover lies in both Jefferson and Shelby counties. The Probate Court of Jefferson County's Birmingham Division is at 716 North Richard Arrington Jr. Blvd., Birmingham; the Shelby County Judge of Probate is at 112 North Main Street, Columbiana.",
+    courts: [
+      {
+        name: "Probate Court of Jefferson County, Birmingham Division",
+        address: "716 North Richard Arrington Jr. Blvd., Birmingham, AL 35203",
+        url: "https://jeffcoprobatecourt.com/",
+        use: "Wills, estates, guardianships and name changes",
+      },
+      {
+        name: "Shelby County Probate Office",
+        address: "112 North Main Street, Columbiana, AL 35051",
+        url: L.sosLookup,
+        use: "Wills, estates, guardianships and name changes",
+      },
+    ],
+    courtNote: twoCountyNote("Jefferson County", "Shelby County"),
+    familyCourt:
+      "Hoover is in both Jefferson and Shelby counties, so divorce and other domestic relations cases are heard by the Circuit Court of Jefferson County or the Circuit Court of Shelby County.",
+    estates:
+      "Wills and estates are handled by the probate court of the county: the Probate Court of Jefferson County (Birmingham Division at 716 North Richard Arrington Jr. Blvd., Birmingham, and a Bessemer Division) or the Shelby County probate office at 112 North Main Street, Columbiana.",
+    recording:
+      "Hoover is in Jefferson and Shelby counties. Deeds and mortgages are recorded with the probate office of the county the property is in: the Probate Court of Jefferson County (Birmingham Division at 716 North Richard Arrington Jr. Blvd., Birmingham, or the Bessemer Division at 1801 3rd Avenue North, Bessemer) or the Shelby County probate office at 112 North Main Street, Columbiana.",
+  },
+  "madison-al": {
+    local:
+      "Madison lies mostly in Madison County, and part of the city is in Limestone County. The Madison County Probate Judge's office is at 100 North Side Square, Room 108, Huntsville; the Alabama Department of Revenue lists the Limestone County probate office at 100 S. Clinton St., Suite B, Athens.",
+    courts: [
+      {
+        name: "Madison County Probate Court",
+        address: "100 North Side Square, Room 108, Huntsville, AL 35801",
+        url: "https://www.madisoncountyal.gov/departments/probate-judge",
+        use: "Wills, estates, guardianships and name changes",
+      },
+      {
+        name: "Limestone County Probate Office",
+        address: "100 S. Clinton St., Suite B, Athens, AL 35611",
+        url: L.probateDirectory,
+        use: "Wills, estates, guardianships and name changes",
+      },
+    ],
+    courtNote: twoCountyNote("Madison County", "Limestone County"),
+    familyCourt:
+      "Madison is in Madison and Limestone counties, so divorce and other domestic relations cases are heard by the Circuit Court of Madison County or the Circuit Court of Limestone County.",
+    estates:
+      "Wills and estates are handled by the probate court of the county: the Madison County Probate Court, 100 North Side Square, Room 108, Huntsville, or the Limestone County probate office, 100 S. Clinton St., Suite B, Athens.",
+  },
+  "vestavia-hills-al": {
+    local:
+      "Vestavia Hills lies mainly in Jefferson County, and parts of the city are in Shelby County. The Probate Court of Jefferson County's Birmingham Division is at 716 North Richard Arrington Jr. Blvd., Birmingham; the Shelby County Judge of Probate is at 112 North Main Street, Columbiana.",
+    courts: [
+      {
+        name: "Probate Court of Jefferson County, Birmingham Division",
+        address: "716 North Richard Arrington Jr. Blvd., Birmingham, AL 35203",
+        url: "https://jeffcoprobatecourt.com/",
+        use: "Wills, estates, guardianships and name changes",
+      },
+      {
+        name: "Shelby County Probate Office",
+        address: "112 North Main Street, Columbiana, AL 35051",
+        url: L.sosLookup,
+        use: "Wills, estates, guardianships and name changes",
+      },
+    ],
+    courtNote: twoCountyNote("Jefferson County", "Shelby County"),
+    familyCourt:
+      "Vestavia Hills is in Jefferson and Shelby counties, so divorce and other domestic relations cases are heard by the Circuit Court of Jefferson County or the Circuit Court of Shelby County.",
+    estates:
+      "Wills and estates are handled by the probate court of the county: the Probate Court of Jefferson County (Birmingham Division at 716 North Richard Arrington Jr. Blvd., Birmingham, and a Bessemer Division) or the Shelby County probate office at 112 North Main Street, Columbiana.",
+    recording:
+      "Vestavia Hills is in Jefferson and Shelby counties. Deeds and mortgages are recorded with the probate office of the county the property is in: the Probate Court of Jefferson County (Birmingham Division at 716 North Richard Arrington Jr. Blvd., Birmingham, or the Bessemer Division at 1801 3rd Avenue North, Bessemer) or the Shelby County probate office at 112 North Main Street, Columbiana.",
+  },
+  "phenix-city-al": {
+    local:
+      "Phenix City is the county seat of Russell County. The Alabama Department of Revenue lists the Russell County probate office at 501 14th St., Phenix City.",
+    courts: [
+      {
+        name: "Russell County Probate Office",
+        address: "501 14th St., Phenix City, AL 36867",
+        url: L.probateDirectory,
+        use: "Wills, estates, guardianships and name changes",
+      },
+    ],
+    courtNote: circuitNote("Russell County"),
+    familyCourt:
+      "For Phenix City, divorce and other domestic relations cases are heard by the Circuit Court of Russell County.",
+    estates:
+      "Wills and estates are handled by the Russell County probate court; its office is at 501 14th St., Phenix City.",
+  },
+  "prattville-al": {
+    local:
+      "Prattville is the county seat of Autauga County. The Alabama Department of Revenue lists the Autauga County probate office at 176 West 5th St., Prattville.",
+    courts: [
+      {
+        name: "Autauga County Probate Office",
+        address: "176 West 5th St., Prattville, AL 36067",
+        url: L.probateDirectory,
+        use: "Wills, estates, guardianships and name changes",
+      },
+    ],
+    courtNote: circuitNote("Autauga County"),
+    familyCourt:
+      "For Prattville, divorce and other domestic relations cases are heard by the Circuit Court of Autauga County.",
+    estates:
+      "Wills and estates are handled by the Autauga County probate court; its office is at 176 West 5th St., Prattville.",
+  },
+  "northport-al": {
+    local:
+      "Northport is in Tuscaloosa County. The Alabama Department of Revenue lists the Tuscaloosa County probate office at 2501 7th St., Ste. 100, Tuscaloosa.",
+    courts: [
+      {
+        name: "Tuscaloosa County Probate Office",
+        address: "2501 7th St., Ste. 100, Tuscaloosa, AL 35401",
+        url: L.probateDirectory,
+        use: "Wills, estates, guardianships and name changes",
+      },
+    ],
+    courtNote: circuitNote("Tuscaloosa County"),
+    familyCourt:
+      "For Northport, divorce and other domestic relations cases are heard by the Circuit Court of Tuscaloosa County.",
+    estates:
+      "Wills and estates are handled by the Tuscaloosa County probate court; its office is at 2501 7th St., Ste. 100, Tuscaloosa.",
+  },
+  "enterprise-al": {
+    local:
+      "Enterprise is in Coffee County, whose county seat is Elba. The Alabama Department of Revenue lists the Coffee County probate office at 230 P North Court Ave., Elba.",
+    courts: [
+      {
+        name: "Coffee County Probate Office",
+        address: "230 P North Court Ave., Elba, AL 36323",
+        url: L.probateDirectory,
+        use: "Wills, estates, guardianships and name changes",
+      },
+    ],
+    courtNote: circuitNote("Coffee County"),
+    familyCourt:
+      "For Enterprise, divorce and other domestic relations cases are heard by the Circuit Court of Coffee County.",
+    estates:
+      "Wills and estates are handled by the Coffee County probate court; the Alabama Department of Revenue lists its office at 230 P North Court Ave., Elba.",
+  },
+  "bessemer-al": {
+    local:
+      "Bessemer is in Jefferson County. The Probate Court of Jefferson County has a Bessemer Division at 1801 3rd Avenue North in Bessemer.",
+    courts: [
+      {
+        name: "Probate Court of Jefferson County, Bessemer Division",
+        address: "1801 3rd Avenue North, Bessemer, AL 35020",
+        url: "https://jeffcoprobatecourt.com/",
+        use: "Wills, estates, guardianships and name changes",
+      },
+    ],
+    courtNote: circuitNote("Jefferson County"),
+    familyCourt:
+      "For Bessemer, divorce and other domestic relations cases are heard by the Circuit Court of Jefferson County.",
+    estates:
+      "Wills and estates are handled by the Probate Court of Jefferson County, which has a Bessemer Division at 1801 3rd Avenue North, Bessemer.",
+  },
+  "alabaster-al": {
+    local:
+      "Alabaster is in Shelby County. The Shelby County Judge of Probate's office is in Columbiana, at 112 North Main Street.",
+    courts: [
+      {
+        name: "Shelby County Probate Office",
+        address: "112 North Main Street, Columbiana, AL 35051",
+        url: L.sosLookup,
+        use: "Wills, estates, guardianships and name changes",
+      },
+    ],
+    courtNote: circuitNote("Shelby County"),
+    familyCourt:
+      "For Alabaster, divorce and other domestic relations cases are heard by the Circuit Court of Shelby County.",
+    estates:
+      "Wills and estates are handled by the Shelby County probate court; the Judge of Probate's office is at 112 North Main Street, Columbiana.",
+  },
+  "daphne-al": {
+    local:
+      "Daphne is in Baldwin County. Probate court cases are handled at the county's Bay Minette office, 220 Courthouse Square; the probate office also has locations in Fairhope, Foley and Robertsdale that handle recording, licenses and vehicles.",
+    courts: [
+      {
+        name: "Baldwin County Probate Court",
+        address: "220 Courthouse Square, Bay Minette, AL 36507",
+        url: "https://baldwincountyal.gov/government/probate-office/contact-us",
+        use: "Wills, estates, guardianships and name changes",
+      },
+    ],
+    courtNote: circuitNote("Baldwin County"),
+    familyCourt:
+      "For Daphne, divorce and other domestic relations cases are heard by the Circuit Court of Baldwin County.",
+    estates:
+      "Wills and estates are handled by the Baldwin County Probate Court. Probate court cases are only handled at the county's Bay Minette office, 220 Courthouse Square.",
+    recording:
+      "Deeds and mortgages for property in Baldwin County are recorded with the Baldwin County probate office, which takes recordings at its offices in Bay Minette (220 Courthouse Square), Fairhope (1100 Fairhope Avenue), Foley (201 East Section Avenue) and Robertsdale (22251 Palmer Street).",
+  },
+  "fairhope-al": {
+    local:
+      "Fairhope is in Baldwin County. The Baldwin County probate office has a Fairhope location at 1100 Fairhope Avenue for recording, licenses and vehicles; probate court cases are only handled at the Bay Minette office, 220 Courthouse Square.",
+    courts: [
+      {
+        name: "Baldwin County Probate Court",
+        address: "220 Courthouse Square, Bay Minette, AL 36507",
+        url: "https://baldwincountyal.gov/government/probate-office/contact-us",
+        use: "Wills, estates, guardianships and name changes",
+      },
+    ],
+    courtNote: circuitNote("Baldwin County"),
+    familyCourt:
+      "For Fairhope, divorce and other domestic relations cases are heard by the Circuit Court of Baldwin County.",
+    estates:
+      "Wills and estates are handled by the Baldwin County Probate Court. Probate court cases are only handled at the county's Bay Minette office, 220 Courthouse Square.",
+    recording:
+      "Deeds and mortgages for property in Baldwin County are recorded with the Baldwin County probate office, which takes recordings at its offices in Bay Minette (220 Courthouse Square), Fairhope (1100 Fairhope Avenue), Foley (201 East Section Avenue) and Robertsdale (22251 Palmer Street).",
+  },
+  "foley-al": {
+    local:
+      "Foley is in Baldwin County. The Baldwin County probate office has a Foley location at 201 East Section Avenue for recording, licenses and vehicles; probate court cases are only handled at the Bay Minette office, 220 Courthouse Square.",
+    courts: [
+      {
+        name: "Baldwin County Probate Court",
+        address: "220 Courthouse Square, Bay Minette, AL 36507",
+        url: "https://baldwincountyal.gov/government/probate-office/contact-us",
+        use: "Wills, estates, guardianships and name changes",
+      },
+    ],
+    courtNote: circuitNote("Baldwin County"),
+    familyCourt:
+      "For Foley, divorce and other domestic relations cases are heard by the Circuit Court of Baldwin County.",
+    estates:
+      "Wills and estates are handled by the Baldwin County Probate Court. Probate court cases are only handled at the county's Bay Minette office, 220 Courthouse Square.",
+    recording:
+      "Deeds and mortgages for property in Baldwin County are recorded with the Baldwin County probate office, which takes recordings at its offices in Bay Minette (220 Courthouse Square), Fairhope (1100 Fairhope Avenue), Foley (201 East Section Avenue) and Robertsdale (22251 Palmer Street).",
   },
 };
