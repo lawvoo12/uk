@@ -60,8 +60,11 @@ export default async function UsGuidePage({ params }: PageProps) {
     datePublished: guide.publishedAt,
     dateModified: guide.updatedAt ?? guide.publishedAt,
     inLanguage: "en-US",
-    author: { "@type": "Organization", name: SITE_NAME },
-    publisher: { "@type": "Organization", name: SITE_NAME },
+    // No named author yet — the guide is credited to Lawvoo, linked to the
+    // page that explains how facts are checked. Add a real, named person here
+    // only if one wrote or reviewed the guide.
+    author: { "@type": "Organization", name: SITE_NAME, url: `${SITE_URL}/us/about` },
+    publisher: { "@type": "Organization", name: SITE_NAME, url: `${SITE_URL}/us/about` },
     mainEntityOfPage: url,
   };
   const breadcrumbJsonLd = {
@@ -155,6 +158,12 @@ export default async function UsGuidePage({ params }: PageProps) {
               </li>
             ))}
           </ul>
+          <p className="mt-3">
+            Every fact in this guide was read on the sources above.{" "}
+            <Link href="/us/how-we-verify" className="underline underline-offset-2 hover:text-[#10233D]">
+              How we check our guides and listings
+            </Link>
+          </p>
         </section>
 
         <p className="mt-8 text-xs leading-relaxed text-[#A8A398]">

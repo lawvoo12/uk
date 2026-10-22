@@ -291,3 +291,35 @@
 - Netlify (repo lawvoo12/law): /us and /us/* rules and the robots.txt lines
   are in a separate PR — merge that one after this one has deployed.
 
+## Update 20 — US enquiry form switched on (18 Oct 2026)
+
+- `US_LEADS_ENABLED` is now on unless set to "false" (site owner's request).
+  Personal injury stays off the US form. Paste the updated
+  `deploy/lawvoo-apps-script.js` so US leads are saved with country "US".
+- US privacy policy: added "Where your information is stored" and
+  "Security" sections, to match the other countries.
+
+
+## Update 21 — US trust and indexing fixes (22 Oct 2026)
+
+Only /us pages change. UK, Ireland and Canada output is identical.
+
+- Area × city pages: a city-specific block near the top (the court that hears
+  family cases, the county probate court or probate office, the courts for
+  injury claims, the EEOC office in Birmingham). A page is indexed only when it
+  has 2+ lawyers, or 1 lawyer plus that local block — one rule in
+  `lib/us/indexing.ts`, used by both the robots tag and the sitemap. Today:
+  10 indexed, 20 noindex (Huntsville immigration has no local block yet).
+- `/us/sitemap.xml`: real `<lastmod>` dates (content check, register check,
+  guide date, page "last updated" date) instead of the build time. Page dates
+  live in `lib/us/page-dates.ts`.
+- Schema: area × city pages are a `CollectionPage` with an `ItemList` of
+  `LegalService` firms (not one `LegalService`); lawyer profiles get a
+  `ProfilePage` + `Person` (jobTitle, worksFor, knowsAbout, memberOf the state
+  bar, sameAs the firm profile).
+- New pages: `/us/about`, `/us/how-we-verify`, `/us/contact`, linked from the
+  US footer and the guides. No postal address is shown until
+  `NEXT_PUBLIC_BUSINESS_ADDRESS` is set.
+- Lawyers can now have `barRecordUrl` (their own record on the state bar
+  directory). When filled in, the bar badge and profile link go straight to the
+  record instead of the search page.

@@ -534,6 +534,21 @@ function UsFooter() {
                 </Link>
               </li>
               <li>
+                <Link href="/us/about" className="hover:text-[#10233D]">
+                  About Lawvoo US
+                </Link>
+              </li>
+              <li>
+                <Link href="/us/how-we-verify" className="hover:text-[#10233D]">
+                  How we check listings
+                </Link>
+              </li>
+              <li>
+                <Link href="/us/contact" className="hover:text-[#10233D]">
+                  Contact
+                </Link>
+              </li>
+              <li>
                 <Link href="/us/listings" className="hover:text-[#10233D]">
                   For lawyers: update or remove a listing
                 </Link>

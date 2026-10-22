@@ -83,6 +83,8 @@ export interface UsCityInfo {
   familyCourt: string;
   /** Where wills and estates for this city are handled — used in FAQs. */
   estates: string;
+  /** Optional: a federal or state office in this city that takes employment complaints. */
+  employmentNote?: string;
 }
 
 export interface UsStateContent {

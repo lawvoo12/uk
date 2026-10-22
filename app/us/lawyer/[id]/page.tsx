@@ -11,6 +11,7 @@ import { usAreaPath } from "@/lib/us/practice-areas";
 import { getFirmWebsite } from "@/lib/data/firm-website";
 import { US_LEADS_ENABLED, LISTINGS_EMAIL } from "@/lib/config";
 import { SITE_URL } from "@/lib/seo/site";
+import { checkedDateIso } from "@/lib/us/indexing";
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -70,8 +71,34 @@ export default async function UsLawyerProfilePage({ params }: PageProps) {
     ],
   };
 
+  // A profile page about one person. Only facts shown on the page go in here:
+  // no ratings, no invented credentials. memberOf = the state bar the lawyer
+  // was checked on; sameAs = the firm's own profile page.
+  const profileUrl = `${SITE_URL}/us/lawyer/${lawyer.id}`;
+  const address = { "@type": "PostalAddress", streetAddress: lawyer.addressLine1, addressRegion: entry.state, addressCountry: "US" };
+  const checkedOn = checkedDateIso(entry.registerChecked);
+  const profileJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "ProfilePage",
+    url: profileUrl,
+    ...(checkedOn ? { dateModified: checkedOn } : {}),
+    mainEntity: {
+      "@type": "Person",
+      "@id": `${profileUrl}#person`,
+      name: lawyer.lawyerName,
+      jobTitle: lawyer.role,
+      url: profileUrl,
+      sameAs: [lawyer.profileUrl],
+      address,
+      worksFor: { "@type": "LegalService", name: lawyer.firmName, address, url: getFirmWebsite(lawyer) },
+      knowsAbout: lawyer.practiceAreas.map((a) => `${a.name} law`),
+      memberOf: { "@type": "Organization", name: state.regulatorName, url: state.directoryUrl },
+    },
+  };
+
   return (
     <main className="min-h-screen bg-[#F8F7F4] px-4 py-12">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(profileJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
       <div className="mx-auto max-w-3xl">
         {lawyer.cityName && (
@@ -204,9 +231,9 @@ export default async function UsLawyerProfilePage({ params }: PageProps) {
           <p>
             Lawyers in {state.name} are licensed through the {state.regulatorName}, which also deals with complaints
             about them. We checked {lawyer.lawyerName} in the state bar&apos;s public directory on{" "}
-            {entry.registerChecked}. People move firms, so check again in the{" "}
+            {entry.registerChecked}. People move firms, so check again{" "}
             <a href={lawyer.registerUrl} target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:text-[#10233D]">
-              {state.directoryLabel}
+              {entry.barRecordUrl ? `on their ${state.regulatorName} record` : `in the ${state.directoryLabel}`}
             </a>{" "}
             before hiring them. Listings on this site are provided for information only and aren&apos;t a
             recommendation.

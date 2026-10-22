@@ -4,6 +4,7 @@ import Link from "next/link";
 import { BUSINESS_ADDRESS, BUSINESS_NAME, CONTACT_EMAIL, US_LEADS_ENABLED } from "@/lib/config";
 import { SITE_URL } from "@/lib/seo/site";
 import { US_STATES } from "@/lib/us/states";
+import { US_PAGE_UPDATED } from "@/lib/us/page-dates";
 
 export const metadata: Metadata = {
   title: "Terms of Use (US)",
@@ -11,7 +12,7 @@ export const metadata: Metadata = {
   alternates: { canonical: "/us/terms" },
 };
 
-const LAST_UPDATED = "17 October 2026";
+const LAST_UPDATED = US_PAGE_UPDATED.terms;
 const SITE_HOST = SITE_URL.replace(/^https?:\/\//, "").replace(/\/$/, "");
 
 function Mail() {
