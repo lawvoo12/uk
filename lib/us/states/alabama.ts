@@ -29,7 +29,8 @@
 //    weekdays 8:30 a.m.–4:30 p.m.; income screening; heirs' property and
 //    estate planning among its service areas — legalservicesalabama.org
 //  - Probate court addresses: Alabama Department of Revenue "County Probate
-//    Office Directory", jeffcoprobatecourt.com (Birmingham Division),
+//    Office Directory" (batch 2 cities: read 22 Oct 2026, page updated
+//    18 Nov 2025), jeffcoprobatecourt.com (Birmingham Division),
 //    montgomeryprobatecourtal.gov, probate.mobilecountyal.gov,
 //    houstoncountyal.gov
 //
@@ -385,5 +386,177 @@ export const ALABAMA_CITY_INFO: Record<string, UsCityInfo> = {
     courtNote: circuitNote("Houston County"),
     familyCourt: "For Dothan, divorce and other domestic relations cases are heard by the Circuit Court of Houston County.",
     estates: "Wills and estates are handled by the Houston County probate court; the probate office is at 462 N. Oates Street, Dothan.",
+  },  // Batch 2 (22 Oct 2026) — counties: Encyclopedia of Alabama where a city
+  // could be in more than one (Auburn: Lee County; Decatur: county seat of
+  // Morgan County). Probate offices from the Alabama Department of
+  // Revenue "County Probate Office Directory" (updated 18 Nov 2025); the
+  // court link is that directory.
+  "tuscaloosa-al": {
+    local: "Tuscaloosa is in Tuscaloosa County. The Alabama Department of Revenue lists the Tuscaloosa County probate office at 2501 7th St., Ste. 100, Tuscaloosa.",
+    courts: [
+      {
+        name: "Tuscaloosa County Probate Office",
+        address: "2501 7th St., Ste. 100, Tuscaloosa, AL 35401",
+        url: L.probateDirectory,
+        use: "Wills, estates, guardianships and name changes",
+      },
+    ],
+    courtNote: circuitNote("Tuscaloosa County"),
+    familyCourt: "For Tuscaloosa, divorce and other domestic relations cases are heard by the Circuit Court of Tuscaloosa County.",
+    estates: "Wills and estates are handled by the Tuscaloosa County probate court; its office is at 2501 7th St., Ste. 100, Tuscaloosa.",
+  },
+  "auburn-al": {
+    local: "Auburn is in Lee County. The Lee County probate office is in Opelika: the Alabama Department of Revenue lists it at 215 S. 9th St.",
+    courts: [
+      {
+        name: "Lee County Probate Office",
+        address: "215 S. 9th St., Opelika, AL 36801",
+        url: L.probateDirectory,
+        use: "Wills, estates, guardianships and name changes",
+      },
+    ],
+    courtNote: circuitNote("Lee County"),
+    familyCourt: "For Auburn, divorce and other domestic relations cases are heard by the Circuit Court of Lee County.",
+    estates: "Wills and estates are handled by the Lee County probate court; its office is at 215 S. 9th St., Opelika.",
+  },
+  "opelika-al": {
+    local: "Opelika is in Lee County. The Alabama Department of Revenue lists the Lee County probate office at 215 S. 9th St., Opelika.",
+    courts: [
+      {
+        name: "Lee County Probate Office",
+        address: "215 S. 9th St., Opelika, AL 36801",
+        url: L.probateDirectory,
+        use: "Wills, estates, guardianships and name changes",
+      },
+    ],
+    courtNote: circuitNote("Lee County"),
+    familyCourt: "For Opelika, divorce and other domestic relations cases are heard by the Circuit Court of Lee County.",
+    estates: "Wills and estates are handled by the Lee County probate court; its office is at 215 S. 9th St., Opelika.",
+  },
+  "decatur-al": {
+    local: "Decatur is the county seat of Morgan County. The Alabama Department of Revenue lists the Morgan County probate office at 302 Lee St. N.E., Decatur.",
+    courts: [
+      {
+        name: "Morgan County Probate Office",
+        address: "302 Lee St. N.E., Decatur, AL 35601",
+        url: L.probateDirectory,
+        use: "Wills, estates, guardianships and name changes",
+      },
+    ],
+    courtNote: circuitNote("Morgan County"),
+    familyCourt: "In Morgan County, where Decatur is the county seat, divorce and other domestic relations cases are heard by the Circuit Court of Morgan County.",
+    estates: "Wills and estates are handled by the Morgan County probate court; its office is at 302 Lee St. N.E., Decatur.",
+  },
+  "florence-al": {
+    local: "Florence is in Lauderdale County. The Alabama Department of Revenue lists the Lauderdale County probate office at 102 S. Court St., Floor 1, Florence.",
+    courts: [
+      {
+        name: "Lauderdale County Probate Office",
+        address: "102 S. Court St., Floor 1, Florence, AL 35630",
+        url: L.probateDirectory,
+        use: "Wills, estates, guardianships and name changes",
+      },
+    ],
+    courtNote: circuitNote("Lauderdale County"),
+    familyCourt: "For Florence, divorce and other domestic relations cases are heard by the Circuit Court of Lauderdale County.",
+    estates: "Wills and estates are handled by the Lauderdale County probate court; its office is at 102 S. Court St., Floor 1, Florence.",
+  },
+  "gadsden-al": {
+    local: "Gadsden is in Etowah County. The Alabama Department of Revenue lists the Etowah County probate office at 800 Forrest Ave., Ste. 122, Gadsden.",
+    courts: [
+      {
+        name: "Etowah County Probate Office",
+        address: "800 Forrest Ave., Ste. 122, Gadsden, AL 35901",
+        url: L.probateDirectory,
+        use: "Wills, estates, guardianships and name changes",
+      },
+    ],
+    courtNote: circuitNote("Etowah County"),
+    familyCourt: "For Gadsden, divorce and other domestic relations cases are heard by the Circuit Court of Etowah County.",
+    estates: "Wills and estates are handled by the Etowah County probate court; its office is at 800 Forrest Ave., Ste. 122, Gadsden.",
+  },
+  "anniston-al": {
+    local: "Anniston is in Calhoun County. The Alabama Department of Revenue lists the Calhoun County probate office at 1702 Noble St., Ste. 107, Anniston.",
+    courts: [
+      {
+        name: "Calhoun County Probate Office",
+        address: "1702 Noble St., Ste. 107, Anniston, AL 36201",
+        url: L.probateDirectory,
+        use: "Wills, estates, guardianships and name changes",
+      },
+    ],
+    courtNote: circuitNote("Calhoun County"),
+    familyCourt: "For Anniston, divorce and other domestic relations cases are heard by the Circuit Court of Calhoun County.",
+    estates: "Wills and estates are handled by the Calhoun County probate court; its office is at 1702 Noble St., Ste. 107, Anniston.",
+  },
+  "athens-al": {
+    local: "Athens is in Limestone County. The Alabama Department of Revenue lists the Limestone County probate office at 100 S. Clinton St., Suite B, Athens.",
+    courts: [
+      {
+        name: "Limestone County Probate Office",
+        address: "100 S. Clinton St., Suite B, Athens, AL 35611",
+        url: L.probateDirectory,
+        use: "Wills, estates, guardianships and name changes",
+      },
+    ],
+    courtNote: circuitNote("Limestone County"),
+    familyCourt: "For Athens, divorce and other domestic relations cases are heard by the Circuit Court of Limestone County.",
+    estates: "Wills and estates are handled by the Limestone County probate court; its office is at 100 S. Clinton St., Suite B, Athens.",
+  },
+  "cullman-al": {
+    local: "Cullman is in Cullman County. The Alabama Department of Revenue lists the Cullman County probate office at 500 2nd Ave. SW, Rm. 101, Cullman.",
+    courts: [
+      {
+        name: "Cullman County Probate Office",
+        address: "500 2nd Ave. SW, Rm. 101, Cullman, AL 35055",
+        url: L.probateDirectory,
+        use: "Wills, estates, guardianships and name changes",
+      },
+    ],
+    courtNote: circuitNote("Cullman County"),
+    familyCourt: "For Cullman, divorce and other domestic relations cases are heard by the Circuit Court of Cullman County.",
+    estates: "Wills and estates are handled by the Cullman County probate court; its office is at 500 2nd Ave. SW, Rm. 101, Cullman.",
+  },
+  "troy-al": {
+    local: "Troy is in Pike County. The Alabama Department of Revenue lists the Pike County probate office at 120 W. Church St., Troy.",
+    courts: [
+      {
+        name: "Pike County Probate Office",
+        address: "120 W. Church St., Troy, AL 36081",
+        url: L.probateDirectory,
+        use: "Wills, estates, guardianships and name changes",
+      },
+    ],
+    courtNote: circuitNote("Pike County"),
+    familyCourt: "For Troy, divorce and other domestic relations cases are heard by the Circuit Court of Pike County.",
+    estates: "Wills and estates are handled by the Pike County probate court; its office is at 120 W. Church St., Troy.",
+  },
+  "jasper-al": {
+    local: "Jasper is in Walker County. The Alabama Department of Revenue lists the Walker County probate office at 1900 3rd Ave. South, Jasper.",
+    courts: [
+      {
+        name: "Walker County Probate Office",
+        address: "1900 3rd Ave. South, Jasper, AL 35501",
+        url: L.probateDirectory,
+        use: "Wills, estates, guardianships and name changes",
+      },
+    ],
+    courtNote: circuitNote("Walker County"),
+    familyCourt: "For Jasper, divorce and other domestic relations cases are heard by the Circuit Court of Walker County.",
+    estates: "Wills and estates are handled by the Walker County probate court; its office is at 1900 3rd Ave. South, Jasper.",
+  },
+  "selma-al": {
+    local: "Selma is in Dallas County. The Alabama Department of Revenue lists the Dallas County probate office at 105 Lauderdale St., Selma.",
+    courts: [
+      {
+        name: "Dallas County Probate Office",
+        address: "105 Lauderdale St., Selma, AL 36701",
+        url: L.probateDirectory,
+        use: "Wills, estates, guardianships and name changes",
+      },
+    ],
+    courtNote: circuitNote("Dallas County"),
+    familyCourt: "For Selma, divorce and other domestic relations cases are heard by the Circuit Court of Dallas County.",
+    estates: "Wills and estates are handled by the Dallas County probate court; its office is at 105 Lauderdale St., Selma.",
   },
 };

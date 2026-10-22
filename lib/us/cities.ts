@@ -3,9 +3,10 @@
 // truth for /us/locations, /us/lawyers/[category]/[city], the /us sitemap and
 // the homepage search.
 //
-// zipPrefixes are the first three digits of the ZIP codes around the city,
-// so "35203" in the search box finds Birmingham. The longest matching prefix
-// wins.
+// zipPrefixes are the start of the ZIP codes around the city — usually the
+// first three digits ("35203" finds Birmingham through "352"), or whole ZIP
+// codes where several cities share three digits (Decatur, Florence and Athens
+// are all "356…"). The longest matching prefix wins.
 //
 // City slugs always end with the state code ("montgomery-al", "birmingham-al"),
 // because many US city names exist in several states (Montgomery AL and TX,
@@ -45,7 +46,21 @@ export const US_CITIES: UsCity[] = [
   { slug: "montgomery-al", name: "Montgomery", state: "AL", county: "Montgomery County", latitude: 32.3792, longitude: -86.3077, zipPrefixes: ["360", "361"] },
   { slug: "huntsville-al", name: "Huntsville", state: "AL", county: "Madison County", latitude: 34.7304, longitude: -86.5861, zipPrefixes: ["358"] },
   { slug: "mobile-al", name: "Mobile", state: "AL", county: "Mobile County", latitude: 30.6954, longitude: -88.0399, zipPrefixes: ["365", "366"] },
-  { slug: "dothan-al", name: "Dothan", state: "AL", county: "Houston County", latitude: 31.2232, longitude: -85.3905, zipPrefixes: ["363"] },
+  { slug: "dothan-al", name: "Dothan", state: "AL", county: "Houston County", latitude: 31.2232, longitude: -85.3905, zipPrefixes: ["363"] },  // ------------------------------------------------------------ Batch 2 (Alabama, 22 Oct 2026)
+  // Cities that sit in one county. Counties and probate offices: Alabama
+  // Department of Revenue, County Probate Office Directory (updated 18 Nov 2025).
+  { slug: "tuscaloosa-al", name: "Tuscaloosa", state: "AL", county: "Tuscaloosa County", latitude: 33.2098, longitude: -87.5692, zipPrefixes: ["354"] },
+  { slug: "auburn-al", name: "Auburn", state: "AL", county: "Lee County", latitude: 32.6099, longitude: -85.4808, zipPrefixes: ["36830", "36831", "36832", "36849"] },
+  { slug: "opelika-al", name: "Opelika", state: "AL", county: "Lee County", latitude: 32.6454, longitude: -85.3783, zipPrefixes: ["36801", "36802", "36803", "36804"] },
+  { slug: "decatur-al", name: "Decatur", state: "AL", county: "Morgan County", latitude: 34.6059, longitude: -86.9833, zipPrefixes: ["35601", "35602", "35603", "35609"] },
+  { slug: "florence-al", name: "Florence", state: "AL", county: "Lauderdale County", latitude: 34.7998, longitude: -87.6773, zipPrefixes: ["35630", "35631", "35632", "35633", "35634"] },
+  { slug: "gadsden-al", name: "Gadsden", state: "AL", county: "Etowah County", latitude: 34.0143, longitude: -86.0066, zipPrefixes: ["359"] },
+  { slug: "anniston-al", name: "Anniston", state: "AL", county: "Calhoun County", latitude: 33.6598, longitude: -85.8316, zipPrefixes: ["362"] },
+  { slug: "athens-al", name: "Athens", state: "AL", county: "Limestone County", latitude: 34.8026, longitude: -86.9717, zipPrefixes: ["35611", "35612", "35613", "35614"] },
+  { slug: "cullman-al", name: "Cullman", state: "AL", county: "Cullman County", latitude: 34.1748, longitude: -86.8436, zipPrefixes: ["35055", "35056", "35057", "35058"] },
+  { slug: "troy-al", name: "Troy", state: "AL", county: "Pike County", latitude: 31.8088, longitude: -85.97, zipPrefixes: ["36079", "36081", "36082"] },
+  { slug: "jasper-al", name: "Jasper", state: "AL", county: "Walker County", latitude: 33.8312, longitude: -87.2775, zipPrefixes: ["355"] },
+  { slug: "selma-al", name: "Selma", state: "AL", county: "Dallas County", latitude: 32.4074, longitude: -87.0211, zipPrefixes: ["367"] },
 ];
 
 export function stateName(code: UsStateCode): string {
@@ -77,11 +92,11 @@ export const US_ZIP3_REGEX = /^\d{3}$/;
 export function findUsCityByZip(input: string): UsCity | undefined {
   const compact = input.trim().replace(/\s+/g, "");
   if (!US_ZIP_REGEX.test(compact) && !US_ZIP3_REGEX.test(compact)) return undefined;
-  const zip3 = compact.slice(0, 3);
+  const digits = compact.slice(0, 5);
   let best: { city: UsCity; length: number } | undefined;
   for (const city of US_CITIES) {
     for (const prefix of city.zipPrefixes) {
-      if (zip3.startsWith(prefix) && (!best || prefix.length > best.length)) best = { city, length: prefix.length };
+      if (digits.startsWith(prefix) && (!best || prefix.length > best.length)) best = { city, length: prefix.length };
     }
   }
   return best?.city;
