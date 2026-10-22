@@ -12,6 +12,7 @@ import { getFirmWebsite } from "@/lib/data/firm-website";
 import { US_LEADS_ENABLED, LISTINGS_EMAIL } from "@/lib/config";
 import { SITE_URL } from "@/lib/seo/site";
 import { checkedDateIso } from "@/lib/us/indexing";
+import { personalFocus } from "@/lib/seo/directory-schema";
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -72,7 +73,8 @@ export default async function UsLawyerProfilePage({ params }: PageProps) {
   };
 
   // A profile page about one person. Only facts shown on the page go in here:
-  // no ratings, no invented credentials. memberOf = the state bar the lawyer
+  // no ratings, no invented credentials. knowsAbout = the lawyer's own area
+  // (not the firm's other areas). memberOf = the state bar the lawyer
   // was checked on; sameAs = the firm's own profile page.
   const profileUrl = `${SITE_URL}/us/lawyer/${lawyer.id}`;
   const address = { "@type": "PostalAddress", streetAddress: lawyer.addressLine1, addressRegion: entry.state, addressCountry: "US" };
@@ -91,7 +93,7 @@ export default async function UsLawyerProfilePage({ params }: PageProps) {
       sameAs: [lawyer.profileUrl],
       address,
       worksFor: { "@type": "LegalService", name: lawyer.firmName, address, url: getFirmWebsite(lawyer) },
-      knowsAbout: lawyer.practiceAreas.map((a) => `${a.name} law`),
+      ...(personalFocus(lawyer) ? { knowsAbout: `${personalFocus(lawyer)} law` } : {}),
       memberOf: { "@type": "Organization", name: state.regulatorName, url: state.directoryUrl },
     },
   };

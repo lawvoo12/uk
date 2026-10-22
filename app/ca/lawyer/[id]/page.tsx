@@ -11,6 +11,8 @@ import { caAreaPath } from "@/lib/ca/practice-areas";
 import { getFirmWebsite } from "@/lib/data/firm-website";
 import { CA_LEADS_ENABLED, LISTINGS_EMAIL } from "@/lib/config";
 import { SITE_URL } from "@/lib/seo/site";
+import { contentDateIso } from "@/lib/seo/dates";
+import { personalFocus, profilePageJsonLd } from "@/lib/seo/directory-schema";
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -72,6 +74,27 @@ export default async function CaLawyerProfilePage({ params }: PageProps) {
 
   return (
     <main className="min-h-screen bg-[#F8F7F4] px-4 py-12">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(
+            profilePageJsonLd({
+              url: `${SITE_URL}/ca/lawyer/${lawyer.id}`,
+              country: "CA",
+              lawyerName: lawyer.lawyerName,
+              role: lawyer.role,
+              firmName: lawyer.firmName,
+              firmUrl: getFirmWebsite(lawyer),
+              addressLine1: lawyer.addressLine1,
+              sourceProfileUrl: lawyer.profileUrl,
+              focusArea: personalFocus(lawyer),
+              // Confirmed on the law society's directory on registerChecked.
+              memberOf: { name: province.regulatorName, url: province.directoryUrl },
+              dateModified: contentDateIso(entry.registerChecked),
+            })
+          ),
+        }}
+      />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
       <div className="mx-auto max-w-3xl">
         {lawyer.cityName && (

@@ -323,3 +323,23 @@ Only /us pages change. UK, Ireland and Canada output is identical.
 - Lawyers can now have `barRecordUrl` (their own record on the state bar
   directory). When filled in, the bar badge and profile link go straight to the
   record instead of the search page.
+
+## Update 22 — Trust pages, real sitemap dates and schema for UK, Ireland and Canada (22 Oct 2026)
+
+Approved by the site owner. Visible text, URLs and design of existing UK/IE/CA
+pages are unchanged — the only visible change is three new footer links.
+
+- New pages per country: `/uk|ie|ca/about`, `/how-we-verify`, `/contact`.
+  Words in `lib/seo/trust-content.ts` (true for each country today — e.g. the
+  Irish page says the register check is still being completed until
+  `IE_REGISTER_CHECKED` is true). Layout in `components/trust/trust-pages.tsx`.
+- Sitemaps: real `<lastmod>` dates from `lib/seo/page-dates.ts`, each listing's
+  check date and tool/guide dates — not the build time. Update the dates in
+  `lib/seo/page-dates.ts` when you edit pages.
+- Schema: area × city pages are a `CollectionPage` + `ItemList` of
+  `LegalService` firms; lawyer profiles get `ProfilePage` + `Person`
+  (`lib/seo/directory-schema.ts`). `knowsAbout` is only the lawyer's own area
+  (not the firm's other areas), also fixed on US profiles. `memberOf` only in
+  Canada and the US, where the person was checked on the law society/state bar.
+- The noindex rule from the US is NOT applied to UK/IE/CA (wait for Search
+  Console data first).
