@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowRight, BadgeCheck, Calculator, ExternalLink, MapPin, ScrollText } from "lucide-react";
+import { ArrowRight, Calculator, ExternalLink, MapPin, ScrollText, ShieldCheck, Users } from "lucide-react";
 
 import { BreadcrumbNav } from "@/components/solicitors/breadcrumb-nav";
+import { HeroSearch } from "@/components/home/hero-search";
+import { US_LEADS_ENABLED } from "@/lib/config";
 import { FAQSection } from "@/components/solicitors/faq-section";
 import { US_CITIES } from "@/lib/us/cities";
 import { US_CHECKED_SENTENCE, getUsStateContent } from "@/lib/us/content";
@@ -61,6 +63,7 @@ export default async function UsStateHubPage({ params }: PageProps) {
   const countByCity: Record<string, number> = {};
   for (const l of lawyers) countByCity[l.citySlug] = (countByCity[l.citySlug] ?? 0) + 1;
   const citiesWithLawyers = cities.filter((c) => (countByCity[c.slug] ?? 0) > 0).length;
+  const firms = new Set(lawyers.map((l) => l.firmName)).size;
   // Guides about this state first, then the federal ones (they apply everywhere).
   const stateGuides = US_GUIDES.filter((g) => `${g.title} ${g.description}`.includes(state.name));
   const federalGuides = US_GUIDES.filter((g) => !stateGuides.includes(g));
@@ -102,28 +105,53 @@ export default async function UsStateHubPage({ params }: PageProps) {
       {jsonLd.map((j, i) => (
         <script key={i} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(j) }} />
       ))}
-      <div className="mx-auto max-w-6xl px-4 py-10 sm:py-14">
-        <BreadcrumbNav items={[{ label: "Home", href: "/us" }, { label: state.name }]} />
-
-        <div className="max-w-2xl">
-          <h1 className="font-serif text-3xl text-[#10233D] sm:text-4xl">Find a lawyer in {state.name}</h1>
-          <p className="mt-3 text-[#5B6472]">
-            {lawyers.length > 0
-              ? `${lawyers.length} ${lawyers.length === 1 ? "lawyer" : "lawyers"} in ${citiesWithLawyers} ${state.name} ${citiesWithLawyers === 1 ? "city" : "cities"}, by area of law. `
-              : ""}
-            {US_CHECKED_SENTENCE}
-          </p>
-          <a
-            href={state.directoryUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-4 inline-flex items-center gap-1.5 rounded-full bg-[#EAF3EC] px-3 py-1 text-sm font-medium text-[#2F6844] hover:underline"
-          >
-            <BadgeCheck className="h-4 w-4" strokeWidth={1.75} />
-            {state.directoryLabel}
-            <ExternalLink className="h-3.5 w-3.5" />
-          </a>
+      {/* Hero — same look as the /us homepage: heading, search box, trust row. */}
+      <section className="px-4 pb-14 pt-8 sm:pb-16">
+        <div className="mx-auto max-w-6xl px-4">
+          <BreadcrumbNav items={[{ label: "Home", href: "/us" }, { label: state.name }]} />
         </div>
+        <div className="mx-auto mt-6 max-w-3xl text-center sm:mt-10">
+          <h1 className="font-serif text-3xl text-[#10233D] sm:text-5xl">Find the right lawyer in {state.name}</h1>
+          <p className="mx-auto mt-4 max-w-xl text-[#5B6472]">
+            {firms > 0
+              ? `Compare ${firms} law ${firms === 1 ? "firm" : "firms"} in ${citiesWithLawyers} ${citiesWithLawyers === 1 ? "city" : "cities"} in ${state.name} by area of law`
+              : `Browse lawyers in ${state.name} by area of law`}
+            {US_LEADS_ENABLED ? ", or tell us about your case — free, with no obligation." : " and contact them directly — free to use."}
+          </p>
+        </div>
+
+        <div className="mt-8">
+          <HeroSearch country="us" />
+        </div>
+
+        <dl className="mx-auto mt-8 flex max-w-3xl flex-wrap justify-center gap-x-8 gap-y-3 text-sm text-[#5B6472]">
+          <div className="flex items-center gap-2">
+            <ShieldCheck className="h-4 w-4 text-[#B8863B]" strokeWidth={1.75} />
+            <dt className="sr-only">Directory check</dt>
+            <dd>
+              Checked on the{" "}
+              <a href={state.directoryUrl} target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:text-[#10233D]">
+                {state.regulatorName} directory
+              </a>
+            </dd>
+          </div>
+          <div className="flex items-center gap-2">
+            <Users className="h-4 w-4 text-[#B8863B]" strokeWidth={1.75} />
+            <dt className="sr-only">No account needed</dt>
+            <dd>No account needed</dd>
+          </div>
+          <div className="flex items-center gap-2">
+            <MapPin className="h-4 w-4 text-[#B8863B]" strokeWidth={1.75} />
+            <dt className="sr-only">Coverage</dt>
+            <dd>
+              {cities.length} {cities.length === 1 ? "city" : "cities"} in {state.name}
+            </dd>
+          </div>
+        </dl>
+      </section>
+
+      <div className="mx-auto max-w-6xl px-4 pb-14">
+        <p className="max-w-2xl text-sm text-[#5B6472]">{US_CHECKED_SENTENCE}</p>
 
         {/* Cities */}
         <section aria-labelledby="cities-h" className="mt-10">
