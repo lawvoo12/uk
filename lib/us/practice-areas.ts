@@ -48,7 +48,7 @@ export function resolveUsArea(value: string | undefined): UsPracticeArea | undef
   return value ? (getUsAreaByUrlSlug(value) ?? getUsArea(value)) : undefined;
 }
 
-/** /us/lawyers/real-estate or /us/lawyers/real-estate/birmingham-alabama */
+/** /us/lawyers/real-estate or /us/lawyers/real-estate/birmingham-al */
 export function usAreaPath(slug: string, citySlug?: string): string {
   const area = getUsArea(slug);
   return `/us/lawyers/${area?.urlSlug ?? slug}${citySlug ? `/${citySlug}` : ""}`;

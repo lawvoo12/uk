@@ -97,7 +97,7 @@ export default async function UsLocationPage({ params }: PageProps) {
     "@type": "BreadcrumbList",
     itemListElement: [
       { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/us` },
-      { "@type": "ListItem", position: 2, name: "Locations", item: `${SITE_URL}/us/locations` },
+      { "@type": "ListItem", position: 2, name: state.name, item: `${SITE_URL}/us/${state.slug}` },
       { "@type": "ListItem", position: 3, name: city.name, item: canonicalUrl },
     ],
   };
@@ -125,14 +125,14 @@ export default async function UsLocationPage({ params }: PageProps) {
 
       <div className="mx-auto max-w-6xl px-4 py-10 sm:py-14">
         <BreadcrumbNav
-          items={[{ label: "Home", href: "/us" }, { label: "Locations", href: "/us/locations" }, { label: city.name }]}
+          items={[{ label: "Home", href: "/us" }, { label: state.name, href: `/us/${state.slug}` }, { label: city.name }]}
         />
 
         <div className="max-w-2xl">
-          <p className="flex items-center gap-1.5 text-sm text-[#B8863B]">
+          <Link href={`/us/${state.slug}`} className="flex w-fit items-center gap-1.5 text-sm text-[#B8863B] hover:underline">
             <MapPin className="h-4 w-4" strokeWidth={1.75} />
             {state.name}
-          </p>
+          </Link>
           <h1 className="mt-1 font-serif text-3xl text-[#10233D] sm:text-4xl">Lawyers in {city.name}</h1>
           <p className="mt-3 text-[#5B6472]">
             {lawyers.length > 0

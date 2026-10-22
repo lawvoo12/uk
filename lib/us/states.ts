@@ -15,6 +15,8 @@ export type UsStateCode = "AL";
 export interface UsState {
   code: UsStateCode;
   name: string;
+  /** URL name of the state hub page: /us/alabama */
+  slug: string;
   /** Used in lawyer ids: birmingham-al-… */
   idSuffix: string;
   regulator: UsRegulator;
@@ -35,6 +37,7 @@ export const US_STATES: Partial<Record<UsStateCode, UsState>> = {
   AL: {
     code: "AL",
     name: "Alabama",
+    slug: "alabama",
     idSuffix: "al",
     regulator: "ASB",
     regulatorName: US_REGULATORS.ASB.name,
@@ -47,4 +50,14 @@ export function getUsState(code: UsStateCode): UsState {
   const state = US_STATES[code];
   if (!state) throw new Error(`State ${code} is not live yet — add it to US_STATES in lib/us/states.ts`);
   return state;
+}
+
+/** Live states in display order. */
+export function liveUsStates(): UsState[] {
+  return US_STATE_ORDER.flatMap((code) => US_STATES[code] ?? []);
+}
+
+/** The live state for a hub URL name ("alabama"), if any. */
+export function getUsStateBySlug(slug: string): UsState | undefined {
+  return liveUsStates().find((s) => s.slug === slug);
 }

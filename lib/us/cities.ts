@@ -7,8 +7,12 @@
 // so "35203" in the search box finds Birmingham. The longest matching prefix
 // wins.
 //
-// Birmingham, Alabama uses the slug "birmingham-alabama" and lawyer ids
-// starting "birmingham-al-", so nothing clashes with Birmingham in the UK data.
+// City slugs always end with the state code ("montgomery-al", "birmingham-al"),
+// because many US city names exist in several states (Montgomery AL and TX,
+// Birmingham AL and the UK). The slugs were changed on 22 Oct 2026 — the old
+// ones ("montgomery", "birmingham-alabama"…) 301-redirect to these in the
+// Netlify site's netlify.toml. Lawyer ids keep their own pattern
+// ("birmingham-al-…").
 // ============================================================================
 
 import { US_STATE_NAMES, US_STATE_ORDER, type UsStateCode } from "@/lib/us/states";
@@ -29,8 +33,7 @@ export interface UsCity {
 export const US_CITIES: UsCity[] = [
   // ------------------------------------------------------------ Batch 1 (Alabama)
   {
-    // Not "birmingham": that slug belongs to Birmingham in the UK data.
-    slug: "birmingham-alabama",
+    slug: "birmingham-al",
     name: "Birmingham",
     state: "AL",
     county: "Jefferson County",
@@ -39,10 +42,10 @@ export const US_CITIES: UsCity[] = [
     zipPrefixes: ["350", "351", "352"],
     aliases: ["birmingham al", "birmingham alabama"],
   },
-  { slug: "montgomery", name: "Montgomery", state: "AL", county: "Montgomery County", latitude: 32.3792, longitude: -86.3077, zipPrefixes: ["360", "361"] },
-  { slug: "huntsville", name: "Huntsville", state: "AL", county: "Madison County", latitude: 34.7304, longitude: -86.5861, zipPrefixes: ["358"] },
-  { slug: "mobile", name: "Mobile", state: "AL", county: "Mobile County", latitude: 30.6954, longitude: -88.0399, zipPrefixes: ["365", "366"] },
-  { slug: "dothan", name: "Dothan", state: "AL", county: "Houston County", latitude: 31.2232, longitude: -85.3905, zipPrefixes: ["363"] },
+  { slug: "montgomery-al", name: "Montgomery", state: "AL", county: "Montgomery County", latitude: 32.3792, longitude: -86.3077, zipPrefixes: ["360", "361"] },
+  { slug: "huntsville-al", name: "Huntsville", state: "AL", county: "Madison County", latitude: 34.7304, longitude: -86.5861, zipPrefixes: ["358"] },
+  { slug: "mobile-al", name: "Mobile", state: "AL", county: "Mobile County", latitude: 30.6954, longitude: -88.0399, zipPrefixes: ["365", "366"] },
+  { slug: "dothan-al", name: "Dothan", state: "AL", county: "Houston County", latitude: 31.2232, longitude: -85.3905, zipPrefixes: ["363"] },
 ];
 
 export function stateName(code: UsStateCode): string {

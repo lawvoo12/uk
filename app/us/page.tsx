@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { MapPin, ShieldCheck, Users } from "lucide-react";
 
 import { HeroSearch } from "@/components/home/hero-search";
@@ -8,6 +9,7 @@ import { UsHowItWorks } from "@/components/us/how-it-works";
 import { US_CITIES, getUsCitiesGroupedByState } from "@/lib/us/cities";
 import { US_LAWYERS } from "@/lib/us/lawyers";
 import { US_LEADS_ENABLED } from "@/lib/config";
+import { getUsState } from "@/lib/us/states";
 
 const cityNames = US_CITIES.slice(0, 4)
   .map((c) => c.name)
@@ -57,7 +59,15 @@ export default function UsHomePage() {
             <MapPin className="h-4 w-4 text-[#B8863B]" strokeWidth={1.75} />
             <dt className="sr-only">Coverage</dt>
             <dd>
-              {US_CITIES.length} cities in {where}
+              {US_CITIES.length} cities in{" "}
+              {states.map((g, i) => (
+                <span key={g.state}>
+                  {i > 0 ? ", " : ""}
+                  <Link href={`/us/${getUsState(g.state).slug}`} className="underline underline-offset-2 hover:text-[#10233D]">
+                    {g.stateName}
+                  </Link>
+                </span>
+              ))}
             </dd>
           </div>
         </dl>
