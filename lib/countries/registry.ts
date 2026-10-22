@@ -74,6 +74,8 @@ export interface CountryConfig {
   closedSidebarNote: string;
   /** Under "Popular practice areas" on the home page. */
   practiceAreaGridNote: string;
+  /** Listing request form: hint under "Registration or bar number". */
+  registrationHint: string;
 }
 
 const CONSENT_CHOSEN_OR_NAMED =
@@ -113,6 +115,7 @@ export const COUNTRIES: Record<Country, CountryConfig> = {
     regulatorNoun: "register",
     closedSidebarNote: `${SIDEBAR_NOTE_START} its register entry.`,
     practiceAreaGridNote: "Every firm listed has been checked on its regulator's register.",
+    registrationHint: "Your SRA number, or your Law Society of Scotland or Northern Ireland details",
   },
 
   ie: {
@@ -146,6 +149,7 @@ export const COUNTRIES: Record<Country, CountryConfig> = {
     closedSidebarNote: `${SIDEBAR_NOTE_START} its register entry.`,
     practiceAreaGridNote:
       "Listings come from each firm's own published details. Check any firm on the Law Society of Ireland register before you instruct it.",
+    registrationHint: "As shown on the Law Society of Ireland's register",
   },
 
   ca: {
@@ -177,6 +181,7 @@ export const COUNTRIES: Record<Country, CountryConfig> = {
     regulatorNoun: "directory",
     closedSidebarNote: `${SIDEBAR_NOTE_START} its law society directory.`,
     practiceAreaGridNote: "Every lawyer listed was checked on their provincial law society's public directory before being added.",
+    registrationHint: "Your law society licence or member number",
   },
 
   us: {
@@ -208,6 +213,7 @@ export const COUNTRIES: Record<Country, CountryConfig> = {
     regulatorNoun: "directory",
     closedSidebarNote: `${SIDEBAR_NOTE_START} its state bar directory.`,
     practiceAreaGridNote: "Every lawyer listed is checked on their state bar's public directory before being added.",
+    registrationHint: "Your state bar number",
   },
 };
 

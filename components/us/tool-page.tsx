@@ -16,6 +16,7 @@ export function UsToolPage({
   disclaimer,
   children,
   extra,
+  applicationCategory = "FinanceApplication",
 }: {
   path: string;
   name: string;
@@ -27,6 +28,8 @@ export function UsToolPage({
   disclaimer: string;
   children: React.ReactNode;
   extra?: React.ReactNode;
+  /** schema.org WebApplication category. */
+  applicationCategory?: string;
 }) {
   const jsonLd = [
     {
@@ -34,7 +37,7 @@ export function UsToolPage({
       "@type": "WebApplication",
       name,
       url: `${SITE_URL}${path}`,
-      applicationCategory: "FinanceApplication",
+      applicationCategory,
       operatingSystem: "Any",
       offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
     },

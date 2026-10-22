@@ -6,7 +6,7 @@ import { US_TOOLS } from "@/lib/tools";
 
 export const metadata: Metadata = {
   title: "Free legal tools and calculators for the US",
-  description: "Free US legal calculators: Alabama deed tax and mortgage tax when you buy a home.",
+  description: "Free US legal calculators: Alabama deed tax and mortgage tax when you buy a home, and the deadline to file a job discrimination charge with the EEOC.",
   alternates: { canonical: "/us/tools", languages: { "en-GB": "/uk/tools", "en-IE": "/ie/tools", "en-CA": "/ca/tools", "en-US": "/us/tools" } },
 };
 

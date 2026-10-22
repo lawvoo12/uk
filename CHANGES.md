@@ -365,3 +365,26 @@ Approved by the site owner.
   the visitor is asked to try again (as before). Needs RESEND_API_KEY and
   LEAD_NOTIFY_EMAIL set in Vercel, with lawvoo.com verified in Resend (the
   email is sent from leads@lawvoo.com).
+
+## Update 24 — Listing request form (all countries) and EEOC deadline calculator (US) (22 Oct 2026)
+
+Approved by the site owner.
+
+- **Listing request form** on `/uk|ie|ca|us/listings`: a lawyer chooses "I'm
+  listed" (keep / update / remove) or "Add me", no login. Requests go to a new
+  "Listings" tab in the Google Sheet (status "New") with an email alert.
+  Nothing on the site changes until you check the request and the register.
+  Outreach emails can link to `/us/listings?lawyer=<id>` — the form pre-fills
+  that listing. Includes a "happy to link to my Lawvoo profile" tick box.
+  **Switched OFF** until you (1) paste the updated
+  `deploy/lawvoo-apps-script.js`, (2) set `LISTING_FORM_ENABLED="true"` in
+  Vercel and redeploy. Until then the pages show only the email buttons.
+- Privacy policies (all four): one paragraph on what happens to details sent
+  about a listing; "last updated" 22 Oct 2026.
+- **EEOC deadline calculator** at `/us/tools/eeoc-deadline-calculator`:
+  180 or 300 calendar days, Alabama fixed at 180 (EEOC Birmingham office),
+  "not sure" shows both, age and federal-employee rules, deadline moved off
+  weekends and federal holidays. Rules from eeoc.gov, checked 22 Oct 2026
+  (`lib/us/eeoc-deadline.ts`). Linked from the EEOC guide, the tools page and
+  the US footer.
+- Shared Sheet/Turnstile helpers moved to `lib/sheets.ts`.

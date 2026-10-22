@@ -225,6 +225,11 @@ export default function PrivacyPolicyPage() {
               </Link>
               .
             </p>
+            <p className="mt-3">
+              If a solicitor or firm contacts us about a listing — by email or through the listing request form — we use
+              what they send (name, firm, contact details and the request) only to deal with the request and keep the
+              listing accurate, and keep it for up to 2 years.
+            </p>
           </section>
 
           <section>
