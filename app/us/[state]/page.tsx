@@ -5,13 +5,13 @@ import { ArrowRight, Calculator, ExternalLink, MapPin, ScrollText, ShieldCheck, 
 
 import { BreadcrumbNav } from "@/components/solicitors/breadcrumb-nav";
 import { HeroSearch } from "@/components/home/hero-search";
+import { PracticeAreaGrid } from "@/components/home/practice-area-grid";
 import { US_LEADS_ENABLED } from "@/lib/config";
 import { FAQSection } from "@/components/solicitors/faq-section";
 import { US_CITIES } from "@/lib/us/cities";
-import { US_CHECKED_SENTENCE, getUsStateContent } from "@/lib/us/content";
+import { getUsStateContent } from "@/lib/us/content";
 import { US_GUIDES } from "@/lib/us/guides";
 import { US_LAWYERS } from "@/lib/us/lawyers";
-import { US_PRACTICE_AREAS } from "@/lib/us/practice-areas";
 import { getUsStateBySlug, liveUsStates } from "@/lib/us/states";
 import { US_TOOLS } from "@/lib/tools";
 import { SITE_NAME, SITE_URL } from "@/lib/seo/site";
@@ -151,8 +151,6 @@ export default async function UsStateHubPage({ params }: PageProps) {
       </section>
 
       <div className="mx-auto max-w-6xl px-4 pb-14">
-        <p className="max-w-2xl text-sm text-[#5B6472]">{US_CHECKED_SENTENCE}</p>
-
         {/* Cities */}
         <section aria-labelledby="cities-h" className="mt-10">
           <h2 id="cities-h" className="font-serif text-2xl text-[#10233D]">
@@ -180,41 +178,10 @@ export default async function UsStateHubPage({ params }: PageProps) {
           </ul>
         </section>
 
-        {/* Practice areas, each with the cities that have a lawyer for it */}
-        <section aria-labelledby="areas-h" className="mt-12">
-          <h2 id="areas-h" className="font-serif text-2xl text-[#10233D]">
-            Lawyers by practice area in {state.name}
-          </h2>
-          <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {US_PRACTICE_AREAS.map((area) => {
-              const areaCities = cities.filter((c) =>
-                lawyers.some((l) => l.citySlug === c.slug && l.practiceAreaSlugs.includes(area.slug))
-              );
-              return (
-                <div key={area.slug} className="rounded-xl border border-[#DCD8D0] bg-white p-5">
-                  <Link href={`/us/lawyers/${area.urlSlug}`} className="font-serif text-lg text-[#10233D] hover:underline">
-                    {area.name} lawyers
-                  </Link>
-                  <p className="mt-1 text-sm text-[#5B6472]">{content.areas[area.slug].intro}</p>
-                  {areaCities.length > 0 && (
-                    <ul className="mt-3 flex flex-wrap gap-1.5">
-                      {areaCities.map((c) => (
-                        <li key={c.slug}>
-                          <Link
-                            href={`/us/lawyers/${area.urlSlug}/${c.slug}`}
-                            className="inline-flex rounded-full border border-[#DCD8D0] bg-[#FAF9F6] px-2.5 py-0.5 text-xs text-[#5B6472] hover:border-[#B8A488] hover:text-[#10233D]"
-                          >
-                            {c.name}
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                </div>
-              );
-            })}
-          </div>
-        </section>
+        {/* Practice areas — the same cards as the home pages. */}
+        <div className="-mx-4 mt-4">
+          <PracticeAreaGrid country="us" heading={`Popular practice areas in ${state.name}`} />
+        </div>
 
         {/* Law and courts — from the state's checked content file */}
         <section aria-labelledby="law-h" className="mt-12 rounded-2xl border border-[#DCD8D0] bg-white p-6 sm:p-8">
