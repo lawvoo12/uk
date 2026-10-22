@@ -8,7 +8,7 @@ import { HeroSearch } from "@/components/home/hero-search";
 import { PracticeAreaGrid } from "@/components/home/practice-area-grid";
 import { US_LEADS_ENABLED } from "@/lib/config";
 import { FAQSection } from "@/components/solicitors/faq-section";
-import { US_CITIES } from "@/lib/us/cities";
+import { US_CITIES, usCountyLabel } from "@/lib/us/cities";
 import { getUsStateContent } from "@/lib/us/content";
 import { US_GUIDES } from "@/lib/us/guides";
 import { US_LAWYERS } from "@/lib/us/lawyers";
@@ -170,7 +170,7 @@ export default async function UsStateHubPage({ params }: PageProps) {
                   <span className="text-xs text-[#5B6472]">
                     {(countByCity[c.slug] ?? 0) > 0
                       ? `${countByCity[c.slug]} ${countByCity[c.slug] === 1 ? "lawyer" : "lawyers"}`
-                      : c.county}
+                      : usCountyLabel(c)}
                   </span>
                 </Link>
               </li>

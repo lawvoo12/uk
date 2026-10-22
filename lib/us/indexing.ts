@@ -11,7 +11,7 @@
 // ============================================================================
 
 import type { PracticeAreaSlug } from "@/lib/validations/lead-intake";
-import type { UsCity } from "@/lib/us/cities";
+import { usCountyLabel, type UsCity } from "@/lib/us/cities";
 import type { UsCityInfo } from "@/lib/us/content-shared";
 import { US_CITY_INFO } from "@/lib/us/content";
 import { US_LAWYERS, type UsLawyer } from "@/lib/us/lawyers";
@@ -28,25 +28,36 @@ export function getUsLocalBlock(area: PracticeAreaSlug, city: UsCity): UsLocalBl
   const info: UsCityInfo | undefined = US_CITY_INFO[city.slug];
   if (!info) return null;
   const probate = info.courts[0];
+  const twoCounties = Boolean(city.otherCounties?.length);
   // Some cities link to the state's probate office directory rather than a
   // court's own website — say so in the link text.
   const probateLink = probate
-    ? { label: probate.url.includes("revenue.alabama.gov") ? "County probate office directory" : probate.name, href: probate.url }
+    ? {
+        label: probate.url.includes("revenue.alabama.gov")
+          ? "County probate office directory"
+          : probate.url.includes("sos.alabama.gov")
+            ? "County officials lookup (Alabama Secretary of State)"
+            : probate.name,
+        href: probate.url,
+      }
     : undefined;
 
   switch (area) {
     case "family":
       return { heading: `Where family cases from ${city.name} are heard`, body: info.familyCourt };
     case "wills-probate":
-      return { heading: `Wills and estates in ${city.county}`, body: info.estates, link: probateLink };
+      return { heading: `Wills and estates in ${twoCounties ? city.name : city.county}`, body: info.estates, link: probateLink };
     case "property":
-      return probate
-        ? {
-            heading: `Recording a deed in ${city.county}`,
-            body: `Deeds and mortgages for property in ${city.county} are recorded with the county probate office: ${probate.name}, ${probate.address}.`,
-            link: probateLink,
-          }
-        : null;
+      if (!probate) return null;
+      return {
+        heading: `Recording a deed in ${twoCounties ? city.name : city.county}`,
+        body:
+          info.recording ??
+          (twoCounties
+            ? `${city.name} is in ${usCountyLabel(city).replace(" & ", " and ")}. Deeds and mortgages are recorded with the probate office of the county the property is in: ${info.courts.map((c) => `${c.name}, ${c.address}`).join("; or ")}.`
+            : `Deeds and mortgages for property in ${city.county} are recorded with the county probate office: ${probate.name}, ${probate.address}.`),
+        link: probateLink,
+      };
     case "personal-injury":
       return info.courtNote ? { heading: `Courts for claims from ${city.name}`, body: info.courtNote } : null;
     case "employment":
