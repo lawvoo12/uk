@@ -154,10 +154,10 @@ export default async function UsCategoryCityPage({ params }: PageProps) {
         />
 
         <div className="max-w-2xl">
-          <p className="flex items-center gap-1.5 text-sm text-[#B8863B]">
+          <Link href={`/us/${state.slug}`} className="flex w-fit items-center gap-1.5 text-sm text-[#B8863B] hover:underline">
             <MapPin className="h-4 w-4" strokeWidth={1.75} />
             {state.name}
-          </p>
+          </Link>
           <h1 className="mt-1 font-serif text-3xl text-[#10233D] sm:text-4xl">
             {category.name} lawyers in {city.name}
           </h1>

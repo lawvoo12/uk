@@ -7,6 +7,7 @@ import { getLawyerCountsByCity } from "@/lib/data/lawyers";
 import { regionSlug } from "@/lib/seo/regions";
 import { SITE_URL } from "@/lib/seo/site";
 import { BreadcrumbNav } from "@/components/solicitors/breadcrumb-nav";
+import { getUsState } from "@/lib/us/states";
 
 export const metadata: Metadata = {
   title: `Lawyers by Location in the US | ${US_CITIES.length} Cities`,
@@ -67,7 +68,9 @@ export default function UsLocationsIndexPage() {
               className="scroll-mt-6"
             >
               <h2 id={`${regionSlug(group.stateName)}-h`} className="font-serif text-2xl text-[#10233D]">
-                {group.stateName}
+                <Link href={`/us/${getUsState(group.state).slug}`} className="hover:underline">
+                  {group.stateName}
+                </Link>
               </h2>
               <ul className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
                 {group.cities.map((city) => {

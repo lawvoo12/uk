@@ -5,6 +5,7 @@ import { US_TOOLS } from "@/lib/tools";
 import { US_GUIDES } from "@/lib/us/guides";
 import { US_LAWYERS } from "@/lib/us/lawyers";
 import { US_CITIES } from "@/lib/us/cities";
+import { liveUsStates } from "@/lib/us/states";
 import { US_PRACTICE_AREAS } from "@/lib/us/practice-areas";
 import { US_CONTENT_CHECKED } from "@/lib/us/content";
 import { US_RECORDATION_CHECKED } from "@/lib/us/recordation-tax";
@@ -67,6 +68,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${baseUrl}/us/terms`, lastModified: page("terms"), changeFrequency: "yearly", priority: 0.2 },
   ];
 
+  const stateRoutes: MetadataRoute.Sitemap = liveUsStates().map((s) => ({
+    url: `${baseUrl}/us/${s.slug}`,
+    lastModified: laterOf(content, latestCheck(US_LAWYERS.filter((l) => l.state === s.code))),
+    changeFrequency: "weekly" as const,
+    priority: 0.9,
+  }));
+
   const locationRoutes: MetadataRoute.Sitemap = US_CITIES.flatMap((c) => {
     const here = US_LAWYERS.filter((l) => l.citySlug === c.slug);
     return here.length === 0
@@ -103,5 +111,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.6,
   }));
 
-  return [...staticRoutes, ...locationRoutes, ...categoryHubRoutes, ...categoryCityRoutes, ...profileRoutes];
+  return [...staticRoutes, ...stateRoutes, ...locationRoutes, ...categoryHubRoutes, ...categoryCityRoutes, ...profileRoutes];
 }

@@ -43,11 +43,11 @@ const CA_POPULAR_CITIES = [
 
 // United States (/us): its own footer. Batch 1 is Alabama.
 const US_POPULAR_CITIES = [
-  { slug: "birmingham-alabama", name: "Birmingham, AL" },
-  { slug: "montgomery", name: "Montgomery, AL" },
-  { slug: "huntsville", name: "Huntsville, AL" },
-  { slug: "mobile", name: "Mobile, AL" },
-  { slug: "dothan", name: "Dothan, AL" },
+  { slug: "birmingham-al", name: "Birmingham, AL" },
+  { slug: "montgomery-al", name: "Montgomery, AL" },
+  { slug: "huntsville-al", name: "Huntsville, AL" },
+  { slug: "mobile-al", name: "Mobile, AL" },
+  { slug: "dothan-al", name: "Dothan, AL" },
 ];
 
 export function Footer() {

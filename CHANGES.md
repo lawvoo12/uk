@@ -388,3 +388,21 @@ Approved by the site owner.
   (`lib/us/eeoc-deadline.ts`). Linked from the EEOC guide, the tools page and
   the US footer.
 - Shared Sheet/Turnstile helpers moved to `lib/sheets.ts`.
+
+## Update 25 — Alabama state page and city URLs with the state (22 Oct 2026)
+
+Approved by the site owner.
+
+- **City URLs now end with the state code**: `montgomery` → `montgomery-al`,
+  `huntsville` → `huntsville-al`, `mobile` → `mobile-al`, `dothan` → `dothan-al`,
+  `birmingham-alabama` → `birmingham-al` — in `/us/locations/…` and every
+  `/us/lawyers/<area>/…` page. Lawyer profile URLs don't change. Old URLs get a
+  301 in the Netlify repo (`law`, netlify.toml), which must be merged AFTER
+  this change is live on Vercel. New cities must always use `<city>-<state>`.
+- **State hub page** `/us/alabama` (`app/us/[state]/page.tsx`): cities with
+  lawyer counts, the six practice areas with the cities that have a lawyer for
+  each, Alabama law and courts, free legal help, guides, tools and FAQs — all
+  from the checked state file. One page per live state, built automatically
+  when a state is added to `lib/us/states.ts`. Linked from the US homepage,
+  /us/locations, and the state label on city and area pages; city page
+  breadcrumbs are now Home › Alabama › City. Added to /us/sitemap.xml.

@@ -306,7 +306,7 @@ function circuitNote(county: string) {
 }
 
 export const ALABAMA_CITY_INFO: Record<string, UsCityInfo> = {
-  "birmingham-alabama": {
+  "birmingham-al": {
     local:
       "Birmingham is in Jefferson County. The Probate Court's Birmingham Division is at 716 North Richard Arrington Jr. Boulevard, and the county also has a Bessemer Division at 1801 3rd Avenue North in Bessemer. The EEOC's Birmingham District Office is at Ridge Park Place, 1130 22nd Street South.",
     courts: [
@@ -325,7 +325,7 @@ export const ALABAMA_CITY_INFO: Record<string, UsCityInfo> = {
     employmentNote:
       "The EEOC's Birmingham District Office is at Ridge Park Place, 1130 22nd Street South, Birmingham. You can also start online by submitting an inquiry through the EEOC Public Portal.",
   },
-  montgomery: {
+  "montgomery-al": {
     local:
       "Montgomery is in Montgomery County. The Montgomery County Probate Court is in Courthouse Annex III at 101 South Lawrence Street, on the 3rd floor.",
     courts: [
@@ -341,7 +341,7 @@ export const ALABAMA_CITY_INFO: Record<string, UsCityInfo> = {
     estates:
       "Wills and estates are handled by the Montgomery County Probate Court, Courthouse Annex III, 101 South Lawrence Street, 3rd Floor, Montgomery.",
   },
-  huntsville: {
+  "huntsville-al": {
     local: "Huntsville is in Madison County. The Madison County Probate Judge's office is at 100 North Side Square, Room 108.",
     courts: [
       {
@@ -355,7 +355,7 @@ export const ALABAMA_CITY_INFO: Record<string, UsCityInfo> = {
     familyCourt: "For Huntsville, divorce and other domestic relations cases are heard by the Circuit Court of Madison County.",
     estates: "Wills and estates are handled by the Madison County Probate Court, 100 North Side Square, Room 108, Huntsville.",
   },
-  mobile: {
+  "mobile-al": {
     local:
       "Mobile is in Mobile County. The Probate Court of Mobile County is in the Mobile County Government Center Annex at 151 Government Street.",
     courts: [
@@ -371,7 +371,7 @@ export const ALABAMA_CITY_INFO: Record<string, UsCityInfo> = {
     estates:
       "Wills and estates are handled by the Probate Court of Mobile County, Mobile County Government Center Annex, 151 Government Street, Mobile.",
   },
-  dothan: {
+  "dothan-al": {
     local:
       "Dothan is in Houston County. The Alabama Department of Revenue lists the Houston County probate office at 462 North Oates Street; the county courthouse is at 114 North Oates Street.",
     courts: [
