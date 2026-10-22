@@ -1,15 +1,17 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowRight, BadgeCheck, Calculator, ExternalLink, MapPin, ScrollText } from "lucide-react";
+import { ArrowRight, Calculator, ExternalLink, MapPin, ScrollText, ShieldCheck, Users } from "lucide-react";
 
 import { BreadcrumbNav } from "@/components/solicitors/breadcrumb-nav";
+import { HeroSearch } from "@/components/home/hero-search";
+import { PracticeAreaGrid } from "@/components/home/practice-area-grid";
+import { US_LEADS_ENABLED } from "@/lib/config";
 import { FAQSection } from "@/components/solicitors/faq-section";
 import { US_CITIES } from "@/lib/us/cities";
-import { US_CHECKED_SENTENCE, getUsStateContent } from "@/lib/us/content";
+import { getUsStateContent } from "@/lib/us/content";
 import { US_GUIDES } from "@/lib/us/guides";
 import { US_LAWYERS } from "@/lib/us/lawyers";
-import { US_PRACTICE_AREAS } from "@/lib/us/practice-areas";
 import { getUsStateBySlug, liveUsStates } from "@/lib/us/states";
 import { US_TOOLS } from "@/lib/tools";
 import { SITE_NAME, SITE_URL } from "@/lib/seo/site";
@@ -61,6 +63,7 @@ export default async function UsStateHubPage({ params }: PageProps) {
   const countByCity: Record<string, number> = {};
   for (const l of lawyers) countByCity[l.citySlug] = (countByCity[l.citySlug] ?? 0) + 1;
   const citiesWithLawyers = cities.filter((c) => (countByCity[c.slug] ?? 0) > 0).length;
+  const firms = new Set(lawyers.map((l) => l.firmName)).size;
   // Guides about this state first, then the federal ones (they apply everywhere).
   const stateGuides = US_GUIDES.filter((g) => `${g.title} ${g.description}`.includes(state.name));
   const federalGuides = US_GUIDES.filter((g) => !stateGuides.includes(g));
@@ -102,29 +105,52 @@ export default async function UsStateHubPage({ params }: PageProps) {
       {jsonLd.map((j, i) => (
         <script key={i} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(j) }} />
       ))}
-      <div className="mx-auto max-w-6xl px-4 py-10 sm:py-14">
-        <BreadcrumbNav items={[{ label: "Home", href: "/us" }, { label: state.name }]} />
-
-        <div className="max-w-2xl">
-          <h1 className="font-serif text-3xl text-[#10233D] sm:text-4xl">Find a lawyer in {state.name}</h1>
-          <p className="mt-3 text-[#5B6472]">
-            {lawyers.length > 0
-              ? `${lawyers.length} ${lawyers.length === 1 ? "lawyer" : "lawyers"} in ${citiesWithLawyers} ${state.name} ${citiesWithLawyers === 1 ? "city" : "cities"}, by area of law. `
-              : ""}
-            {US_CHECKED_SENTENCE}
+      {/* Hero — same look as the /us homepage: heading, search box, trust row. */}
+      <section className="px-4 pb-14 pt-8 sm:pb-16">
+        <div className="mx-auto max-w-6xl px-4">
+          <BreadcrumbNav items={[{ label: "Home", href: "/us" }, { label: state.name }]} />
+        </div>
+        <div className="mx-auto mt-6 max-w-3xl text-center sm:mt-10">
+          <h1 className="font-serif text-3xl text-[#10233D] sm:text-5xl">Find the right lawyer in {state.name}</h1>
+          <p className="mx-auto mt-4 max-w-xl text-[#5B6472]">
+            {firms > 0
+              ? `Compare ${firms} law ${firms === 1 ? "firm" : "firms"} in ${citiesWithLawyers} ${citiesWithLawyers === 1 ? "city" : "cities"} in ${state.name} by area of law`
+              : `Browse lawyers in ${state.name} by area of law`}
+            {US_LEADS_ENABLED ? ", or tell us about your case — free, with no obligation." : " and contact them directly — free to use."}
           </p>
-          <a
-            href={state.directoryUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-4 inline-flex items-center gap-1.5 rounded-full bg-[#EAF3EC] px-3 py-1 text-sm font-medium text-[#2F6844] hover:underline"
-          >
-            <BadgeCheck className="h-4 w-4" strokeWidth={1.75} />
-            {state.directoryLabel}
-            <ExternalLink className="h-3.5 w-3.5" />
-          </a>
         </div>
 
+        <div className="mt-8">
+          <HeroSearch country="us" />
+        </div>
+
+        <dl className="mx-auto mt-8 flex max-w-3xl flex-wrap justify-center gap-x-8 gap-y-3 text-sm text-[#5B6472]">
+          <div className="flex items-center gap-2">
+            <ShieldCheck className="h-4 w-4 text-[#B8863B]" strokeWidth={1.75} />
+            <dt className="sr-only">Directory check</dt>
+            <dd>
+              Checked on the{" "}
+              <a href={state.directoryUrl} target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:text-[#10233D]">
+                {state.regulatorName} directory
+              </a>
+            </dd>
+          </div>
+          <div className="flex items-center gap-2">
+            <Users className="h-4 w-4 text-[#B8863B]" strokeWidth={1.75} />
+            <dt className="sr-only">No account needed</dt>
+            <dd>No account needed</dd>
+          </div>
+          <div className="flex items-center gap-2">
+            <MapPin className="h-4 w-4 text-[#B8863B]" strokeWidth={1.75} />
+            <dt className="sr-only">Coverage</dt>
+            <dd>
+              {cities.length} {cities.length === 1 ? "city" : "cities"} in {state.name}
+            </dd>
+          </div>
+        </dl>
+      </section>
+
+      <div className="mx-auto max-w-6xl px-4 pb-14">
         {/* Cities */}
         <section aria-labelledby="cities-h" className="mt-10">
           <h2 id="cities-h" className="font-serif text-2xl text-[#10233D]">
@@ -152,41 +178,10 @@ export default async function UsStateHubPage({ params }: PageProps) {
           </ul>
         </section>
 
-        {/* Practice areas, each with the cities that have a lawyer for it */}
-        <section aria-labelledby="areas-h" className="mt-12">
-          <h2 id="areas-h" className="font-serif text-2xl text-[#10233D]">
-            Lawyers by practice area in {state.name}
-          </h2>
-          <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {US_PRACTICE_AREAS.map((area) => {
-              const areaCities = cities.filter((c) =>
-                lawyers.some((l) => l.citySlug === c.slug && l.practiceAreaSlugs.includes(area.slug))
-              );
-              return (
-                <div key={area.slug} className="rounded-xl border border-[#DCD8D0] bg-white p-5">
-                  <Link href={`/us/lawyers/${area.urlSlug}`} className="font-serif text-lg text-[#10233D] hover:underline">
-                    {area.name} lawyers
-                  </Link>
-                  <p className="mt-1 text-sm text-[#5B6472]">{content.areas[area.slug].intro}</p>
-                  {areaCities.length > 0 && (
-                    <ul className="mt-3 flex flex-wrap gap-1.5">
-                      {areaCities.map((c) => (
-                        <li key={c.slug}>
-                          <Link
-                            href={`/us/lawyers/${area.urlSlug}/${c.slug}`}
-                            className="inline-flex rounded-full border border-[#DCD8D0] bg-[#FAF9F6] px-2.5 py-0.5 text-xs text-[#5B6472] hover:border-[#B8A488] hover:text-[#10233D]"
-                          >
-                            {c.name}
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                </div>
-              );
-            })}
-          </div>
-        </section>
+        {/* Practice areas — the same cards as the home pages. */}
+        <div className="-mx-4 mt-4">
+          <PracticeAreaGrid country="us" heading={`Popular practice areas in ${state.name}`} />
+        </div>
 
         {/* Law and courts — from the state's checked content file */}
         <section aria-labelledby="law-h" className="mt-12 rounded-2xl border border-[#DCD8D0] bg-white p-6 sm:p-8">

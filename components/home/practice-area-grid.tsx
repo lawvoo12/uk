@@ -17,14 +17,21 @@ const ICONS: Record<PracticeAreaSlug, LucideIcon> = {
 // Each card opens that practice area's UK-wide page (/uk/solicitors/[category]),
 // which lists every city with a solicitor covering it.
 
-export function PracticeAreaGrid({ country = "uk" }: { country?: Country } = {}) {
+export function PracticeAreaGrid({
+  country = "uk",
+  heading = "Popular practice areas",
+}: {
+  country?: Country;
+  /** Defaults to "Popular practice areas" (the home pages); the US state page passes its own. */
+  heading?: string;
+} = {}) {
   // Canada and the US have their own area names and URLs ("Real Estate" → /ca/lawyers/real-estate).
   const c = cfg(country);
   const areas = c.areas;
   return (
     <section aria-labelledby="practice-areas-heading" className="mx-auto max-w-5xl px-4 py-14">
       <h2 id="practice-areas-heading" className="text-center font-serif text-2xl text-[#10233D] sm:text-3xl">
-        Popular practice areas
+        {heading}
       </h2>
       <p className="mx-auto mt-2 max-w-lg text-center text-sm text-[#5B6472]">
         {c.practiceAreaGridNote}

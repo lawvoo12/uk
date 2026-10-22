@@ -28,7 +28,11 @@ export function getUsLocalBlock(area: PracticeAreaSlug, city: UsCity): UsLocalBl
   const info: UsCityInfo | undefined = US_CITY_INFO[city.slug];
   if (!info) return null;
   const probate = info.courts[0];
-  const probateLink = probate ? { label: probate.name, href: probate.url } : undefined;
+  // Some cities link to the state's probate office directory rather than a
+  // court's own website — say so in the link text.
+  const probateLink = probate
+    ? { label: probate.url.includes("revenue.alabama.gov") ? "County probate office directory" : probate.name, href: probate.url }
+    : undefined;
 
   switch (area) {
     case "family":

@@ -406,3 +406,17 @@ Approved by the site owner.
   when a state is added to `lib/us/states.ts`. Linked from the US homepage,
   /us/locations, and the state label on city and area pages; city page
   breadcrumbs are now Home › Alabama › City. Added to /us/sitemap.xml.
+
+## Update 26 — 12 more Alabama cities (22 Oct 2026)
+
+Tuscaloosa, Auburn, Opelika, Decatur, Florence, Gadsden, Anniston, Athens,
+Cullman, Troy, Jasper and Selma — cities that sit in one county. County and
+probate office for each from the Alabama Department of Revenue's County
+Probate Office Directory (page updated 18 Nov 2025); Auburn's county and
+Decatur as Morgan County's seat from the Encyclopedia of Alabama. Each city
+gets a city page and six area pages automatically. They stay noindex and out
+of the sitemap until a lawyer is listed there (existing rule). ZIP search now
+also matches whole ZIP codes, so cities sharing three digits (Decatur,
+Florence, Athens) are told apart; Cullman ZIPs no longer land on Birmingham.
+Left out for now: cities split across counties (e.g. Hoover, Madison,
+Prattville, Enterprise) — they need both counties' courts.
