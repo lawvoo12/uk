@@ -1,6 +1,7 @@
 import Link from "next/link";
 
-import { LISTINGS_BASE, type Country } from "@/lib/country";
+import type { Country } from "@/lib/country";
+import { cfg } from "@/lib/countries/registry";
 
 const POPULAR_SEARCHES: { category: string; categoryName: string; city: string; cityName: string }[] = [
   { category: "immigration", categoryName: "Immigration", city: "london", cityName: "London" },
@@ -48,8 +49,7 @@ const US_POPULAR_SEARCHES: typeof POPULAR_SEARCHES = [
 ];
 
 export function PopularSearches({ country = "uk" }: { country?: Country } = {}) {
-  const searches =
-    country === "ca" ? CA_POPULAR_SEARCHES : country === "us" ? US_POPULAR_SEARCHES : country === "ie" ? IE_POPULAR_SEARCHES : POPULAR_SEARCHES;
+  const searches = { uk: POPULAR_SEARCHES, ie: IE_POPULAR_SEARCHES, ca: CA_POPULAR_SEARCHES, us: US_POPULAR_SEARCHES }[country];
   return (
     <section aria-labelledby="popular-searches-heading" className="mx-auto max-w-5xl px-4 py-14">
       <h2 id="popular-searches-heading" className="text-center font-serif text-2xl text-[#10233D] sm:text-3xl">
@@ -59,18 +59,10 @@ export function PopularSearches({ country = "uk" }: { country?: Country } = {}) 
         {searches.map((item) => (
           <Link
             key={`${item.category}-${item.city}`}
-            href={`${LISTINGS_BASE[country]}/${item.category}/${item.city}`}
+            href={`${cfg(country).listingsBase}/${item.category}/${item.city}`}
             className="rounded-full border border-[#DCD8D0] bg-white px-4 py-2 text-sm text-[#5B6472] transition-colors hover:border-[#B8A488] hover:text-[#10233D]"
           >
-            {country === "ca" || country === "us" ? (
-              <>
-                {item.categoryName} lawyers in {item.cityName}
-              </>
-            ) : (
-              <>
-                {item.categoryName} solicitors in {item.cityName}
-              </>
-            )}
+            {item.categoryName} {cfg(country).word}s in {item.cityName}
           </Link>
         ))}
       </div>

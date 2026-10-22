@@ -8,6 +8,7 @@ import { US_CITIES } from "@/lib/us/cities";
 import { US_PRACTICE_AREAS } from "@/lib/us/practice-areas";
 import { US_CONTENT_CHECKED } from "@/lib/us/content";
 import { US_RECORDATION_CHECKED } from "@/lib/us/recordation-tax";
+import { EEOC_CHECKED } from "@/lib/us/eeoc-deadline";
 import { US_PAGE_UPDATED } from "@/lib/us/page-dates";
 import { getUsLocalBlock, latestCheck, parseCheckedDate, shouldIndexUsAreaCity, usLawyersFor } from "@/lib/us/indexing";
 
@@ -19,6 +20,12 @@ import { getUsLocalBlock, latestCheck, parseCheckedDate, shouldIndexUsAreaCity, 
 // <lastmod> is the real date a page's content last changed — the content
 // check date, a lawyer's register check date, a guide's date or a page's
 // "last updated" date — never the build time, so Google can trust it.
+// Each tool's "rules checked" date.
+const TOOL_CHECKED: Record<string, string> = {
+  "/us/tools/alabama-deed-mortgage-tax-calculator": US_RECORDATION_CHECKED,
+  "/us/tools/eeoc-deadline-calculator": EEOC_CHECKED,
+};
+
 function laterOf(...dates: (Date | undefined)[]): Date {
   const times = dates.filter((d): d is Date => Boolean(d)).map((d) => d.getTime());
   return new Date(Math.max(...times));
@@ -37,11 +44,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${baseUrl}/us/lawyers`, lastModified: directory, changeFrequency: "weekly", priority: 0.9 },
     { url: `${baseUrl}/us/locations`, lastModified: directory, changeFrequency: "weekly", priority: 0.9 },
     ...(US_TOOLS.length > 0
-      ? [{ url: `${baseUrl}/us/tools`, lastModified: parseCheckedDate(US_RECORDATION_CHECKED), changeFrequency: "monthly" as const, priority: 0.5 }]
+      ? [{ url: `${baseUrl}/us/tools`, lastModified: laterOf(...Object.values(TOOL_CHECKED).map(parseCheckedDate)), changeFrequency: "monthly" as const, priority: 0.5 }]
       : []),
     ...US_TOOLS.map((t) => ({
       url: `${baseUrl}${t.href}`,
-      lastModified: parseCheckedDate(US_RECORDATION_CHECKED),
+      lastModified: parseCheckedDate(TOOL_CHECKED[t.href] ?? US_CONTENT_CHECKED),
       changeFrequency: "monthly" as const,
       priority: 0.8,
     })),

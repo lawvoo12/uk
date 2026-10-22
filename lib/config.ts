@@ -76,3 +76,18 @@ export const BUSINESS_NAME = process.env.NEXT_PUBLIC_BUSINESS_NAME || "Lawvoo";
 export const CONTACT_EMAIL = process.env.NEXT_PUBLIC_CONTACT_EMAIL || "lawvoo12@gmail.com";
 export const BUSINESS_ADDRESS = process.env.NEXT_PUBLIC_BUSINESS_ADDRESS || "";
 export const ICO_NUMBER = process.env.NEXT_PUBLIC_ICO_NUMBER || "";
+
+/** Whether the enquiry form is open for a country section (server-side only). */
+export function leadsEnabledFor(country: "uk" | "ie" | "ca" | "us"): boolean {
+  return { uk: LEADS_ENABLED, ie: IE_LEADS_ENABLED, ca: CA_LEADS_ENABLED, us: US_LEADS_ENABLED }[country];
+}
+
+/**
+ * The listing request form on the /listings pages (lawyers asking to keep,
+ * update or remove their listing, or to be added). OFF until
+ * LISTING_FORM_ENABLED="true" — first paste the updated
+ * deploy/lawvoo-apps-script.js (it adds the "Listings" tab), otherwise
+ * requests would land in the leads sheet. While off, the pages show only the
+ * email buttons, as before.
+ */
+export const LISTING_FORM_ENABLED = process.env.LISTING_FORM_ENABLED === "true";

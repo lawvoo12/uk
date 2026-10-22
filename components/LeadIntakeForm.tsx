@@ -26,12 +26,6 @@ import {
   caLeadIntakeSchema,
   usLeadIntakeSchema,
   STEP_FIELDS,
-  PRACTICE_AREAS,
-  IE_PRACTICE_AREAS,
-  SUB_CATEGORIES,
-  IE_SUB_CATEGORIES,
-  CA_SUB_CATEGORIES,
-  US_SUB_CATEGORIES,
   type LeadIntakeInput,
   type PracticeAreaSlug,
 } from "@/lib/validations/lead-intake";
@@ -43,23 +37,20 @@ import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Turnstile } from "@/components/leads/turnstile";
 import { TURNSTILE_SITE_KEY } from "@/lib/config";
-import { CA_PRACTICE_AREAS } from "@/lib/ca/practice-areas";
-import { US_PRACTICE_AREAS } from "@/lib/us/practice-areas";
+import { cfgByCode } from "@/lib/countries/registry";
 
 const TOTAL_STEPS = 4;
 
-// "UK" (default), "IE" or "CA". The Irish form has no Personal Injury option,
-// asks for an optional Eircode instead of a UK postcode, and takes Irish
-// numbers. The Canadian form is the same idea: no Personal Injury, an
-// optional postal code, North American numbers, and Canadian area names.
-// The US form ("US") works the same way with an optional ZIP code and US
-// area names.
+// "UK" (default), "IE", "CA" or "US". What differs between them — the areas
+// offered (no personal injury outside the UK), labels, placeholders and the
+// consent wording — comes from the country registry (lib/countries/registry.ts).
 type FormCountry = "UK" | "IE" | "CA" | "US";
 
-// Canadian area names for the five areas the form offers (no personal injury).
-const CA_FORM_AREAS = CA_PRACTICE_AREAS.filter((a) => a.slug !== "personal-injury");
-// US area names for the five areas the form offers (no personal injury).
-const US_FORM_AREAS = US_PRACTICE_AREAS.filter((a) => a.slug !== "personal-injury");
+/** The registry's form settings for the form's country. */
+function useFormConfig() {
+  return cfgByCode(useContext(FormCountryContext)).form;
+}
+
 const FormCountryContext = createContext<FormCountry>("UK");
 
 const STEP_LABELS = ["Practice area", "Case & location", "Your situation", "Your details"];
@@ -105,17 +96,8 @@ function StepPracticeArea() {
   } = useFormContext<LeadIntakeInput>();
 
   const selected = watch("practiceArea");
-  const formCountry = useContext(FormCountryContext);
-  const isIe = formCountry === "IE";
-  const isCa = formCountry === "CA";
-  const isUs = formCountry === "US";
-  const areas: readonly { slug: PracticeAreaSlug; name: string; description: string }[] = isCa
-    ? CA_FORM_AREAS
-    : isUs
-      ? US_FORM_AREAS
-      : isIe
-      ? IE_PRACTICE_AREAS
-      : PRACTICE_AREAS;
+  const form = useFormConfig();
+  const areas = form.areas;
 
   return (
     <fieldset>
@@ -158,29 +140,11 @@ function StepPracticeArea() {
           {errors.practiceArea.message}
         </p>
       )}
-      {isIe && (
+      {form.piNote && (
         <p className="mt-4 text-xs text-[#5B6472]">
-          Personal injury? We don&apos;t take personal injury enquiries in Ireland —{" "}
-          <a href="/ie/solicitors/personal-injury" className="underline underline-offset-2 hover:text-[#B8863B]">
-            see personal injury solicitors
-          </a>{" "}
-          and contact a firm directly.
-        </p>
-      )}
-      {isUs && (
-        <p className="mt-4 text-xs text-[#5B6472]">
-          Personal injury? We don&apos;t take personal injury enquiries in the US —{" "}
-          <a href="/us/lawyers/personal-injury" className="underline underline-offset-2 hover:text-[#B8863B]">
-            see personal injury lawyers
-          </a>{" "}
-          and contact a firm directly.
-        </p>
-      )}
-      {isCa && (
-        <p className="mt-4 text-xs text-[#5B6472]">
-          Personal injury? We don&apos;t take personal injury enquiries in Canada —{" "}
-          <a href="/ca/lawyers/personal-injury" className="underline underline-offset-2 hover:text-[#B8863B]">
-            see personal injury lawyers
+          Personal injury? We don&apos;t take personal injury enquiries in {form.piNote.where} —{" "}
+          <a href={form.piNote.href} className="underline underline-offset-2 hover:text-[#B8863B]">
+            {form.piNote.linkText}
           </a>{" "}
           and contact a firm directly.
         </p>
@@ -203,11 +167,8 @@ function StepServiceLocation() {
 
   const practiceArea = watch("practiceArea");
   const subCategory = watch("subCategory");
-  const formCountry = useContext(FormCountryContext);
-  const isIe = formCountry === "IE";
-  const isCa = formCountry === "CA";
-  const isUs = formCountry === "US";
-  const options = practiceArea ? (isCa ? CA_SUB_CATEGORIES : isUs ? US_SUB_CATEGORIES : isIe ? IE_SUB_CATEGORIES : SUB_CATEGORIES)[practiceArea] : [];
+  const form = useFormConfig();
+  const options = practiceArea ? form.subCategories[practiceArea] : [];
 
   return (
     <fieldset className="space-y-6">
@@ -247,10 +208,10 @@ function StepServiceLocation() {
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div>
-          <Label htmlFor="postcode">{isCa ? "Postal code (optional)" : isUs ? "ZIP code (optional)" : isIe ? "Eircode (optional)" : "UK postcode"}</Label>
+          <Label htmlFor="postcode">{form.postcodeLabel}</Label>
           <Input
             id="postcode"
-            placeholder={isCa ? "M5H 3S5" : isUs ? "35203" : isIe ? "A65 F4E2" : "SW1A 1AA"}
+            placeholder={form.postcodePlaceholder}
             autoCapitalize="characters"
             autoComplete="postal-code"
             {...register("postcode")}
@@ -264,10 +225,10 @@ function StepServiceLocation() {
         </div>
 
         <div>
-          <Label htmlFor="city">{isCa || isUs ? "City or town" : isIe ? "Town or county" : "Town or city"}</Label>
+          <Label htmlFor="city">{form.cityLabel}</Label>
           <Input
             id="city"
-            placeholder={isCa ? "Toronto" : isUs ? "Birmingham" : isIe ? "Dublin" : "London"}
+            placeholder={form.cityPlaceholder}
             autoComplete="address-level2"
             {...register("city")}
             className={cn(errors.city && "border-red-500 focus-visible:ring-red-500")}
@@ -298,10 +259,7 @@ function StepCaseDetails() {
 
   const urgency = watch("urgency");
   const description = watch("description") ?? "";
-  const formCountry = useContext(FormCountryContext);
-  const isIe = formCountry === "IE";
-  const isCa = formCountry === "CA";
-  const isUs = formCountry === "US";
+  const form = useFormConfig();
 
   return (
     <fieldset className="space-y-6">
@@ -314,15 +272,7 @@ function StepCaseDetails() {
         <Label htmlFor="caseTitle">Give your case a short title</Label>
         <Input
           id="caseTitle"
-          placeholder={
-            isCa
-              ? "e.g. Spousal sponsorship application for my partner"
-              : isUs
-                ? "e.g. Green card application for my spouse"
-                : isIe
-                ? "e.g. Stamp 4 application after my work permit"
-                : "e.g. Spouse visa application for my partner"
-          }
+          placeholder={form.caseTitlePlaceholder}
           {...register("caseTitle")}
           className={cn(errors.caseTitle && "border-red-500 focus-visible:ring-red-500")}
         />
@@ -403,10 +353,7 @@ function StepClientDetails() {
   } = useFormContext<LeadIntakeInput>();
 
   const consent = watch("consent");
-  const formCountry = useContext(FormCountryContext);
-  const isIe = formCountry === "IE";
-  const isCa = formCountry === "CA";
-  const isUs = formCountry === "US";
+  const form = useFormConfig();
 
   return (
     <fieldset className="space-y-6">
@@ -436,7 +383,7 @@ function StepClientDetails() {
           <Input
             id="phone"
             type="tel"
-            placeholder={isCa ? "416 555 0123" : isUs ? "205 555 0123" : isIe ? "087 123 4567" : "07123 456789"}
+            placeholder={form.phonePlaceholder}
             autoComplete="tel"
             {...register("phone")}
             className={cn(errors.phone && "border-red-500 focus-visible:ring-red-500")}
@@ -480,42 +427,12 @@ function StepClientDetails() {
         />
         <div>
           <Label htmlFor="consent" className="cursor-pointer text-sm font-normal leading-relaxed text-[#10233D]">
-            {isCa ? (
-              <>
-                I agree to Lawvoo reviewing these details and sharing them with the law firm I chose — or, if I
-                didn&apos;t choose one, with a firm Lawvoo names to me first — so that the firm can contact me about
-                my legal matter. Lawvoo is based outside Canada, so my details will be stored and handled outside
-                Canada.
-              </>
-            ) : isUs ? (
-              <>
-                I agree to Lawvoo reviewing these details and sharing them with the law firm I chose — or, if I
-                didn&apos;t choose one, with a firm Lawvoo names to me first — so that the firm can contact me about
-                my legal matter. Lawvoo is based outside the United States, so my details will be stored and handled
-                outside the US.
-              </>
-            ) : isIe ? (
-              <>
-                I agree to Lawvoo reviewing these details and sharing them with the solicitor firm I chose — or, if I
-                didn&apos;t choose one, with a firm Lawvoo names to me first — so that they can contact me about it.
-              </>
-            ) : (
-              <>
-                I agree to Lawvoo reviewing these details and sharing them with a solicitor firm that covers my
-                case (the firm I chose, if I picked one), so that they can contact me about it.
-              </>
-            )}
+            {form.consentText}
           </Label>
           <p className="mt-1 text-xs text-[#5B6472]">
-            {isCa
-              ? "We need your consent under Canadian privacy law (PIPEDA)."
-              : isUs
-                ? "We only share your details with your consent."
-                : isIe
-                  ? "Required under the GDPR."
-                  : "Required under UK GDPR."}{" "}
+            {form.consentLaw}{" "}
             Read our{" "}
-            <a href={isCa ? "/ca/privacy" : isUs ? "/us/privacy" : isIe ? "/ie/privacy" : "/uk/privacy"} className="underline underline-offset-2 hover:text-[#B8863B]">
+            <a href={form.privacyPath} className="underline underline-offset-2 hover:text-[#B8863B]">
               privacy policy
             </a>{" "}
             for how your data is used and how to withdraw consent at any time.
@@ -667,9 +584,7 @@ export function LeadIntakeForm({
     <div className="mx-auto max-w-xl">
       <div className="mb-6 flex items-center gap-2 text-xs font-medium text-[#5B6472]">
         <ShieldCheck className="h-4 w-4 text-[#B8863B]" strokeWidth={1.5} />
-        {country === "CA" || country === "US"
-          ? "Free to use · No obligation to hire · Licensed lawyers only"
-          : "Free to use · No obligation to instruct · Regulated solicitors only"}
+        {cfgByCode(country).form.trustLine}
       </div>
 
       <StepIndicator currentStep={step} />

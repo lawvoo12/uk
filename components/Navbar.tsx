@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { Menu, Scale } from "lucide-react";
 
 import { COUNTRY_BASE, countryFromPath } from "@/lib/country";
+import { cfg } from "@/lib/countries/registry";
 
 // No auth, no dashboard: the site shows solicitor listings and collects
 // enquiries through a form. A client component only so it can tell from the
@@ -39,7 +40,7 @@ export function Navbar() {
   const home = COUNTRY_BASE[country];
   const findHref = `${home}/leads/new`;
   const links = LINKS[country];
-  const findLabel = country === "ca" || country === "us" ? "Find a lawyer" : "Find a solicitor";
+  const findLabel = `Find a ${cfg(country).word}`;
 
   return (
     <header className="border-b border-[#DCD8D0] bg-white">

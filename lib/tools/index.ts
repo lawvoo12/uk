@@ -56,4 +56,10 @@ export const US_TOOLS: { href: string; name: string; shortName: string; blurb: s
     shortName: "Alabama deed & mortgage tax",
     blurb: "Recordation tax on buying a home in Alabama — deed tax and mortgage tax, with the deduction when the mortgage is recorded at the same time.",
   },
+  {
+    href: "/us/tools/eeoc-deadline-calculator",
+    name: "EEOC Deadline Calculator",
+    shortName: "EEOC charge deadline",
+    blurb: "The last day to file a job discrimination charge with the EEOC — 180 or 300 days, moved off weekends and federal holidays.",
+  },
 ];

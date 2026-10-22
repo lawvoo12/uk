@@ -343,3 +343,48 @@ pages are unchanged — the only visible change is three new footer links.
   Canada and the US, where the person was checked on the law society/state bar.
 - The noindex rule from the US is NOT applied to UK/IE/CA (wait for Search
   Console data first).
+
+## Update 23 — Country registry, firm website link on cards, lead backup email (22 Oct 2026)
+
+Approved by the site owner.
+
+- **Country registry** (`lib/countries/registry.ts`): labels, placeholders,
+  area names, consent wording and similar per-country settings now live in
+  one file. The form, search box, cards, sidebar, navbar and home sections
+  read from it instead of `isCa ? … : isUs ? …` chains. Checked: all 1,051
+  built pages are identical to before, and the enquiry form's four steps show
+  the same text in all four countries. `leadsEnabledFor(country)` in
+  `lib/config.ts` replaces the per-country switch chains.
+- **Firm website link on every card** (UK, Ireland, Canada, US): a small
+  "Firm website" link under "Request a callback". The "online enquiries opening
+  soon" sidebar note now says each listing links to the firm's website.
+- **Lead backup**: the Google Sheet write now times out after 10 s and is
+  tried twice. If it still fails, the whole lead is emailed to
+  LEAD_NOTIFY_EMAIL with "[NOT IN SHEET]" in the subject, and the visitor
+  sees the normal "submitted" message. If that email can't be sent either,
+  the visitor is asked to try again (as before). Needs RESEND_API_KEY and
+  LEAD_NOTIFY_EMAIL set in Vercel, with lawvoo.com verified in Resend (the
+  email is sent from leads@lawvoo.com).
+
+## Update 24 — Listing request form (all countries) and EEOC deadline calculator (US) (22 Oct 2026)
+
+Approved by the site owner.
+
+- **Listing request form** on `/uk|ie|ca|us/listings`: a lawyer chooses "I'm
+  listed" (keep / update / remove) or "Add me", no login. Requests go to a new
+  "Listings" tab in the Google Sheet (status "New") with an email alert.
+  Nothing on the site changes until you check the request and the register.
+  Outreach emails can link to `/us/listings?lawyer=<id>` — the form pre-fills
+  that listing. Includes a "happy to link to my Lawvoo profile" tick box.
+  **Switched OFF** until you (1) paste the updated
+  `deploy/lawvoo-apps-script.js`, (2) set `LISTING_FORM_ENABLED="true"` in
+  Vercel and redeploy. Until then the pages show only the email buttons.
+- Privacy policies (all four): one paragraph on what happens to details sent
+  about a listing; "last updated" 22 Oct 2026.
+- **EEOC deadline calculator** at `/us/tools/eeoc-deadline-calculator`:
+  180 or 300 calendar days, Alabama fixed at 180 (EEOC Birmingham office),
+  "not sure" shows both, age and federal-employee rules, deadline moved off
+  weekends and federal holidays. Rules from eeoc.gov, checked 22 Oct 2026
+  (`lib/us/eeoc-deadline.ts`). Linked from the EEOC guide, the tools page and
+  the US footer.
+- Shared Sheet/Turnstile helpers moved to `lib/sheets.ts`.

@@ -1,7 +1,11 @@
-// Lawvoo — Google Sheet Apps Script (UK + Ireland + Canada + US). Updated 17 Oct 2026.
+// Lawvoo — Google Sheet Apps Script (UK + Ireland + Canada + US). Updated 22 Oct 2026.
 // Paste this over the whole script in Extensions -> Apps Script, put your own
 // SECRET back in, then: Deploy -> Manage deployments -> Edit (pencil) ->
 // Version: New version -> Deploy. The web app URL stays the same.
+// What changed on 22 Oct 2026: listing requests from lawyers (the form on the
+// /listings pages) are saved to a new "Listings" tab — it's created
+// automatically — and you get an email for each one. After pasting this, set
+// LISTING_FORM_ENABLED="true" in Vercel and redeploy to show the form.
 // What changed for the US (17 Oct 2026): "US" is now accepted as a country, and
 // US leads show "ZIP code" in the email. Without this, US clicks would be
 // recorded as "UK".
@@ -40,7 +44,51 @@ function doPost(e) {
       return reply({ status: "success" });
     }
 
-    // A real enquiry from the form (UK, Ireland or Canada).
+    // A listing request from a lawyer (keep / update / remove / add me).
+    if (data.type === "listing") {
+      var listings = ss.getSheetByName("Listings") || ss.insertSheet("Listings");
+      if (listings.getLastRow() === 0) {
+        listings.appendRow([
+          "Ref", "Submitted At", "Country", "Request", "Listing", "Name", "Role", "Firm", "Email", "Phone",
+          "Registration no.", "Profile URL", "Office address", "City", "Practice areas", "Details", "Will link", "Status",
+        ]);
+      }
+      listings.appendRow([
+        data.ref, data.submittedAt, country, data.request, data.listing || "", data.fullName, data.role || "",
+        data.firmName, data.email, data.phone || "", data.registrationNumber || "", data.profileUrl || "",
+        data.officeAddress || "", data.city || "", data.practiceAreas || "", data.details || "", data.willLink, "New",
+      ]);
+      try {
+        MailApp.sendEmail({
+          to: NOTIFY_EMAIL,
+          replyTo: data.email,
+          subject: "[" + country + "] Listing request: " + data.request + " — " + data.fullName + ", " + data.firmName,
+          body: [
+            "Request: " + data.request,
+            "Listing: " + (data.listing || "-"),
+            "Name: " + data.fullName + (data.role ? " (" + data.role + ")" : ""),
+            "Firm: " + data.firmName,
+            "Email: " + data.email + "   Phone: " + (data.phone || "-"),
+            "Registration no.: " + (data.registrationNumber || "-"),
+            "Profile: " + (data.profileUrl || "-"),
+            "Office: " + (data.officeAddress || "-") + " " + (data.city || ""),
+            "Areas: " + (data.practiceAreas || "-"),
+            "Will link to Lawvoo: " + data.willLink,
+            "",
+            data.details || "",
+            "",
+            "Check the regulator's register before changing anything.",
+            "Ref: " + data.ref,
+            ss.getUrl(),
+          ].join("\n"),
+        });
+      } catch (err) {
+        console.error("Listing alert email failed: " + err);
+      }
+      return reply({ status: "success" });
+    }
+
+    // A real enquiry from the form (UK, Ireland, Canada or US).
     ss.getSheetByName("Sheet1").appendRow([
       data.leadId,
       data.submittedAt,

@@ -1,6 +1,6 @@
 "use server";
 
-import { sendLeadNotificationEmail } from "@/lib/email";
+import { sendLeadBackupEmail, sendLeadNotificationEmail, type LeadNotificationInput } from "@/lib/email";
 import {
   leadIntakeSchema,
   ieLeadIntakeSchema,
@@ -9,44 +9,19 @@ import {
   getPracticeAreaBySlug,
   type LeadIntakeInput,
 } from "@/lib/validations/lead-intake";
-import { STATIC_LAWYERS } from "@/lib/data/static-lawyers";
-import { IE_LAWYERS } from "@/lib/ie/lawyers";
+import { lawyersFor } from "@/lib/data/lawyers";
+import { countryFromCode } from "@/lib/country";
 import { getCityBySlug } from "@/lib/seo/uk-cities";
 import { getIeCityBySlug } from "@/lib/ie/cities";
-import { CA_LAWYERS } from "@/lib/ca/lawyers";
 import { getCaCityBySlug } from "@/lib/ca/cities";
 import { getCaArea } from "@/lib/ca/practice-areas";
-import { US_LAWYERS } from "@/lib/us/lawyers";
 import { getUsCityBySlug } from "@/lib/us/cities";
 import { getUsArea } from "@/lib/us/practice-areas";
-import {
-  CA_LEADS_ENABLED,
-  IE_LEADS_ENABLED,
-  LEADS_ENABLED,
-  US_LEADS_ENABLED,
-  SHEETS_WEBHOOK_SECRET,
-  TURNSTILE_SECRET_KEY,
-} from "@/lib/config";
+import { SHEETS_WEBHOOK_SECRET, leadsEnabledFor } from "@/lib/config";
+import { saveToSheet, verifyTurnstile } from "@/lib/sheets";
 
 // A real person needs at least this long to get through four steps.
 const MIN_FILL_TIME_MS = 8000;
-
-async function verifyTurnstile(token: string | undefined): Promise<boolean> {
-  if (!TURNSTILE_SECRET_KEY) return true; // not configured (e.g. local dev)
-  if (!token) return false;
-  try {
-    const res = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: new URLSearchParams({ secret: TURNSTILE_SECRET_KEY, response: token }),
-    });
-    const data = (await res.json()) as { success?: boolean };
-    return data.success === true;
-  } catch (error) {
-    console.error("[turnstile] verification failed:", error);
-    return false;
-  }
-}
 
 export type SubmitLeadState =
   | { status: "success"; leadId: string }
@@ -73,23 +48,14 @@ export async function submitLeadIntake(input: LeadIntakeInput): Promise<SubmitLe
   // The form can be switched off (lib/config.ts). Checked here too, not just
   // in the UI, so nothing can be posted directly. The Canadian form is off
   // unless CA_LEADS_ENABLED="true", and the US form unless US_LEADS_ENABLED="true".
-  const enabled =
-    country === "IE" ? IE_LEADS_ENABLED : country === "CA" ? CA_LEADS_ENABLED : country === "US" ? US_LEADS_ENABLED : LEADS_ENABLED;
+  const enabled = leadsEnabledFor(countryFromCode(country));
   if (!enabled) {
     return { status: "error", message: "Online enquiries aren't open yet. Please contact the firm directly." };
   }
 
   // Irish and Canadian enquiries use their own rules: no personal injury,
   // Eircode / postal code, local phone numbers.
-  const parsed = (
-    country === "IE"
-      ? ieLeadIntakeSchema
-      : country === "CA"
-        ? caLeadIntakeSchema
-        : country === "US"
-          ? usLeadIntakeSchema
-          : leadIntakeSchema
-  ).safeParse(input);
+  const parsed = { UK: leadIntakeSchema, IE: ieLeadIntakeSchema, CA: caLeadIntakeSchema, US: usLeadIntakeSchema }[country].safeParse(input);
 
   if (!parsed.success) {
     const fieldErrors: Partial<Record<keyof LeadIntakeInput, string>> = {};
@@ -114,14 +80,6 @@ export async function submitLeadIntake(input: LeadIntakeInput): Promise<SubmitLe
 
   const webhookUrl = process.env.GOOGLE_SHEETS_WEBHOOK_URL;
 
-  if (!webhookUrl) {
-    console.error("GOOGLE_SHEETS_WEBHOOK_URL is not set — see README.md for setup.");
-    return {
-      status: "error",
-      message: "This form isn't fully set up yet. Please try again later or contact us directly.",
-    };
-  }
-
   // Canada and the US show their own area names — send the name the visitor saw.
   const practiceArea =
     (country === "CA" ? getCaArea(data.practiceArea) : country === "US" ? getUsArea(data.practiceArea) : undefined) ??
@@ -133,33 +91,36 @@ export async function submitLeadIntake(input: LeadIntakeInput): Promise<SubmitLe
   // Which solicitor they clicked "Request a callback" on, if any — resolved
   // server-side from the id so the sheet always shows the real listing.
   const requested = data.requestedSolicitorId
-    ? (country === "IE" ? IE_LAWYERS : country === "CA" ? CA_LAWYERS : country === "US" ? US_LAWYERS : STATIC_LAWYERS).find(
-        (l) => l.id === data.requestedSolicitorId
-      )
+    ? lawyersFor(countryFromCode(country)).find((l) => l.id === data.requestedSolicitorId)
     : undefined;
   const requestedCityName = requested
-    ? (country === "IE"
-        ? getIeCityBySlug(requested.citySlug)
-        : country === "CA"
-          ? getCaCityBySlug(requested.citySlug)
-          : country === "US"
-            ? getUsCityBySlug(requested.citySlug)
-            : getCityBySlug(requested.citySlug)
-      )?.name
+    ? { UK: getCityBySlug, IE: getIeCityBySlug, CA: getCaCityBySlug, US: getUsCityBySlug }[country](requested.citySlug)?.name
     : undefined;
   const requestedSolicitor = requested
     ? `${requested.lawyerName} — ${requested.firmName} (${requestedCityName ?? requested.citySlug})`
     : "";
 
-  try {
-    const response = await fetch(webhookUrl, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
+  const submittedAt = new Date().toISOString();
+  const email: LeadNotificationInput = {
+    leadId,
+    caseTitle: data.caseTitle,
+    description: data.description,
+    practiceAreaName: practiceArea?.name ?? data.practiceArea,
+    urgency: data.urgency,
+    clientName: data.fullName,
+    clientEmail: data.email,
+    clientPhone: data.phone,
+    postcode: data.postcode,
+    requestedSolicitor,
+    ...(country !== "UK" ? { country } : {}),
+  };
+
+  const sheetError = webhookUrl
+    ? await saveToSheet(webhookUrl, {
         type: "lead",
         secret: SHEETS_WEBHOOK_SECRET,
         leadId,
-        submittedAt: new Date().toISOString(),
+        submittedAt,
         practiceArea: practiceArea?.name ?? data.practiceArea,
         subCategory: data.subCategory,
         caseTitle: data.caseTitle,
@@ -172,41 +133,30 @@ export async function submitLeadIntake(input: LeadIntakeInput): Promise<SubmitLe
         phone: data.phone,
         requestedSolicitor,
         country,
-      }),
-    });
+      })
+    : new Error("GOOGLE_SHEETS_WEBHOOK_URL is not set — see README.md for setup.");
 
-    if (!response.ok) {
-      throw new Error(`Sheets webhook responded with ${response.status}`);
-    }
-    // Apps Script always answers 200, so check what it actually said — a
-    // wrong/missing secret comes back as { status: "forbidden" }.
-    const reply = (await response.json().catch(() => null)) as { status?: string } | null;
-    if (reply && reply.status !== "success") {
-      throw new Error(`Sheets webhook replied ${JSON.stringify(reply)}`);
-    }
-
+  if (!sheetError) {
     // Best-effort on top of the sheet write above — see lib/email.ts for
     // why a failure here never turns a successful submission into an error.
-    await sendLeadNotificationEmail({
-      leadId,
-      caseTitle: data.caseTitle,
-      description: data.description,
-      practiceAreaName: practiceArea?.name ?? data.practiceArea,
-      urgency: data.urgency,
-      clientName: data.fullName,
-      clientEmail: data.email,
-      clientPhone: data.phone,
-      postcode: data.postcode,
-      requestedSolicitor,
-      ...(country !== "UK" ? { country } : {}),
-    });
-
+    await sendLeadNotificationEmail(email);
     return { status: "success", leadId };
-  } catch (error) {
-    console.error("Failed to submit lead to Google Sheets:", error);
-    return {
-      status: "error",
-      message: "Something went wrong on our end. Please try again in a moment.",
-    };
   }
+
+  // The Sheet couldn't be reached (twice): email the whole lead instead so it
+  // isn't lost. Only if that email goes out do we tell the visitor it worked.
+  const backedUp = await sendLeadBackupEmail(
+    { ...email, subCategory: data.subCategory, city: data.city, submittedAt },
+    sheetError.message
+  );
+  if (backedUp) {
+    console.warn(`[lead-intake] Lead ${leadId} saved by backup email only — add it to the Sheet by hand.`);
+    return { status: "success", leadId };
+  }
+
+  console.error("Failed to submit lead to Google Sheets, and the backup email failed:", sheetError);
+  return {
+    status: "error",
+    message: "Something went wrong on our end. Please try again in a moment.",
+  };
 }

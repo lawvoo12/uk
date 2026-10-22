@@ -4,7 +4,8 @@ import { Clock, ExternalLink, MapPin, ShieldCheck } from "lucide-react";
 import type { StaticLawyer } from "@/lib/data/static-lawyers";
 import { getFirmWebsite } from "@/lib/data/firm-website";
 import { REGULATORS } from "@/lib/seo/regulators";
-import { COUNTRY_BASE, type Country } from "@/lib/country";
+import type { Country } from "@/lib/country";
+import { cfg } from "@/lib/countries/registry";
 
 /**
  * Shown instead of the enquiry form while LEADS_ENABLED is off. Points the
@@ -19,6 +20,7 @@ export function EnquiriesClosedNotice({
   compact?: boolean;
   country?: Country;
 }) {
+  const c = cfg(country);
   return (
     <div className={compact ? "rounded-2xl border border-[#DCD8D0] bg-white p-5" : "mx-auto max-w-xl rounded-2xl border border-[#DCD8D0] bg-white p-6 sm:p-8"}>
       <div className="flex items-start gap-3">
@@ -30,9 +32,7 @@ export function EnquiriesClosedNotice({
           <p className="mt-2 text-sm text-[#5B6472]">
             {lawyer
               ? `We're not taking enquiries through Lawvoo just yet. In the meantime you can contact ${lawyer.firmName} directly — they handle their own enquiries.`
-              : country === "ca" || country === "us"
-                ? "We're not taking enquiries through Lawvoo just yet. In the meantime, browse lawyers by location and contact a firm directly."
-                : "We're not taking enquiries through Lawvoo just yet. In the meantime, browse solicitors by location and contact a firm directly."}
+              : `We're not taking enquiries through Lawvoo just yet. In the meantime, browse ${c.word}s by location and contact a firm directly.`}
           </p>
         </div>
       </div>
@@ -56,7 +56,7 @@ export function EnquiriesClosedNotice({
               className="inline-flex items-center gap-1.5 rounded-lg border border-[#DCD8D0] px-4 py-2 text-sm font-medium text-[#10233D] hover:border-[#B8A488]"
             >
               <ShieldCheck className="h-3.5 w-3.5 text-[#B8863B]" />
-              {country === "ca" || country === "us" ? (
+              {c.regulatorNoun === "directory" ? (
                 <>Check in the {REGULATORS[lawyer.regulator].shortName} directory</>
               ) : (
                 <>Check on the {REGULATORS[lawyer.regulator].shortName} register</>
@@ -65,11 +65,11 @@ export function EnquiriesClosedNotice({
           </>
         ) : (
           <Link
-            href={`${COUNTRY_BASE[country]}/locations`}
+            href={`${c.base}/locations`}
             className="inline-flex items-center gap-1.5 rounded-lg bg-[#10233D] px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-[#1C3A5E]"
           >
             <MapPin className="h-3.5 w-3.5" />
-            {country === "ca" || country === "us" ? "Browse lawyers by location" : "Browse solicitors by location"}
+            {`Browse ${c.word}s by location`}
           </Link>
         )}
       </div>

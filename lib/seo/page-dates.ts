@@ -17,7 +17,7 @@ export const UK_DATES = {
   listingsOriginal: "27 September 2026",
   /** The extra listings (lib/data/uk-lawyers-extra.ts), checked 30 Sep – 1 Oct. */
   listingsExtra: "1 October 2026",
-  privacy: "28 September 2026",
+  privacy: "22 October 2026",
   terms: "28 September 2026",
   about: "22 October 2026",
   "how-we-verify": "22 October 2026",
@@ -30,7 +30,7 @@ export const IE_DATES = {
   listings: "28 September 2026",
   freeLegalHelp: "30 September 2026",
   irishLanguage: "2 October 2026",
-  privacy: "28 September 2026",
+  privacy: "22 October 2026",
   terms: "28 September 2026",
   about: "22 October 2026",
   "how-we-verify": "22 October 2026",
@@ -38,7 +38,7 @@ export const IE_DATES = {
 } as const;
 
 export const CA_DATES = {
-  privacy: "3 October 2026",
+  privacy: "22 October 2026",
   terms: "2 October 2026",
   about: "22 October 2026",
   "how-we-verify": "22 October 2026",

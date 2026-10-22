@@ -3,11 +3,9 @@ import { BadgeCheck, ExternalLink, MapPin, Star } from "lucide-react";
 
 import type { LawyerListing } from "@/lib/data/lawyers";
 import { REGULATOR_LABEL } from "@/lib/data/static-lawyers";
-import { PRACTICE_AREAS } from "@/lib/validations/lead-intake";
 import { getFirmWebsite } from "@/lib/data/firm-website";
-import { COUNTRY_BASE, type Country } from "@/lib/country";
-import { CA_PRACTICE_AREAS } from "@/lib/ca/practice-areas";
-import { US_PRACTICE_AREAS } from "@/lib/us/practice-areas";
+import type { Country } from "@/lib/country";
+import { cfg } from "@/lib/countries/registry";
 
 export function LawyerCard({
   lawyer,
@@ -25,19 +23,18 @@ export function LawyerCard({
   categorySlug?: string;
   /** Which section the card is on — "uk" (default), "ie", "ca" or "us". */
   country?: Country;
-  /** Show "Visit firm website" instead of "Request a callback" (Irish and Canadian personal injury pages). */
+  /** Show "Visit firm website" instead of "Request a callback" (personal injury pages outside the UK). Otherwise a small "Firm website" link sits under the button. */
   linkFirmInstead?: boolean;
 }) {
-  const base = COUNTRY_BASE[country];
-  // Irish and Canadian enquiries can't be about personal injury, so don't pre-select it.
-  const callbackCategory = country !== "uk" && categorySlug === "personal-injury" ? undefined : categorySlug;
+  const c = cfg(country);
+  const base = c.base;
+  // Where the form takes no personal injury enquiries, don't pre-select it.
+  const callbackCategory = c.form.piNote && categorySlug === "personal-injury" ? undefined : categorySlug;
   const callbackHref = `${base}/leads/new?lawyer=${encodeURIComponent(lawyer.id)}${
     callbackCategory ? `&category=${encodeURIComponent(callbackCategory)}` : ""
   }`;
-  // Canada has its own area names ("Real Estate", "Wills & Estates").
-  const allAreas: readonly { slug: string; name: string }[] =
-    country === "ca" ? CA_PRACTICE_AREAS : country === "us" ? US_PRACTICE_AREAS : PRACTICE_AREAS;
-  const areas = allAreas.filter((a) => lawyer.practiceAreaSlugs.includes(a.slug));
+  // Each country's own area names ("Real Estate", "Wills & Estates"…).
+  const areas = c.areas.filter((a) => lawyer.practiceAreaSlugs.includes(a.slug));
 
   return (
     <article className="flex flex-col gap-4 rounded-xl border border-[#DCD8D0] bg-white p-5 transition-shadow hover:shadow-md sm:flex-row sm:items-start sm:justify-between">
@@ -118,12 +115,25 @@ export function LawyerCard({
             <ExternalLink className="h-3.5 w-3.5" />
           </a>
         ) : (
-          <Link
-            href={callbackHref}
-            className="rounded-lg bg-[#10233D] px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-[#1C3A5E]"
-          >
-            Request a callback
-          </Link>
+          <>
+            <Link
+              href={callbackHref}
+              className="rounded-lg bg-[#10233D] px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-[#1C3A5E]"
+            >
+              Request a callback
+            </Link>
+            {/* The firm's own site, so visitors can contact the firm directly too. */}
+            <a
+              href={getFirmWebsite(lawyer)}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`${lawyer.firmName} website (opens in a new tab)`}
+              className="inline-flex items-center gap-1 text-xs text-[#5B6472] underline underline-offset-2 hover:text-[#10233D]"
+            >
+              Firm website
+              <ExternalLink className="h-3 w-3" />
+            </a>
+          </>
         )}
       </div>
     </article>

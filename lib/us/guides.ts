@@ -192,6 +192,7 @@ export const US_GUIDES: UsGuide[] = [
       { label: "U.S. Department of Labor — Wage and Hour Division complaints", href: "https://www.dol.gov/agencies/whd/contact/complaints" },
     ],
     related: [
+      { label: "EEOC deadline calculator", href: "/us/tools/eeoc-deadline-calculator" },
       { label: "Employment lawyers in Alabama", href: "/us/lawyers/employment" },
       { label: "Lawyers by city", href: "/us/locations" },
     ],

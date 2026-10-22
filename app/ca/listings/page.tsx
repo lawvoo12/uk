@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Mail, PencilLine, Trash2 } from "lucide-react";
 
-import { LISTINGS_EMAIL } from "@/lib/config";
+import { LISTING_FORM_ENABLED, LISTINGS_EMAIL } from "@/lib/config";
+import { ListingRequestForm } from "@/components/listings/listing-request-form";
 import { BreadcrumbNav } from "@/components/solicitors/breadcrumb-nav";
 
 export const metadata: Metadata = {
@@ -58,6 +59,17 @@ export default function CaListingsPage() {
             </p>
           </a>
         </div>
+
+        {/* Listing request form — only once LISTING_FORM_ENABLED is on (lib/config.ts). */}
+        {LISTING_FORM_ENABLED && (
+          <section aria-labelledby="request-h" className="mt-10">
+            <h2 id="request-h" className="font-serif text-2xl text-[#10233D]">
+              Or send us a request
+            </h2>
+            <p className="mt-1 mb-4 text-sm text-[#5B6472]">Keep, update or remove your listing — or ask to be added.</p>
+            <ListingRequestForm country="ca" />
+          </section>
+        )}
 
         <section className="mt-8 rounded-2xl border border-[#DCD8D0] bg-white p-6 text-sm text-[#5B6472] sm:p-8">
           <h2 className="font-serif text-xl text-[#10233D]">How it works</h2>
