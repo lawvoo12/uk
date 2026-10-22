@@ -1,5 +1,6 @@
 import type { LawyerListing } from "@/lib/data/lawyers";
 import type { Country } from "@/lib/country";
+import { cfg } from "@/lib/countries/registry";
 import { LawyerCard } from "@/components/solicitors/lawyer-card";
 
 export function LawyerGrid({
@@ -25,15 +26,7 @@ export function LawyerGrid({
     return (
       <div className="rounded-xl border border-dashed border-[#DCD8D0] bg-white p-8 text-center">
         <p className="font-medium text-[#10233D]">
-          {country === "ca" || country === "us" ? (
-            <>
-              No {categoryName.toLowerCase()} lawyers listed in {cityName} yet
-            </>
-          ) : (
-            <>
-              No {categoryName.toLowerCase()} solicitors listed in {cityName} yet
-            </>
-          )}
+          No {categoryName.toLowerCase()} {cfg(country).word}s listed in {cityName} yet
         </p>
         <p className="mt-1 text-sm text-[#5B6472]">
           {emptyHint ?? (

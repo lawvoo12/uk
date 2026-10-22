@@ -52,9 +52,8 @@ const US_POPULAR_CITIES = [
 
 export function Footer() {
   const country = countryFromPath(usePathname());
-  if (country === "ca") return <CanadaFooter />;
-  if (country === "us") return <UsFooter />;
-  return country === "ie" ? <IrelandFooter /> : <UkFooter />;
+  const CountryFooter = { uk: UkFooter, ie: IrelandFooter, ca: CanadaFooter, us: UsFooter }[country];
+  return <CountryFooter />;
 }
 
 function UkFooter() {

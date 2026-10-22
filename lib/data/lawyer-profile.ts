@@ -37,13 +37,7 @@ export function getLawyerProfileById(id: string, country: Country = "uk"): Lawye
   if (!lawyer) return null;
 
   const city =
-    country === "ie"
-      ? getIeCityBySlug(lawyer.citySlug)
-      : country === "ca"
-        ? getCaCityBySlug(lawyer.citySlug)
-        : country === "us"
-          ? getUsCityBySlug(lawyer.citySlug)
-          : getCityBySlug(lawyer.citySlug);
+    { uk: getCityBySlug, ie: getIeCityBySlug, ca: getCaCityBySlug, us: getUsCityBySlug }[country](lawyer.citySlug);
   const hasReviews = (lawyer.ratingCount ?? 0) > 0 && typeof lawyer.ratingAverage === "number";
 
   return {
@@ -68,7 +62,7 @@ export function getLawyerProfileById(id: string, country: Country = "uk"): Lawye
     focusNotStated: lawyer.focusNotStated === true,
     practiceAreas: lawyer.practiceAreaSlugs.flatMap((slug) => {
       // Canada and the US use their own names ("Real Estate", "Wills & Estates", "Estate Planning & Probate").
-      const area = country === "ca" ? getCaArea(slug) : country === "us" ? getUsArea(slug) : getPracticeAreaBySlug(slug);
+      const area = { uk: getPracticeAreaBySlug, ie: getPracticeAreaBySlug, ca: getCaArea, us: getUsArea }[country](slug);
       return area ? [{ name: area.name, slug: area.slug }] : [];
     }),
   };

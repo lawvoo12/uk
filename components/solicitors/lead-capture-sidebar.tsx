@@ -1,8 +1,9 @@
 import { Clock } from "lucide-react";
 
 import { LeadIntakeForm } from "@/components/LeadIntakeForm";
-import { CA_LEADS_ENABLED, IE_LEADS_ENABLED, LEADS_ENABLED, US_LEADS_ENABLED } from "@/lib/config";
+import { leadsEnabledFor } from "@/lib/config";
 import type { Country } from "@/lib/country";
+import { cfg } from "@/lib/countries/registry";
 
 export function LeadCaptureSidebar({
   categoryName,
@@ -16,8 +17,8 @@ export function LeadCaptureSidebar({
   mobileFirst?: boolean;
   country?: Country;
 }) {
-  const enabled =
-    country === "ie" ? IE_LEADS_ENABLED : country === "ca" ? CA_LEADS_ENABLED : country === "us" ? US_LEADS_ENABLED : LEADS_ENABLED;
+  const c = cfg(country);
+  const enabled = leadsEnabledFor(country);
   // Form switched off (see lib/config.ts): a short note instead, placed after
   // the listings on mobile so it doesn't push them down.
   if (!enabled) {
@@ -28,22 +29,7 @@ export function LeadCaptureSidebar({
             <Clock className="mt-0.5 h-5 w-5 shrink-0 text-[#B8863B]" strokeWidth={1.5} />
             <div>
               <h2 className="font-serif text-lg text-[#10233D]">Online enquiries opening soon</h2>
-              {country === "ca" ? (
-                <p className="mt-1 text-sm text-[#5B6472]">
-                  For now, contact a firm on this page directly — use &ldquo;Request a callback&rdquo; on any listing
-                  to get the firm&apos;s website and its law society directory link.
-                </p>
-              ) : country === "us" ? (
-                <p className="mt-1 text-sm text-[#5B6472]">
-                  For now, contact a firm on this page directly — use &ldquo;Request a callback&rdquo; on any listing
-                  to get the firm&apos;s website and its state bar directory link.
-                </p>
-              ) : (
-                <p className="mt-1 text-sm text-[#5B6472]">
-                  For now, contact a firm on this page directly — use &ldquo;Request a callback&rdquo; on any listing
-                  to get the firm&apos;s website and register details.
-                </p>
-              )}
+              <p className="mt-1 text-sm text-[#5B6472]">{c.closedSidebarNote}</p>
             </div>
           </div>
         </div>
@@ -55,26 +41,12 @@ export function LeadCaptureSidebar({
     <aside id="get-matched" className={`${mobileFirst ? "order-first" : ""} lg:order-last lg:sticky lg:top-8`}>
       <div className="mb-4">
         <h2 className="font-serif text-xl text-[#10233D]">
-          {country === "ca" || country === "us" ? (
-            <>
-              Get in touch about {categoryName.toLowerCase()} lawyers in {cityName}
-            </>
-          ) : (
-            <>
-              Get in touch about {categoryName.toLowerCase()} solicitors in {cityName}
-            </>
-          )}
+          Get in touch about {categoryName.toLowerCase()} {c.word}s in {cityName}
         </h2>
         <p className="mt-1 text-sm text-[#5B6472]">Free, no-obligation — takes about 2 minutes.</p>
       </div>
       <LeadIntakeForm
-        {...(country === "ie"
-          ? { country: "IE" as const }
-          : country === "ca"
-            ? { country: "CA" as const }
-            : country === "us"
-              ? { country: "US" as const }
-              : {})}
+        {...(country !== "uk" ? { country: c.code } : {})}
       />
     </aside>
   );

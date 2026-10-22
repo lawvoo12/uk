@@ -5,26 +5,30 @@ import { useRouter } from "next/navigation";
 import { Search } from "lucide-react";
 
 import { cn } from "@/lib/utils";
-import { PRACTICE_AREAS } from "@/lib/validations/lead-intake";
 import {
   resolveCaSearchDestination,
   resolveIeSearchDestination,
   resolveSearchDestination,
   resolveUsSearchDestination,
 } from "@/lib/actions/search";
-import { CA_PRACTICE_AREAS } from "@/lib/ca/practice-areas";
-import { US_PRACTICE_AREAS } from "@/lib/us/practice-areas";
 import type { Country } from "@/lib/country";
+import { cfg } from "@/lib/countries/registry";
+
+// Each country's search server action (lib/actions/search.ts).
+const RESOLVE = {
+  uk: resolveSearchDestination,
+  ie: resolveIeSearchDestination,
+  ca: resolveCaSearchDestination,
+  us: resolveUsSearchDestination,
+} satisfies Record<Country, unknown>;
 
 export function HeroSearch({ country = "uk" }: { country?: Country } = {}) {
-  const isIe = country === "ie";
-  const isCa = country === "ca";
-  const isUs = country === "us";
-  // Canada and the US have their own area names ("Real Estate", "Wills & Estates", "Estate Planning & Probate").
-  const areas: readonly { slug: string; name: string }[] = isCa ? CA_PRACTICE_AREAS : isUs ? US_PRACTICE_AREAS : PRACTICE_AREAS;
+  // Area names, labels and the search action all come from the country registry.
+  const c = cfg(country);
+  const areas = c.areas;
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
-  const [category, setCategory] = useState<string>(PRACTICE_AREAS[0].slug);
+  const [category, setCategory] = useState<string>(areas[0].slug);
   const [location, setLocation] = useState("");
   const [message, setMessage] = useState<{ text: string; fallbackUrl?: string } | null>(null);
 
@@ -32,13 +36,7 @@ export function HeroSearch({ country = "uk" }: { country?: Country } = {}) {
     event.preventDefault();
     setMessage(null);
     startTransition(async () => {
-      const result = isCa
-        ? await resolveCaSearchDestination(category, location)
-        : isUs
-          ? await resolveUsSearchDestination(category, location)
-          : isIe
-          ? await resolveIeSearchDestination(category, location)
-          : await resolveSearchDestination(category, location);
+      const result = await RESOLVE[country](category, location);
       if (result.status === "found") {
         router.push(result.url);
       } else if (result.status === "unsupported-area") {
@@ -72,22 +70,14 @@ export function HeroSearch({ country = "uk" }: { country?: Country } = {}) {
         </select>
 
         <label className="sr-only" htmlFor="hero-location">
-          {isCa ? "City or postal code" : isUs ? "City or ZIP code" : isIe ? "Town or Eircode" : "City or UK postcode"}
+          {c.search.locationLabel}
         </label>
         <input
           id="hero-location"
           type="text"
           value={location}
           onChange={(e) => setLocation(e.target.value)}
-          placeholder={
-            isCa
-              ? "City or postal code, e.g. Toronto or M5H"
-              : isUs
-                ? "City or ZIP code, e.g. Birmingham or 35203"
-                : isIe
-                ? "Town or Eircode, e.g. Cork or D02"
-                : "City or postcode, e.g. Manchester or SW1A 1AA"
-          }
+          placeholder={c.search.locationPlaceholder}
           className="h-11 flex-1 rounded-lg border border-[#DCD8D0] bg-white px-3 text-sm text-[#10233D] placeholder:text-[#A8A398] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B8863B]"
         />
 
@@ -100,7 +90,7 @@ export function HeroSearch({ country = "uk" }: { country?: Country } = {}) {
           )}
         >
           <Search className="h-4 w-4" strokeWidth={2} />
-          {isPending ? "Searching…" : isCa || isUs ? "Find a lawyer" : "Find a solicitor"}
+          {isPending ? "Searching…" : `Find a ${c.word}`}
         </button>
       </form>
 

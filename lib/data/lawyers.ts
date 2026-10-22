@@ -7,10 +7,7 @@ import type { PracticeAreaSlug } from "@/lib/validations/lead-intake";
 
 /** The listings for one country section: UK (default), Ireland, Canada or the US. */
 export function lawyersFor(country: Country = "uk"): StaticLawyer[] {
-  if (country === "ie") return IE_LAWYERS;
-  if (country === "ca") return CA_LAWYERS;
-  if (country === "us") return US_LAWYERS;
-  return STATIC_LAWYERS;
+  return { uk: STATIC_LAWYERS, ie: IE_LAWYERS, ca: CA_LAWYERS, us: US_LAWYERS }[country];
 }
 
 export interface LawyerListing {

@@ -343,3 +343,25 @@ pages are unchanged — the only visible change is three new footer links.
   Canada and the US, where the person was checked on the law society/state bar.
 - The noindex rule from the US is NOT applied to UK/IE/CA (wait for Search
   Console data first).
+
+## Update 23 — Country registry, firm website link on cards, lead backup email (22 Oct 2026)
+
+Approved by the site owner.
+
+- **Country registry** (`lib/countries/registry.ts`): labels, placeholders,
+  area names, consent wording and similar per-country settings now live in
+  one file. The form, search box, cards, sidebar, navbar and home sections
+  read from it instead of `isCa ? … : isUs ? …` chains. Checked: all 1,051
+  built pages are identical to before, and the enquiry form's four steps show
+  the same text in all four countries. `leadsEnabledFor(country)` in
+  `lib/config.ts` replaces the per-country switch chains.
+- **Firm website link on every card** (UK, Ireland, Canada, US): a small
+  "Firm website" link under "Request a callback". The "online enquiries opening
+  soon" sidebar note now says each listing links to the firm's website.
+- **Lead backup**: the Google Sheet write now times out after 10 s and is
+  tried twice. If it still fails, the whole lead is emailed to
+  LEAD_NOTIFY_EMAIL with "[NOT IN SHEET]" in the subject, and the visitor
+  sees the normal "submitted" message. If that email can't be sent either,
+  the visitor is asked to try again (as before). Needs RESEND_API_KEY and
+  LEAD_NOTIFY_EMAIL set in Vercel, with lawvoo.com verified in Resend (the
+  email is sent from leads@lawvoo.com).
