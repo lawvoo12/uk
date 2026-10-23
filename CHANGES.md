@@ -485,6 +485,7 @@ the state.
   noindex (nearby lawyers only come from the same state). The two state pages
   are indexed. Chattanooga, Murfreesboro and Hattiesburg are left out until
   their courts are confirmed.
+
 ## Update 30 — Ireland: register check done (23 Oct 2026)
 
 Approved by the site owner, who searched all 40 listed solicitors on the Law
