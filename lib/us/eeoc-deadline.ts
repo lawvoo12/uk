@@ -16,7 +16,8 @@
 //      willful) to file a charge or go to court.
 //  - EEOC Birmingham District Office, "Timeliness"
 //    (https://www.eeoc.gov/field-office/birmingham/timeliness): in Alabama an
-//    individual has 180 days from the date of alleged harm.
+//    individual has 180 days from the date of alleged harm; the same page
+//    says the same for Mississippi (re-read 23 Oct 2026).
 //  - Federal holidays (5 U.S.C. 6103), observed on the Friday before when they
 //    fall on a Saturday and the Monday after when they fall on a Sunday (OPM).
 //    The 2026 dates below were checked against the US Courts 2026 schedule.
@@ -33,6 +34,7 @@ export const EEOC_SOURCES = {
 /** States where we've confirmed the limit on an official EEOC page. */
 export const EEOC_KNOWN_STATES: Record<string, { name: string; days: 180 | 300; source: { label: string; href: string } }> = {
   AL: { name: "Alabama", days: 180, source: EEOC_SOURCES.birmingham },
+  MS: { name: "Mississippi", days: 180, source: EEOC_SOURCES.birmingham },
 };
 
 const DAY = 86_400_000;

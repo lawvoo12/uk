@@ -17,7 +17,7 @@ const FILES = {
 // Matches both `id: "…"` and `"id": "…"` (the original UK file uses quoted keys).
 const ID_LINE = /^\s*["']?id["']?:\s*["']([^"']+)["']/gm;
 const CA_ID = /^[a-z0-9-]+-(on|bc|ab|sk|mb|ns|nb|nl|pe)-[a-z0-9-]+$/;
-const US_ID = /^[a-z0-9-]+-(al)-[a-z0-9-]+$/;
+const US_ID = /^[a-z0-9-]+-(al|tn|ms)-[a-z0-9-]+$/;
 
 const seen = new Map(); // id -> "country (file)"
 const problems = [];

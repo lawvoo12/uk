@@ -50,6 +50,13 @@ export function getUsLocalBlock(area: PracticeAreaSlug, city: UsCity): UsLocalBl
       return { heading: `Wills and estates in ${twoCounties ? city.name : city.county}`, body: info.estates, link: probateLink };
     case "property":
       if (!probate) return null;
+      // Outside Alabama deeds aren't recorded at the probate office, so only
+      // the city's own recording text is used.
+      if (city.state !== "AL") {
+        return info.recording
+          ? { heading: `Recording a deed in ${twoCounties ? city.name : city.county}`, body: info.recording, link: info.recordingLink ?? probateLink }
+          : null;
+      }
       return {
         heading: `Recording a deed in ${twoCounties ? city.name : city.county}`,
         body:
@@ -57,7 +64,7 @@ export function getUsLocalBlock(area: PracticeAreaSlug, city: UsCity): UsLocalBl
           (twoCounties
             ? `${city.name} is in ${usCountyLabel(city).replace(" & ", " and ")}. Deeds and mortgages are recorded with the probate office of the county the property is in: ${info.courts.map((c) => `${c.name}, ${c.address}`).join("; or ")}.`
             : `Deeds and mortgages for property in ${city.county} are recorded with the county probate office: ${probate.name}, ${probate.address}.`),
-        link: probateLink,
+        link: info.recordingLink ?? probateLink,
       };
     case "personal-injury":
       return info.courtNote ? { heading: `Courts for claims from ${city.name}`, body: info.courtNote } : null;

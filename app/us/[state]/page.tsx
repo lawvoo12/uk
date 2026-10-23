@@ -65,8 +65,12 @@ export default async function UsStateHubPage({ params }: PageProps) {
   const citiesWithLawyers = cities.filter((c) => (countByCity[c.slug] ?? 0) > 0).length;
   const firms = new Set(lawyers.map((l) => l.firmName)).size;
   // Guides about this state first, then the federal ones (they apply everywhere).
+  // Guides or tools about another state are left off this state's page.
+  const otherStates = liveUsStates().filter((s) => s.code !== state.code).map((s) => s.name);
+  const aboutOther = (text: string) => otherStates.some((n) => text.includes(n));
   const stateGuides = US_GUIDES.filter((g) => `${g.title} ${g.description}`.includes(state.name));
-  const federalGuides = US_GUIDES.filter((g) => !stateGuides.includes(g));
+  const federalGuides = US_GUIDES.filter((g) => !stateGuides.includes(g) && !aboutOther(`${g.title} ${g.description}`));
+  const tools = US_TOOLS.filter((t) => !aboutOther(t.name));
 
   const faqs = [
     { question: `How do I check a lawyer is licensed in ${state.name}?`, answer: content.regulationAnswer },
@@ -204,7 +208,7 @@ export default async function UsStateHubPage({ params }: PageProps) {
         </section>
 
         {/* Guides and tools */}
-        {(stateGuides.length > 0 || federalGuides.length > 0 || US_TOOLS.length > 0) && (
+        {(stateGuides.length > 0 || federalGuides.length > 0 || tools.length > 0) && (
           <section aria-labelledby="guides-h" className="mt-12 grid gap-6 md:grid-cols-2">
             <div>
               <h2 id="guides-h" className="flex items-center gap-2 font-serif text-xl text-[#10233D]">
@@ -227,7 +231,7 @@ export default async function UsStateHubPage({ params }: PageProps) {
                 Free tools
               </h2>
               <ul className="mt-3 space-y-2 text-sm">
-                {US_TOOLS.map((t) => (
+                {tools.map((t) => (
                   <li key={t.href}>
                     <Link href={t.href} className="inline-flex items-center gap-1 text-[#10233D] hover:underline">
                       {t.name} <ArrowRight className="h-3.5 w-3.5 text-[#B8863B]" />
