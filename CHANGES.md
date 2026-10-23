@@ -485,3 +485,21 @@ the state.
   noindex (nearby lawyers only come from the same state). The two state pages
   are indexed. Chattanooga, Murfreesboro and Hattiesburg are left out until
   their courts are confirmed.
+
+## Update 30 — Ireland: register check done (23 Oct 2026)
+
+Approved by the site owner, who searched all 40 listed solicitors on the Law
+Society of Ireland register on 23 Oct 2026; each was found with a practising
+certificate.
+
+- `IE_REGISTER_CHECKED = true` and the date in `IE_DATES.registerCheck`.
+- Page intros, the "are they regulated?" answer, lawyer profiles and
+  /ie/how-we-verify now say each solicitor was checked on the register on that
+  date. Before, they asked visitors to check it themselves.
+- Profile schema: `hasCredential` (practising certificate, recognised by the
+  Law Society of Ireland). There's no `memberOf`, because holding a practising
+  certificate isn't the same as Law Society membership. Profile `dateModified`
+  and the Irish sitemap dates use the check date.
+- Only /ie pages changed. All UK and US pages are byte-identical to the
+  previous build.
+- New Irish solicitors must get the same register check before they are added.
