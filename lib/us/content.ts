@@ -2,6 +2,8 @@
 // US-law content for the /us pages, assembled from:
 //   lib/us/content-shared.ts   types, and federal points and FAQs
 //   lib/us/states/alabama.ts   Alabama law and Alabama cities
+//   lib/us/states/tennessee.ts Tennessee law and Tennessee cities
+//   lib/us/states/mississippi.ts Mississippi law and Mississippi cities
 // Each state file lists its official sources and the date they were checked.
 // deploy/us-legal-sources.md has the full list of numbers and what is still
 // unverified.
@@ -18,6 +20,8 @@ import type { UsStateCode } from "@/lib/us/states";
 import { US_LEADS_ENABLED } from "@/lib/config";
 import { US_CALLBACK_ANSWER, type UsCityInfo, type UsStateContent } from "@/lib/us/content-shared";
 import { ALABAMA, ALABAMA_CITY_INFO } from "@/lib/us/states/alabama";
+import { MISSISSIPPI, MISSISSIPPI_CITY_INFO } from "@/lib/us/states/mississippi";
+import { TENNESSEE, TENNESSEE_CITY_INFO } from "@/lib/us/states/tennessee";
 
 export { US_LINKS } from "@/lib/us/content-shared";
 export type { UsAreaContent, UsCityInfo, UsCourt, UsLink, UsStateContent } from "@/lib/us/content-shared";
@@ -46,6 +50,8 @@ export const US_CHECKED_SENTENCE =
 
 export const US_STATE_CONTENT: Partial<Record<UsStateCode, UsStateContent>> = {
   AL: ALABAMA,
+  TN: TENNESSEE,
+  MS: MISSISSIPPI,
 };
 
 export function getUsStateContent(code: UsStateCode): UsStateContent {
@@ -57,6 +63,8 @@ export function getUsStateContent(code: UsStateCode): UsStateContent {
 /** Local information for every city, keyed by city slug. */
 export const US_CITY_INFO: Record<string, UsCityInfo> = {
   ...ALABAMA_CITY_INFO,
+  ...TENNESSEE_CITY_INFO,
+  ...MISSISSIPPI_CITY_INFO,
 };
 
 /** FAQs for /us/locations/[city]. Unique per city (courts, family court, probate). */

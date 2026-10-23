@@ -461,3 +461,27 @@ the state.
   Console shows them doing badly, set it to false and redeploy.
 - As soon as a local lawyer is added, the page switches back to "in <city>"
   with the local listing.
+
+## Update 29 — Tennessee and Mississippi (23 Oct 2026)
+
+- Two new live states: `/us/tennessee` (Nashville, Memphis, Knoxville,
+  Clarksville) and `/us/mississippi` (Jackson, Gulfport, Biloxi, Southaven,
+  Tupelo, Meridian). Law content in `lib/us/states/tennessee.ts` and
+  `lib/us/states/mississippi.ts`; every fact is from an official page listed at
+  the top of each file. Things that couldn't be confirmed (injury time limits,
+  divorce residency, inheritance, Mississippi child support percentages) are
+  left out and the page says so.
+- Bars: Tennessee Board of Professional Responsibility (TBPR) and The
+  Mississippi Bar (MSB) in `lib/us/regulators.ts`. Each state now has its own
+  `badge`, `licenceSentence` and `termsFragment` in `lib/us/states.ts`, because
+  the TBPR's directory role isn't the same as a bar that licenses lawyers.
+- Deeds: outside Alabama the property block uses the city's own `recording`
+  text and `recordingLink` (Register of Deeds in Tennessee, chancery clerk in
+  Mississippi).
+- EEOC calculator: Mississippi added (180 days, EEOC Birmingham "Timeliness").
+- The /us home and About pages now say lawyers are listed in Alabama only.
+  State pages no longer show another state's guides or tools.
+- No lawyers are listed in either state yet, so their city and area pages stay
+  noindex (nearby lawyers only come from the same state). The two state pages
+  are indexed. Chattanooga, Murfreesboro and Hattiesburg are left out until
+  their courts are confirmed.

@@ -87,6 +87,8 @@ export interface UsCityInfo {
   employmentNote?: string;
   /** Optional: where deeds are recorded, when it isn't just the one probate office in `courts`. */
   recording?: string;
+  /** Optional: official page for the office named in `recording` (else the first court's page). */
+  recordingLink?: UsLink;
 }
 
 export interface UsStateContent {

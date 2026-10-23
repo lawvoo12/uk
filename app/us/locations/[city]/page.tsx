@@ -170,7 +170,7 @@ export default async function UsLocationPage({ params }: PageProps) {
               <div className="flex items-center gap-2">
                 <ShieldCheck className="h-4 w-4 text-[#B8863B]" strokeWidth={1.75} />
                 <dt className="sr-only">Regulator</dt>
-                <dd>Licensed by the {state.regulatorName}</dd>
+                <dd>{state.badge}</dd>
               </div>
             </dl>
           )}

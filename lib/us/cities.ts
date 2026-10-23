@@ -80,6 +80,23 @@ export const US_CITIES: UsCity[] = [
   { slug: "daphne-al", name: "Daphne", state: "AL", county: "Baldwin County", latitude: 30.6035, longitude: -87.9036, zipPrefixes: ["36526"] },
   { slug: "fairhope-al", name: "Fairhope", state: "AL", county: "Baldwin County", latitude: 30.523, longitude: -87.9033, zipPrefixes: ["36532", "36533"] },
   { slug: "foley-al", name: "Foley", state: "AL", county: "Baldwin County", latitude: 30.4066, longitude: -87.6836, zipPrefixes: ["36535", "36536"] },
+  // ------------------------------------------------------------ Tennessee (23 Oct 2026)
+  // Counties and offices from the county governments' own websites.
+  { slug: "nashville-tn", name: "Nashville", state: "TN", county: "Davidson County", latitude: 36.1627, longitude: -86.7816, zipPrefixes: ["372"], aliases: ["nashville davidson", "nashville-davidson"] },
+  { slug: "memphis-tn", name: "Memphis", state: "TN", county: "Shelby County", latitude: 35.1495, longitude: -90.049, zipPrefixes: ["381"] },
+  { slug: "knoxville-tn", name: "Knoxville", state: "TN", county: "Knox County", latitude: 35.9606, longitude: -83.9207, zipPrefixes: ["379"] },
+  { slug: "clarksville-tn", name: "Clarksville", state: "TN", county: "Montgomery County", latitude: 36.5298, longitude: -87.3595, zipPrefixes: ["37040", "37041", "37042", "37043", "37044"] },
+  // ------------------------------------------------------------ Mississippi (23 Oct 2026)
+  // Chancery clerks: Mississippi Judiciary list of chancery clerks
+  // (courts.ms.gov, 17 Jan 2024); Harrison and DeSoto street addresses from
+  // the county websites. Hattiesburg (Forrest and Lamar counties) left out
+  // for now.
+  { slug: "jackson-ms", name: "Jackson", state: "MS", county: "Hinds County", latitude: 32.2988, longitude: -90.1848, zipPrefixes: ["392"] },
+  { slug: "gulfport-ms", name: "Gulfport", state: "MS", county: "Harrison County", latitude: 30.3674, longitude: -89.0928, zipPrefixes: ["39501", "39503", "39507"] },
+  { slug: "biloxi-ms", name: "Biloxi", state: "MS", county: "Harrison County", latitude: 30.396, longitude: -88.8853, zipPrefixes: ["39530", "39531", "39532"] },
+  { slug: "southaven-ms", name: "Southaven", state: "MS", county: "DeSoto County", latitude: 34.9889, longitude: -90.0126, zipPrefixes: ["38671", "38672"] },
+  { slug: "tupelo-ms", name: "Tupelo", state: "MS", county: "Lee County", latitude: 34.2576, longitude: -88.7034, zipPrefixes: ["38801", "38802", "38803", "38804"] },
+  { slug: "meridian-ms", name: "Meridian", state: "MS", county: "Lauderdale County", latitude: 32.3643, longitude: -88.7037, zipPrefixes: ["393"] },
 ];
 
 /** "Tuscaloosa County", or "Jefferson & Shelby counties" for a city in two counties. */
@@ -101,7 +118,7 @@ export function findUsCityByNameOrSlug(input: string): UsCity | undefined {
   const normalized = input
     .trim()
     .toLowerCase()
-    .replace(/,?\s+(al|ala\.?|alabama)$/i, "")
+    .replace(/,?\s+(al|ala\.?|alabama|tn|tenn\.?|tennessee|ms|miss\.?|mississippi)$/i, "")
     .trim();
   const spaced = normalized.replace(/-/g, " ");
   return US_CITIES.find(
