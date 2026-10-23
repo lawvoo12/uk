@@ -442,3 +442,22 @@ Foley — 29 Alabama cities in all.
 - Hoover and Vestavia Hills have no ZIP prefixes of their own (their ZIP codes
   are shared with Birmingham); search by name works.
 - As before, new pages stay noindex until a lawyer is listed.
+
+## Update 28 — Nearest Alabama lawyers on empty city pages (23 Oct 2026)
+
+Site owner's decision: until each city has its own lawyer, city and area ×
+city pages with no local lawyer show the nearest lawyers listed elsewhere in
+the state.
+
+- Always truthful: title and heading say "for <city>" (not "in"), the intro
+  says no lawyer with an office in that city is listed yet, and each card
+  shows the lawyer's real city and office ("Family · Birmingham"), with the
+  distance list ("Birmingham (about 49 miles)"). Schema's ItemList only
+  includes local lawyers.
+- Indexing: `US_INDEX_NEARBY_PAGES` in lib/config.ts (true). While true, those
+  pages are indexed and in /us/sitemap.xml when they also have the city's own
+  court information (so immigration and most employment pages stay noindex).
+  Today: 29 of 29 city pages and 117 of 174 area pages indexed. If Search
+  Console shows them doing badly, set it to false and redeploy.
+- As soon as a local lawyer is added, the page switches back to "in <city>"
+  with the local listing.

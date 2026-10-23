@@ -6,16 +6,17 @@ import { MapPin, ShieldCheck, Users } from "lucide-react";
 import { US_PRACTICE_AREAS, getUsAreaByUrlSlug } from "@/lib/us/practice-areas";
 import { US_CITIES, getUsCityBySlug, stateName } from "@/lib/us/cities";
 import { getUsState } from "@/lib/us/states";
-import { getLawyersByCategoryAndCity } from "@/lib/data/lawyers";
+import { getLawyersByCategory, getLawyersByCategoryAndCity } from "@/lib/data/lawyers";
 import { US_CHECKED_SENTENCE, US_CITY_INFO, getUsStateContent } from "@/lib/us/content";
 import { SITE_NAME, SITE_URL } from "@/lib/seo/site";
 import { BreadcrumbNav } from "@/components/solicitors/breadcrumb-nav";
 import { LawyerGrid } from "@/components/solicitors/lawyer-grid";
+import { LawyerCard } from "@/components/solicitors/lawyer-card";
 import { FAQSection } from "@/components/solicitors/faq-section";
 import { LeadCaptureSidebar } from "@/components/solicitors/lead-capture-sidebar";
 import { UsPiNotice } from "@/components/us/pi-notice";
 import { US_LEADS_ENABLED } from "@/lib/config";
-import { getUsLocalBlock, shouldIndexUsAreaCity } from "@/lib/us/indexing";
+import { getUsLocalBlock, nearbyUsLawyers, shouldIndexUsAreaCity, usNearbyCount } from "@/lib/us/indexing";
 
 interface PageProps {
   params: Promise<{ category: string; city: string }>;
@@ -45,10 +46,14 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { category, city } = resolved;
   const lawyers = getLawyersByCategoryAndCity(category.slug, city.slug, "us");
   const state = stateName(city.state);
+  const nearby = usNearbyCount(city, category.slug);
+  const noLocal = lawyers.length === 0;
 
-  const title = `${category.name} Lawyers in ${city.name}, ${state}`;
-  const description =
-    category.slug === "personal-injury"
+  // No lawyer with an office here: "for", not "in", and say so plainly.
+  const title = noLocal ? `${category.name} Lawyers for ${city.name}, ${state}` : `${category.name} Lawyers in ${city.name}, ${state}`;
+  const description = noLocal
+    ? `No ${category.lower} lawyer with an office in ${city.name} is listed yet. See the nearest ${category.lower} lawyers listed elsewhere in ${state}, and where ${city.name}'s cases are handled.`
+    : category.slug === "personal-injury"
       ? `Personal injury lawyers in ${city.name}, ${state}, with the courts and rules that apply in ${state}. Firm details and addresses — contact firms directly.`
       : `Compare ${category.lower} lawyers in ${city.name}, ${state} — named lawyers, office addresses and ${state}-law FAQs. Each lawyer checked on the state bar directory.`;
   const canonicalPath = `/us/lawyers/${category.urlSlug}/${city.slug}`;
@@ -58,7 +63,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     description,
     alternates: { canonical: canonicalPath },
     // Same rule as /us/sitemap.xml — see lib/us/indexing.ts.
-    ...(shouldIndexUsAreaCity(lawyers.length, getUsLocalBlock(category.slug, city))
+    ...(shouldIndexUsAreaCity(lawyers.length, getUsLocalBlock(category.slug, city), nearby)
       ? {}
       : { robots: { index: false, follow: true } }),
     openGraph: { title, description, url: canonicalPath, siteName: SITE_NAME, locale: "en_US", type: "website" },
@@ -82,6 +87,9 @@ export default async function UsCategoryCityPage({ params }: PageProps) {
   const firmCount = new Set(lawyers.map((l) => l.firmName)).size;
   const otherCities = US_CITIES.filter((c) => c.state === city.state && c.slug !== city.slug);
   const localBlock = getUsLocalBlock(category.slug, city);
+  // Shown only when no lawyer has an office here — always with their real city.
+  const nearbyLawyers =
+    lawyers.length === 0 ? nearbyUsLawyers(city, getLawyersByCategory(category.slug, "us"), category.slug) : [];
 
   // The page is a directory listing, not a law firm — so CollectionPage, with
   // each listed firm as a LegalService in the ItemList.
@@ -159,12 +167,12 @@ export default async function UsCategoryCityPage({ params }: PageProps) {
             {state.name}
           </Link>
           <h1 className="mt-1 font-serif text-3xl text-[#10233D] sm:text-4xl">
-            {category.name} lawyers in {city.name}
+            {category.name} lawyers {lawyers.length > 0 ? "in" : "for"} {city.name}
           </h1>
           <p className="mt-3 text-[#5B6472]">
             {lawyers.length > 0
               ? `${lawyers.length} ${lawyers.length === 1 ? "lawyer whose firm covers" : "lawyers whose firms cover"} ${category.lower} work in ${city.name}. ${US_CHECKED_SENTENCE}`
-              : `We don't list ${/^[aeiou]/i.test(category.lower) ? "an" : "a"} ${category.lower} lawyer in ${city.name} yet.`}{" "}
+              : `We don't list ${/^[aeiou]/i.test(category.lower) ? "an" : "a"} ${category.lower} lawyer with an office in ${city.name} yet.${nearbyLawyers.length > 0 ? ` Below are the nearest ones we list elsewhere in ${state.name}.` : ""}`}{" "}
             {isPi
               ? "Contact firms directly — Lawvoo doesn't take personal injury enquiries in the US."
               : US_LEADS_ENABLED
@@ -232,6 +240,30 @@ export default async function UsCategoryCityPage({ params }: PageProps) {
               linkFirmInstead={isPi}
               emptyHint={`Search the ${state.directoryLabel} for lawyers near you.`}
             />
+
+            {nearbyLawyers.length > 0 && (
+              <section aria-labelledby="nearby-lawyers-h" className="mt-8">
+                <h2 id="nearby-lawyers-h" className="font-serif text-xl text-[#10233D]">
+                  Nearest {category.lower} lawyers listed elsewhere in {state.name}
+                </h2>
+                <p className="mt-1 mb-4 text-sm text-[#5B6472]">
+                  {`None of these lawyers has an office in ${city.name} — each card shows where the office is. Nearest first: ${nearbyLawyers.map((l) => `${l.cityName} (about ${l.miles} miles)`).join(", ")}.`}
+                </p>
+                {/* Cards say the lawyer's REAL city, never this page's city. */}
+                <div className="flex flex-col gap-4">
+                  {nearbyLawyers.map((lawyer) => (
+                    <LawyerCard
+                      key={lawyer.id}
+                      lawyer={lawyer}
+                      contextLabel={`${category.name} · ${lawyer.cityName}`}
+                      categorySlug={category.urlSlug}
+                      country="us"
+                      linkFirmInstead={isPi}
+                    />
+                  ))}
+                </div>
+              </section>
+            )}
 
             <section aria-labelledby="about-h" className="mt-10 rounded-2xl border border-[#DCD8D0] bg-white p-6">
               <h2 id="about-h" className="font-serif text-xl text-[#10233D]">

@@ -11,7 +11,8 @@
 // ============================================================================
 
 import type { PracticeAreaSlug } from "@/lib/validations/lead-intake";
-import { usCountyLabel, type UsCity } from "@/lib/us/cities";
+import { getUsCityBySlug, usCountyLabel, type UsCity } from "@/lib/us/cities";
+import { US_INDEX_NEARBY_PAGES } from "@/lib/config";
 import type { UsCityInfo } from "@/lib/us/content-shared";
 import { US_CITY_INFO } from "@/lib/us/content";
 import { US_LAWYERS, type UsLawyer } from "@/lib/us/lawyers";
@@ -68,10 +69,55 @@ export function getUsLocalBlock(area: PracticeAreaSlug, city: UsCity): UsLocalBl
   }
 }
 
-/** Index an area × city page only when it has city-specific substance. */
-export function shouldIndexUsAreaCity(lawyerCount: number, localBlock: UsLocalBlock | null): boolean {
+/**
+ * Index an area × city page only when it has city-specific substance: 2+
+ * local lawyers, or 1 local lawyer plus the city's court block. With
+ * US_INDEX_NEARBY_PAGES on, a page with no local lawyer but nearby lawyers
+ * elsewhere in the state and the city's court block may be indexed too.
+ */
+export function shouldIndexUsAreaCity(lawyerCount: number, localBlock: UsLocalBlock | null, nearbyCount = 0): boolean {
   if (lawyerCount >= 2) return true;
-  return lawyerCount >= 1 && localBlock !== null;
+  if (lawyerCount >= 1) return localBlock !== null;
+  return US_INDEX_NEARBY_PAGES && nearbyCount > 0 && localBlock !== null;
+}
+
+/** Index a city hub page: it has a local lawyer, or (switch on) nearby ones. */
+export function shouldIndexUsCity(lawyerCount: number, nearbyCount: number): boolean {
+  return lawyerCount > 0 || (US_INDEX_NEARBY_PAGES && nearbyCount > 0);
+}
+
+function milesBetween(a: Pick<UsCity, "latitude" | "longitude">, b: Pick<UsCity, "latitude" | "longitude">): number {
+  const toRad = (d: number) => (d * Math.PI) / 180;
+  const dLat = toRad(b.latitude - a.latitude);
+  const dLon = toRad(b.longitude - a.longitude);
+  const h = Math.sin(dLat / 2) ** 2 + Math.cos(toRad(a.latitude)) * Math.cos(toRad(b.latitude)) * Math.sin(dLon / 2) ** 2;
+  return 3958.8 * 2 * Math.asin(Math.sqrt(h));
+}
+
+/**
+ * Lawyers listed in OTHER cities of the same state, nearest first — shown on
+ * pages with no local lawyer, always with their real city. Pass an area to
+ * keep only lawyers whose firm covers it.
+ */
+export function nearbyUsLawyers<T extends { citySlug: string; practiceAreaSlugs: string[] }>(
+  city: UsCity,
+  lawyers: T[],
+  area?: PracticeAreaSlug,
+  limit = 3
+): (T & { cityName: string; miles: number })[] {
+  return lawyers
+    .filter((l) => l.citySlug !== city.slug && (!area || l.practiceAreaSlugs.includes(area)))
+    .flatMap((l) => {
+      const c = getUsCityBySlug(l.citySlug);
+      return c && c.state === city.state ? [{ ...l, cityName: c.name, miles: Math.round(milesBetween(city, c)) }] : [];
+    })
+    .sort((a, b) => a.miles - b.miles)
+    .slice(0, limit);
+}
+
+/** Nearby lawyers for a city from the US list (for the sitemap and metadata). */
+export function usNearbyCount(city: UsCity, area?: PracticeAreaSlug): number {
+  return nearbyUsLawyers(city, US_LAWYERS, area).length;
 }
 
 export function usLawyersFor(area: PracticeAreaSlug, citySlug: string): UsLawyer[] {

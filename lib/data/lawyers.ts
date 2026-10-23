@@ -75,6 +75,11 @@ export function getLawyersByCategoryAndCity(
     .sort(compareListings);
 }
 
+/** Every listing for a country, in the usual order. */
+export function getLawyerListings(country: Country = "uk"): LawyerListing[] {
+  return lawyersFor(country).map(toListing).sort(compareListings);
+}
+
 /** Every lawyer in a city, across all practice areas — powers /uk/locations/[city]. */
 export function getLawyersByCity(citySlug: string, country: Country = "uk"): LawyerListing[] {
   return lawyersFor(country).filter((lawyer) => lawyer.citySlug === citySlug)
