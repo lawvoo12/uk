@@ -36,10 +36,12 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (!category) return {};
 
   const title = `${category.name} Solicitors in Ireland | Browse by Town`;
+  // Towns with at least one listed solicitor whose firm covers this area.
+  const towns = new Set(getLawyersByCategory(category.slug, "ie").map((l) => l.citySlug)).size;
   const description =
     category.slug === "personal-injury"
-      ? "Personal injury solicitors in 20 Irish towns, with a plain-English guide to the Injuries Resolution Board process. Contact firms directly."
-      : `Find ${category.name.toLowerCase()} solicitors in Ireland — firms in 20 towns from Dublin and Cork to Galway and Letterkenny, with Irish-law guidance. Free to use.`;
+      ? `Personal injury solicitors in ${towns} Irish towns, with a plain-English guide to the Injuries Resolution Board process. Contact firms directly.`
+      : `Find ${category.name.toLowerCase()} solicitors in Ireland — firms in ${towns} towns from Dublin and Cork to Galway and Letterkenny, with Irish-law guidance. Free to use.`;
   const canonicalPath = `/ie/solicitors/${category.slug}`;
 
   return {

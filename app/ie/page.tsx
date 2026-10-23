@@ -13,12 +13,14 @@ export const metadata: Metadata = {
   // "absolute": a layout's title template doesn't apply to the page in its own segment.
   title: { absolute: "Find a Solicitor in Ireland — Compare Firms by Town | Lawvoo Ireland" },
   description:
-    "Find solicitors across Ireland — Dublin, Cork, Limerick, Galway and 16 more towns. Family, immigration, employment, property and probate. Free to use, no obligation.",
+    `Find solicitors across Ireland — Dublin, Cork, Limerick, Galway and ${IE_CITIES.length - 4} more towns. Family, immigration, employment, property and probate. Free to use, no obligation.`,
   alternates: { canonical: "/ie", languages: { "en-GB": "/uk", "en-IE": "/ie", "en-CA": "/ca", "en-US": "/us" } },
 };
 
 export default function IrelandHomePage() {
   const firms = new Set(IE_LAWYERS.map((l) => l.firmName)).size;
+  // Towns where at least one solicitor is listed (a town can have court details but no listing yet).
+  const townsWithFirms = new Set(IE_LAWYERS.map((l) => l.citySlug)).size;
 
   return (
     <main className="bg-[#F8F7F4]">
@@ -26,7 +28,7 @@ export default function IrelandHomePage() {
         <div className="mx-auto max-w-3xl text-center">
           <h1 className="font-serif text-3xl text-[#10233D] sm:text-5xl">Find the right solicitor in Ireland</h1>
           <p className="mx-auto mt-4 max-w-xl text-[#5B6472]">
-            Compare {firms} solicitor firms in {IE_CITIES.length} Irish towns by area of law, or tell us about your case
+            Compare {firms} solicitor firms in {townsWithFirms} Irish towns by area of law, or tell us about your case
             — free, with no obligation.
           </p>
         </div>

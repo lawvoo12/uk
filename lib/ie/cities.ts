@@ -1,5 +1,5 @@
 // ============================================================================
-// Republic of Ireland — the 20 cities and towns the /ie directory covers.
+// Republic of Ireland — the cities and towns the /ie directory covers.
 // Single source of truth for /ie/locations, /ie/solicitors/[category]/[city],
 // the /ie sitemap and the homepage search.
 //
@@ -45,6 +45,17 @@ export const IE_CITIES: IeCity[] = [
   { slug: "wexford", name: "Wexford", county: "Wexford", province: "Leinster", latitude: 52.3369, longitude: -6.4633, routingKeys: ["Y35"] },
   { slug: "mullingar", name: "Mullingar", county: "Westmeath", province: "Leinster", latitude: 53.5260, longitude: -7.3381, routingKeys: ["N91"] },
   { slug: "castlebar", name: "Castlebar", county: "Mayo", province: "Connacht", latitude: 53.8550, longitude: -9.2988, routingKeys: ["F23"] },
+  // Added 23 Oct 2026 — one town in each county that had none. Routing keys
+  // from each town's courthouse Eircode on courts.ie.
+  { slug: "bray", name: "Bray", county: "Wicklow", province: "Leinster", latitude: 53.2009, longitude: -6.1111, routingKeys: ["A98"] },
+  { slug: "clonmel", name: "Clonmel", county: "Tipperary", province: "Munster", latitude: 52.3550, longitude: -7.7039, routingKeys: ["E91"] },
+  { slug: "tullamore", name: "Tullamore", county: "Offaly", province: "Leinster", latitude: 53.2739, longitude: -7.4889, routingKeys: ["R35"] },
+  { slug: "portlaoise", name: "Portlaoise", county: "Laois", province: "Leinster", latitude: 53.0344, longitude: -7.2998, routingKeys: ["R32"] },
+  { slug: "cavan", name: "Cavan", county: "Cavan", province: "Ulster", latitude: 53.9908, longitude: -7.3606, routingKeys: ["H12"] },
+  { slug: "monaghan", name: "Monaghan", county: "Monaghan", province: "Ulster", latitude: 54.2492, longitude: -6.9683, routingKeys: ["H18"] },
+  { slug: "longford", name: "Longford", county: "Longford", province: "Leinster", latitude: 53.7276, longitude: -7.7998, routingKeys: ["N39"] },
+  { slug: "roscommon", name: "Roscommon", county: "Roscommon", province: "Connacht", latitude: 53.6279, longitude: -8.1896, routingKeys: ["F42"] },
+  { slug: "carrick-on-shannon", name: "Carrick-on-Shannon", county: "Leitrim", province: "Connacht", latitude: 53.9469, longitude: -8.0900, routingKeys: ["N41"] },
 ];
 
 export const IE_PROVINCE_ORDER: IeProvince[] = ["Leinster", "Munster", "Connacht", "Ulster"];
@@ -55,7 +66,8 @@ export function getIeCityBySlug(slug: string): IeCity | undefined {
 
 export function findIeCityByNameOrSlug(input: string): IeCity | undefined {
   const normalized = input.trim().toLowerCase().replace(/^co\.?\s+/, "");
-  return IE_CITIES.find((c) => c.slug === normalized || c.name.toLowerCase() === normalized);
+  const hyphenated = normalized.replace(/\s+/g, "-");
+  return IE_CITIES.find((c) => c.slug === normalized || c.slug === hyphenated || c.name.toLowerCase() === normalized);
 }
 
 /** Eircode format: routing key (letter + 2 digits, or D6W) + 4-character unique identifier. */

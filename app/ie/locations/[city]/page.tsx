@@ -67,6 +67,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     title,
     description,
     alternates: { canonical: canonicalPath },
+    // A town with no listed solicitor yet (it still has court and probate details) isn't indexed.
+    ...(lawyers.length === 0 ? { robots: { index: false, follow: true } } : {}),
     openGraph: { title, description, url: canonicalPath, siteName: SITE_NAME, locale: "en_IE", type: "website" },
   };
 }

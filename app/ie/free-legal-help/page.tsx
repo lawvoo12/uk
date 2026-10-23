@@ -11,7 +11,7 @@ import { SITE_URL } from "@/lib/seo/site";
 export const metadata: Metadata = {
   title: "Free Legal Help in Ireland — Legal Aid, FLAC & More",
   description:
-    "Where to get free or low-cost legal help in Ireland: Legal Aid Board law centres, FLAC, Citizens Information, MABS, the WRC and the RTB — with the nearest law centre for 20 towns.",
+    `Where to get free or low-cost legal help in Ireland: Legal Aid Board law centres, FLAC, Citizens Information, MABS, the WRC and the RTB — with the nearest law centre for ${IE_CITIES.length} towns.`,
   alternates: { canonical: "/ie/free-legal-help" },
 };
 
