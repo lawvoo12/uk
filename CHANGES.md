@@ -442,3 +442,64 @@ Foley — 29 Alabama cities in all.
 - Hoover and Vestavia Hills have no ZIP prefixes of their own (their ZIP codes
   are shared with Birmingham); search by name works.
 - As before, new pages stay noindex until a lawyer is listed.
+
+## Update 28 — Nearest Alabama lawyers on empty city pages (23 Oct 2026)
+
+Site owner's decision: until each city has its own lawyer, city and area ×
+city pages with no local lawyer show the nearest lawyers listed elsewhere in
+the state.
+
+- Always truthful: title and heading say "for <city>" (not "in"), the intro
+  says no lawyer with an office in that city is listed yet, and each card
+  shows the lawyer's real city and office ("Family · Birmingham"), with the
+  distance list ("Birmingham (about 49 miles)"). Schema's ItemList only
+  includes local lawyers.
+- Indexing: `US_INDEX_NEARBY_PAGES` in lib/config.ts (true). While true, those
+  pages are indexed and in /us/sitemap.xml when they also have the city's own
+  court information (so immigration and most employment pages stay noindex).
+  Today: 29 of 29 city pages and 117 of 174 area pages indexed. If Search
+  Console shows them doing badly, set it to false and redeploy.
+- As soon as a local lawyer is added, the page switches back to "in <city>"
+  with the local listing.
+
+## Update 29 — Tennessee and Mississippi (23 Oct 2026)
+
+- Two new live states: `/us/tennessee` (Nashville, Memphis, Knoxville,
+  Clarksville) and `/us/mississippi` (Jackson, Gulfport, Biloxi, Southaven,
+  Tupelo, Meridian). Law content in `lib/us/states/tennessee.ts` and
+  `lib/us/states/mississippi.ts`; every fact is from an official page listed at
+  the top of each file. Things that couldn't be confirmed (injury time limits,
+  divorce residency, inheritance, Mississippi child support percentages) are
+  left out and the page says so.
+- Bars: Tennessee Board of Professional Responsibility (TBPR) and The
+  Mississippi Bar (MSB) in `lib/us/regulators.ts`. Each state now has its own
+  `badge`, `licenceSentence` and `termsFragment` in `lib/us/states.ts`, because
+  the TBPR's directory role isn't the same as a bar that licenses lawyers.
+- Deeds: outside Alabama the property block uses the city's own `recording`
+  text and `recordingLink` (Register of Deeds in Tennessee, chancery clerk in
+  Mississippi).
+- EEOC calculator: Mississippi added (180 days, EEOC Birmingham "Timeliness").
+- The /us home and About pages now say lawyers are listed in Alabama only.
+  State pages no longer show another state's guides or tools.
+- No lawyers are listed in either state yet, so their city and area pages stay
+  noindex (nearby lawyers only come from the same state). The two state pages
+  are indexed. Chattanooga, Murfreesboro and Hattiesburg are left out until
+  their courts are confirmed.
+
+## Update 30 — Ireland: register check done (23 Oct 2026)
+
+Approved by the site owner, who searched all 40 listed solicitors on the Law
+Society of Ireland register on 23 Oct 2026; each was found with a practising
+certificate.
+
+- `IE_REGISTER_CHECKED = true` and the date in `IE_DATES.registerCheck`.
+- Page intros, the "are they regulated?" answer, lawyer profiles and
+  /ie/how-we-verify now say each solicitor was checked on the register on that
+  date. Before, they asked visitors to check it themselves.
+- Profile schema: `hasCredential` (practising certificate, recognised by the
+  Law Society of Ireland). There's no `memberOf`, because holding a practising
+  certificate isn't the same as Law Society membership. Profile `dateModified`
+  and the Irish sitemap dates use the check date.
+- Only /ie pages changed. All UK and US pages are byte-identical to the
+  previous build.
+- New Irish solicitors must get the same register check before they are added.

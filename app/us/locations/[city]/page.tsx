@@ -6,7 +6,8 @@ import { Briefcase, Building2, ExternalLink, Landmark, MapPin, ScrollText, Shiel
 import { US_CITIES, getUsCityBySlug } from "@/lib/us/cities";
 import { getUsState } from "@/lib/us/states";
 import { US_PRACTICE_AREAS, getUsArea } from "@/lib/us/practice-areas";
-import { getLawyersByCity, type LawyerListing } from "@/lib/data/lawyers";
+import { getLawyerListings, getLawyersByCity, type LawyerListing } from "@/lib/data/lawyers";
+import { nearbyUsLawyers, shouldIndexUsCity, usNearbyCount } from "@/lib/us/indexing";
 import { SITE_NAME, SITE_URL } from "@/lib/seo/site";
 import { BreadcrumbNav } from "@/components/solicitors/breadcrumb-nav";
 import { LawyerCard } from "@/components/solicitors/lawyer-card";
@@ -49,17 +50,25 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (!city) return {};
   const lawyers = getLawyersByCity(city.slug, "us");
   const state = getUsState(city.state);
+  const nearby = usNearbyCount(city);
 
-  const title = `Lawyers in ${city.name}, ${state.name} | Family, Real Estate, Immigration & More`;
-  const description = `${lawyers.length > 0 ? `${lawyers.length} lawyers` : "Lawyers"} in ${city.name}, ${state.name} — named lawyers, office addresses and practice areas, each checked on the state bar directory, plus local court and probate information.`;
+  // No lawyer with an office here: say "for", not "in", and say so plainly.
+  const title =
+    lawyers.length > 0
+      ? `Lawyers in ${city.name}, ${state.name} | Family, Real Estate, Immigration & More`
+      : `Find a Lawyer for ${city.name}, ${state.name} | Nearest Listed Lawyers & Local Courts`;
+  const description =
+    lawyers.length > 0
+      ? `${lawyers.length} lawyers in ${city.name}, ${state.name} — named lawyers, office addresses and practice areas, each checked on the state bar directory, plus local court and probate information.`
+      : `No lawyer with an office in ${city.name} is listed yet. See the nearest lawyers listed elsewhere in ${state.name}, plus ${city.name}'s courts and probate office.`;
   const canonicalPath = `/us/locations/${city.slug}`;
 
   return {
     title,
     description,
     alternates: { canonical: canonicalPath },
-    // A city with no listings yet stays out of the index (and out of the sitemap).
-    ...(lawyers.length === 0 ? { robots: { index: false, follow: true } } : {}),
+    // Same rule as /us/sitemap.xml — see shouldIndexUsCity in lib/us/indexing.ts.
+    ...(shouldIndexUsCity(lawyers.length, nearby) ? {} : { robots: { index: false, follow: true } }),
     openGraph: { title, description, url: canonicalPath, siteName: SITE_NAME, locale: "en_US", type: "website" },
   };
 }
@@ -72,6 +81,8 @@ export default async function UsLocationPage({ params }: PageProps) {
   const state = getUsState(city.state);
   const content = getUsStateContent(city.state);
   const lawyers = getLawyersByCity(city.slug, "us");
+  // Shown only when no lawyer has an office here — always with their real city.
+  const nearbyLawyers = lawyers.length === 0 ? nearbyUsLawyers(city, getLawyerListings("us"), undefined, 6) : [];
   const local = US_CITY_INFO[city.slug];
   const firmCount = new Set(lawyers.map((l) => l.firmName)).size;
   const areaCounts = US_PRACTICE_AREAS.map((area) => ({
@@ -137,7 +148,7 @@ export default async function UsLocationPage({ params }: PageProps) {
           <p className="mt-3 text-[#5B6472]">
             {lawyers.length > 0
               ? `Every lawyer we list in ${city.name}, across all practice areas. ${US_CHECKED_SENTENCE}`
-              : `We haven't listed any lawyers in ${city.name} yet.`}
+              : `We haven't listed any lawyers with an office in ${city.name} yet.${nearbyLawyers.length > 0 ? ` Below are the nearest lawyers we list elsewhere in ${state.name}, and ${city.name}'s courts and probate office.` : ""}`}
           </p>
 
           {lawyers.length > 0 && (
@@ -159,7 +170,7 @@ export default async function UsLocationPage({ params }: PageProps) {
               <div className="flex items-center gap-2">
                 <ShieldCheck className="h-4 w-4 text-[#B8863B]" strokeWidth={1.75} />
                 <dt className="sr-only">Regulator</dt>
-                <dd>Licensed by the {state.regulatorName}</dd>
+                <dd>{state.badge}</dd>
               </div>
             </dl>
           )}
@@ -198,6 +209,20 @@ export default async function UsLocationPage({ params }: PageProps) {
                 <p className="font-medium text-[#10233D]">No lawyers listed in {city.name} yet</p>
                 <p className="mt-1 text-sm text-[#5B6472]">Search the {state.directoryLabel} for lawyers near you.</p>
               </div>
+            )}
+
+            {nearbyLawyers.length > 0 && (
+              <section aria-labelledby="nearby-lawyers-h" className="mt-8">
+                <h2 id="nearby-lawyers-h" className="font-serif text-xl text-[#10233D]">
+                  Nearest lawyers listed elsewhere in {state.name}
+                </h2>
+                <p className="mt-1 mb-4 text-sm text-[#5B6472]">{`None of these lawyers has an office in ${city.name} — each card shows where the office is. Nearest first: ${nearbyLawyers.map((l) => `${l.cityName} (about ${l.miles} miles)`).join(", ")}.`}</p>
+                <div className="flex flex-col gap-4">
+                  {nearbyLawyers.map((lawyer) => (
+                    <LawyerCard key={lawyer.id} lawyer={lawyer} showPracticeAreas country="us" />
+                  ))}
+                </div>
+              </section>
             )}
 
             {/* Local information */}

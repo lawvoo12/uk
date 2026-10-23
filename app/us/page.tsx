@@ -9,7 +9,7 @@ import { UsHowItWorks } from "@/components/us/how-it-works";
 import { US_CITIES, getUsCitiesGroupedByState } from "@/lib/us/cities";
 import { US_LAWYERS } from "@/lib/us/lawyers";
 import { US_LEADS_ENABLED } from "@/lib/config";
-import { getUsState } from "@/lib/us/states";
+import { US_STATE_NAMES, getUsState } from "@/lib/us/states";
 
 const cityNames = US_CITIES.slice(0, 4)
   .map((c) => c.name)
@@ -26,6 +26,9 @@ export default function UsHomePage() {
   const firms = new Set(US_LAWYERS.map((l) => l.firmName)).size;
   const states = getUsCitiesGroupedByState();
   const where = states.length === 1 ? states[0].stateName : `${states.length} states`;
+  // Where the listed firms actually are (some states have city pages only).
+  const firmStates = [...new Set(US_LAWYERS.map((l) => l.state))];
+  const firmWhere = firmStates.length === 1 ? US_STATE_NAMES[firmStates[0]] : `${firmStates.length} states`;
 
   return (
     <main className="bg-[#F8F7F4]">
@@ -34,7 +37,9 @@ export default function UsHomePage() {
           <h1 className="font-serif text-3xl text-[#10233D] sm:text-5xl">Find the right lawyer in the US</h1>
           <p className="mx-auto mt-4 max-w-xl text-[#5B6472]">
             {firms > 0
-              ? `Compare ${firms} law ${firms === 1 ? "firm" : "firms"} in ${US_CITIES.length} cities in ${where} by area of law`
+              ? firmWhere === where
+                ? `Compare ${firms} law ${firms === 1 ? "firm" : "firms"} in ${US_CITIES.length} cities in ${where} by area of law`
+                : `Compare ${firms} law ${firms === 1 ? "firm" : "firms"} in ${firmWhere}, and browse ${US_CITIES.length} cities in ${where} by area of law`
               : `Browse lawyers by area of law in ${US_CITIES.length} cities in ${where}`}
             {US_LEADS_ENABLED ? ", or tell us about your case — free, with no obligation." : " and contact them directly — free to use."}
           </p>

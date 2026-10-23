@@ -158,7 +158,7 @@ export default function UsTermsPage() {
             <ul className="mt-2 list-disc space-y-1 pl-5">
               {states.map((state) => (
                 <li key={state.code}>
-                  in {state.name}, the {state.regulatorName} licenses lawyers and deals with complaints about them —{" "}
+                  in {state.name}, {state.termsFragment} —{" "}
                   <Ext href={state.directoryUrl}>check a lawyer in its public directory</Ext>.
                 </li>
               ))}

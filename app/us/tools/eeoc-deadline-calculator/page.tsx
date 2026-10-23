@@ -31,6 +31,11 @@ const FAQS = [
       "180 days. The EEOC's Birmingham District Office says that in Alabama an individual has 180 days from the date of alleged harm to file a charge — including age discrimination charges.",
   },
   {
+    question: "Is the deadline 180 or 300 days in Mississippi?",
+    answer:
+      "180 days. The same EEOC page says that in Mississippi an individual has 180 days from the date of alleged harm to file a charge.",
+  },
+  {
     question: "What if the deadline falls on a weekend or holiday?",
     answer:
       "Weekends and holidays count towards the 180 or 300 days, but if the last day falls on a weekend or holiday, you have until the next business day.",

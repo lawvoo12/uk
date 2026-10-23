@@ -14,7 +14,7 @@ import {
   type EeocDeadline,
 } from "@/lib/us/eeoc-deadline";
 
-type Where = "AL" | "other";
+type Where = "AL" | "MS" | "other";
 type Agency = "yes" | "no" | "unsure";
 
 function todayUtc() {
@@ -94,7 +94,7 @@ export function UsEeocDeadlineCalculator() {
   const eventDate = parseIsoDate(event);
   const d180 = useMemo(() => (eventDate ? eeocDeadline(eventDate, 180) : null), [eventDate]);
   const d300 = useMemo(() => (eventDate ? eeocDeadline(eventDate, 300) : null), [eventDate]);
-  const known = where === "AL" ? EEOC_KNOWN_STATES.AL : null;
+  const known = where === "other" ? null : EEOC_KNOWN_STATES[where];
 
   return (
     <div className="rounded-2xl border border-[#DCD8D0] bg-white p-5 sm:p-7">
@@ -131,6 +131,7 @@ export function UsEeocDeadlineCalculator() {
                   onChange={setWhere}
                   options={[
                     { value: "AL", label: "Alabama" },
+                    { value: "MS", label: "Mississippi" },
                     { value: "other", label: "Another state" },
                   ]}
                 />

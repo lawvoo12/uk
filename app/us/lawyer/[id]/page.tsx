@@ -231,8 +231,7 @@ export default async function UsLawyerProfilePage({ params }: PageProps) {
         <section className="mt-6 flex items-start gap-3 rounded-2xl border border-[#DCD8D0] bg-white p-6 text-sm text-[#5B6472] sm:p-8">
           <ShieldCheck className="mt-0.5 h-5 w-5 shrink-0 text-[#B8863B]" strokeWidth={1.5} />
           <p>
-            Lawyers in {state.name} are licensed through the {state.regulatorName}, which also deals with complaints
-            about them. We checked {lawyer.lawyerName} in the state bar&apos;s public directory on{" "}
+            {state.licenceSentence} We checked {lawyer.lawyerName} in the state bar&apos;s public directory on{" "}
             {entry.registerChecked}. People move firms, so check again{" "}
             <a href={lawyer.registerUrl} target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:text-[#10233D]">
               {entry.barRecordUrl ? `on their ${state.regulatorName} record` : `in the ${state.directoryLabel}`}

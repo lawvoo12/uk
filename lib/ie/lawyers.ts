@@ -26,8 +26,13 @@
 
 import type { StaticLawyer } from "@/lib/data/static-lawyers";
 
-/** Flip to true once you've searched every firm below on the Law Society of Ireland register. */
-export const IE_REGISTER_CHECKED = false;
+/**
+ * True: the site owner searched all 40 solicitors below on the Law Society of
+ * Ireland register on 23 Oct 2026 and each was found with a practising
+ * certificate (date in IE_DATES.registerCheck). Add new entries only after
+ * the same check.
+ */
+export const IE_REGISTER_CHECKED = true;
 
 export const LSI_REGISTER_URL = "https://www.lawsociety.ie/find-a-solicitor/Solicitor-Firm-Search/";
 

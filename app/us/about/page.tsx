@@ -5,6 +5,7 @@ import { BreadcrumbNav } from "@/components/solicitors/breadcrumb-nav";
 import { BUSINESS_ADDRESS, BUSINESS_NAME, CONTACT_EMAIL, US_LEADS_ENABLED } from "@/lib/config";
 import { SITE_NAME, SITE_URL } from "@/lib/seo/site";
 import { US_PAGE_UPDATED } from "@/lib/us/page-dates";
+import { US_LAWYERS } from "@/lib/us/lawyers";
 import { US_STATE_ORDER, US_STATES } from "@/lib/us/states";
 
 // Only true statements about Lawvoo go on this page — no invented team,
@@ -19,7 +20,12 @@ export const metadata: Metadata = {
 const link = "underline underline-offset-2 hover:text-[#10233D]";
 
 export default function UsAboutPage() {
-  const states = US_STATE_ORDER.flatMap((c) => US_STATES[c]?.name ?? []).join(", ");
+  // Only states with at least one listed lawyer count as "listing lawyers";
+  // live states without one yet have city pages only.
+  const withLawyers = new Set(US_LAWYERS.map((l) => l.state));
+  const live = US_STATE_ORDER.flatMap((c) => US_STATES[c] ?? []);
+  const states = live.filter((s) => withLawyers.has(s.code)).map((s) => s.name).join(", ");
+  const pagesOnly = live.filter((s) => !withLawyers.has(s.code)).map((s) => s.name);
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -50,8 +56,9 @@ export default function UsAboutPage() {
             <p>
               {SITE_NAME} is a free directory of lawyers. It helps you find a lawyer by area of law and city, see where
               their office is and what they work on, and check them on the state bar&apos;s public directory before you
-              get in touch. In the United States we currently list lawyers in {states}, and we add states and lawyers
-              over time.
+              get in touch. In the United States we currently list lawyers in {states}
+              {pagesOnly.length > 0 ? ` (and have city pages, without listings yet, for ${pagesOnly.join(" and ")})` : ""}, and we
+              add states and lawyers over time.
             </p>
             <p className="mt-3">
               {SITE_NAME} is not a law firm. We don&apos;t give legal advice, we don&apos;t recommend one lawyer over

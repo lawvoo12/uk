@@ -81,6 +81,8 @@ export function profilePageJsonLd(opts: {
    * isn't a membership) and for Ireland until the register check is done.
    */
   memberOf?: { name: string; url: string };
+  /** Only when the person was confirmed as holding a practising certificate (Ireland, after the register check). */
+  practisingCertificate?: { issuer: string; url: string };
   /** ISO date (YYYY-MM-DD) the listing was last checked, if known. */
   dateModified?: string;
 }) {
@@ -106,6 +108,15 @@ export function profilePageJsonLd(opts: {
       },
       ...(opts.focusArea ? { knowsAbout: `${opts.focusArea} law` } : {}),
       ...(opts.memberOf ? { memberOf: { "@type": "Organization", name: opts.memberOf.name, url: opts.memberOf.url } } : {}),
+      ...(opts.practisingCertificate
+        ? {
+            hasCredential: {
+              "@type": "EducationalOccupationalCredential",
+              credentialCategory: "Practising certificate",
+              recognizedBy: { "@type": "Organization", name: opts.practisingCertificate.issuer, url: opts.practisingCertificate.url },
+            },
+          }
+        : {}),
     },
   };
 }

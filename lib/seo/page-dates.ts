@@ -28,12 +28,14 @@ export const IE_DATES = {
   content: "2 October 2026",
   /** Listings collected from each firm's website (lib/ie/lawyers.ts). */
   listings: "28 September 2026",
+  /** Every listed solicitor confirmed on the Law Society of Ireland register (site owner, 23 Oct 2026). */
+  registerCheck: "23 October 2026",
   freeLegalHelp: "30 September 2026",
   irishLanguage: "2 October 2026",
   privacy: "22 October 2026",
   terms: "28 September 2026",
   about: "22 October 2026",
-  "how-we-verify": "22 October 2026",
+  "how-we-verify": "23 October 2026",
   contact: "22 October 2026",
 } as const;
 

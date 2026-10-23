@@ -11,11 +11,21 @@ import { US_CONTENT_CHECKED } from "@/lib/us/content";
 import { US_RECORDATION_CHECKED } from "@/lib/us/recordation-tax";
 import { EEOC_CHECKED } from "@/lib/us/eeoc-deadline";
 import { US_PAGE_UPDATED } from "@/lib/us/page-dates";
-import { getUsLocalBlock, latestCheck, parseCheckedDate, shouldIndexUsAreaCity, usLawyersFor } from "@/lib/us/indexing";
+import {
+  getUsLocalBlock,
+  latestCheck,
+  nearbyUsLawyers,
+  parseCheckedDate,
+  shouldIndexUsAreaCity,
+  shouldIndexUsCity,
+  usLawyersFor,
+  usNearbyCount,
+} from "@/lib/us/indexing";
 
-// Served at /us/sitemap.xml. Lists only pages that are indexed: city pages
-// with at least one lawyer, and area × city pages that pass the rule in
-// lib/us/indexing.ts (the same rule sets their robots tag). The enquiry form
+// Served at /us/sitemap.xml. Lists only pages that are indexed — the rules in
+// lib/us/indexing.ts (shouldIndexUsCity / shouldIndexUsAreaCity) also set the
+// pages' robots tags, so the two always agree. Pages with no local lawyer but
+// nearby ones are included only while US_INDEX_NEARBY_PAGES is on. The enquiry form
 // (/us/leads/new) is left out. URLs use NEXT_PUBLIC_SITE_URL (https://lawvoo.com).
 //
 // <lastmod> is the real date a page's content last changed — the content
@@ -77,9 +87,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   const locationRoutes: MetadataRoute.Sitemap = US_CITIES.flatMap((c) => {
     const here = US_LAWYERS.filter((l) => l.citySlug === c.slug);
-    return here.length === 0
-      ? []
-      : [{ url: `${baseUrl}/us/locations/${c.slug}`, lastModified: laterOf(content, latestCheck(here)), changeFrequency: "monthly" as const, priority: 0.8 }];
+    if (!shouldIndexUsCity(here.length, usNearbyCount(c))) return [];
+    // A city with no local lawyer shows nearby ones — date it by those.
+    const shown = here.length > 0 ? here : nearbyUsLawyers(c, US_LAWYERS, undefined, 6);
+    return [{ url: `${baseUrl}/us/locations/${c.slug}`, lastModified: laterOf(content, latestCheck(shown)), changeFrequency: "monthly" as const, priority: here.length > 0 ? 0.8 : 0.5 }];
   });
 
   const categoryHubRoutes: MetadataRoute.Sitemap = US_PRACTICE_AREAS.map((area) => ({
@@ -92,13 +103,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const categoryCityRoutes: MetadataRoute.Sitemap = US_PRACTICE_AREAS.flatMap((area) =>
     US_CITIES.flatMap((city) => {
       const lawyers = usLawyersFor(area.slug, city.slug);
-      if (!shouldIndexUsAreaCity(lawyers.length, getUsLocalBlock(area.slug, city))) return [];
+      const nearby = lawyers.length === 0 ? nearbyUsLawyers(city, US_LAWYERS, area.slug) : [];
+      if (!shouldIndexUsAreaCity(lawyers.length, getUsLocalBlock(area.slug, city), nearby.length)) return [];
       return [
         {
           url: `${baseUrl}/us/lawyers/${area.urlSlug}/${city.slug}`,
-          lastModified: laterOf(content, latestCheck(lawyers)),
+          lastModified: laterOf(content, latestCheck(lawyers.length > 0 ? lawyers : nearby)),
           changeFrequency: "monthly" as const,
-          priority: 0.8,
+          priority: lawyers.length > 0 ? 0.8 : 0.5,
         },
       ];
     })

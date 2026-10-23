@@ -20,6 +20,7 @@ import type { FAQItem } from "@/lib/seo/faq-content";
 import type { PracticeAreaSlug } from "@/lib/validations/lead-intake";
 import type { IeCity } from "@/lib/ie/cities";
 import { IE_REGISTER_CHECKED, LSI_REGISTER_URL } from "@/lib/ie/lawyers";
+import { IE_DATES } from "@/lib/seo/page-dates";
 
 export const IE_LINKS = {
   lsiRegister: LSI_REGISTER_URL,
@@ -53,13 +54,13 @@ export const IE_LINKS = {
 /** "Are they regulated?" — honest about whether Lawvoo has checked the register itself. */
 export const IE_REGULATION_ANSWER = `To practise in Ireland a solicitor must be on the Roll of Solicitors kept by the Law Society of Ireland and hold a current practising certificate. You can search any solicitor or firm on the Law Society's Find a Solicitor register. Complaints about a solicitor's services or conduct go to the Legal Services Regulatory Authority (LSRA). ${
   IE_REGISTER_CHECKED
-    ? "Every firm listed on Lawvoo has been checked on the register."
+    ? `Every solicitor listed on Lawvoo was checked on the register on ${IE_DATES.registerCheck} — people move firms, so check again before you instruct them.`
     : "Lawvoo lists firms from the details they publish themselves — check the register before you instruct a firm."
 }`;
 
 /** Short sentence for page intros. */
 export const IE_CHECKED_SENTENCE = IE_REGISTER_CHECKED
-  ? "Each firm has been checked on the Law Society of Ireland register."
+  ? `Each solicitor was checked on the Law Society of Ireland register on ${IE_DATES.registerCheck}.`
   : "Firms here practise under Irish law — check each one on the Law Society of Ireland register before instructing.";
 
 export const IE_JURISDICTION_NOTE = {

@@ -91,3 +91,14 @@ export function leadsEnabledFor(country: "uk" | "ie" | "ca" | "us"): boolean {
  * email buttons, as before.
  */
 export const LISTING_FORM_ENABLED = process.env.LISTING_FORM_ENABLED === "true";
+
+/**
+ * US city and area × city pages that have NO lawyer with an office in that
+ * city show the nearest lawyers listed elsewhere in the state (clearly
+ * labelled with their real city). true = those pages may be indexed (and go
+ * in /us/sitemap.xml) when they also have city-specific court information;
+ * false = they stay noindex until a local lawyer is listed. Chosen by the site
+ * owner on 23 Oct 2026. If Search Console shows these pages doing badly (e.g.
+ * "Crawled – currently not indexed" in bulk), set this to false.
+ */
+export const US_INDEX_NEARBY_PAGES = true;
