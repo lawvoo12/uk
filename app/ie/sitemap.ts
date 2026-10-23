@@ -28,7 +28,7 @@ const TOOL_CHECKED: Record<string, string> = {
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = SITE_URL;
   // Pages that list solicitors: the later of the page text and the listings.
-  const lastModified = latestDate(IE_DATES.content, IE_DATES.listings);
+  const lastModified = latestDate(IE_DATES.content, IE_DATES.listings, IE_DATES.registerCheck);
   const d = (text: string) => parseContentDate(text);
 
   const staticRoutes: MetadataRoute.Sitemap = [

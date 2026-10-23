@@ -76,7 +76,8 @@ export default async function IeLawyerProfilePage({ params }: PageProps) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(
-            // No memberOf until the Law Society of Ireland register check is done (IE_REGISTER_CHECKED).
+            // No memberOf: holding a practising certificate isn't Law Society membership.
+            // hasCredential only once the register check is done (IE_REGISTER_CHECKED).
             profilePageJsonLd({
               url: `${SITE_URL}/ie/lawyer/${lawyer.id}`,
               country: "IE",
@@ -87,7 +88,10 @@ export default async function IeLawyerProfilePage({ params }: PageProps) {
               addressLine1: lawyer.addressLine1,
               sourceProfileUrl: lawyer.profileUrl,
               focusArea: personalFocus(lawyer),
-              dateModified: contentDateIso(IE_DATES.listings),
+              ...(IE_REGISTER_CHECKED
+                ? { practisingCertificate: { issuer: "Law Society of Ireland", url: "https://www.lawsociety.ie/" } }
+                : {}),
+              dateModified: contentDateIso(IE_REGISTER_CHECKED ? IE_DATES.registerCheck : IE_DATES.listings),
             })
           ),
         }}
@@ -224,7 +228,9 @@ export default async function IeLawyerProfilePage({ params }: PageProps) {
           <p>
             Solicitors in Ireland are on the Roll kept by the {regulator.name}; complaints about them go to the Legal
             Services Regulatory Authority (LSRA).{" "}
-            {IE_REGISTER_CHECKED ? "We have checked this firm on the register. " : ""}
+            {IE_REGISTER_CHECKED
+              ? `We checked ${lawyer.lawyerName} on the register on ${IE_DATES.registerCheck}; they hold a practising certificate. `
+              : ""}
             You can independently check this firm on the{" "}
             <a
               href={lawyer.registerUrl}
