@@ -148,7 +148,7 @@ export const COUNTRIES: Record<Country, CountryConfig> = {
     regulatorNoun: "register",
     closedSidebarNote: `${SIDEBAR_NOTE_START} its register entry.`,
     practiceAreaGridNote:
-      "Listings come from each firm's own published details. Check any firm on the Law Society of Ireland register before you instruct it.",
+      "Every solicitor listed was checked on the Law Society of Ireland register before being added — people move firms, so check again before you instruct them.",
     registrationHint: "As shown on the Law Society of Ireland's register",
   },
 

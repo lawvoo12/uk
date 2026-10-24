@@ -527,3 +527,27 @@ solicitors on the Law Society of Ireland register on 24 Oct 2026.
   typed without hyphens.
 - Only /ie pages changed. All UK, US and Canada sitemaps are identical, and
   the UK and US pages are byte-identical to the previous build.
+
+## Update 32 — Ireland: 26 county pages and 3 more solicitors (24 Oct 2026)
+
+Approved by the site owner.
+
+- New `/ie/county/[county]` hub for each of the 26 counties, in the same style
+  as the US state page: hero with search, the county's towns with solicitor
+  counts, practice area cards, courts, probate office, WRC, law centres, FAQs,
+  and CollectionPage, BreadcrumbList and FAQPage schema.
+  - County data is in `lib/ie/counties.ts`. Probate offices come from courts.ie
+    "Probate Offices" and law centres from the Legal Aid Board finder, both
+    read 23 Oct 2026. Courts come from the towns' existing data.
+  - A county is indexed and in the sitemap only when it has a listed
+    solicitor. All 26 do now.
+- Town pages link "Co. X" to the county page. /ie/locations has a new
+  "Browse by county" row.
+- 3 solicitors, confirmed on the register by the site owner on 24 Oct 2026:
+  - William X. White and Eimear Dunne (Portlaoise). Portlaoise is now indexed.
+  - Fergus A. Feeney (Longford).
+- Only /ie pages changed. The UK, US and Canada sitemaps are identical. The
+  Irish sitemap now has 283 URLs.
+- The note under the practice area cards on the Irish home page,
+  /ie/solicitors and the county pages now says every solicitor was checked on
+  the register. Before, it asked visitors to check the firm themselves.

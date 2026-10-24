@@ -142,7 +142,10 @@ export default async function IeLocationPage({ params }: PageProps) {
         <div className="max-w-2xl">
           <p className="flex items-center gap-1.5 text-sm text-[#B8863B]">
             <MapPin className="h-4 w-4" strokeWidth={1.75} />
-            Co. {city.county} · {city.province}
+            <Link href={`/ie/county/${city.county.toLowerCase()}`} className="underline-offset-2 hover:underline">
+              Co. {city.county}
+            </Link>{" "}
+            · {city.province}
           </p>
           <h1 className="mt-1 font-serif text-3xl text-[#10233D] sm:text-4xl">Solicitors in {city.name}</h1>
           <p className="mt-3 text-[#5B6472]">
