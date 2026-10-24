@@ -53,6 +53,15 @@ export const NEAREST_LAW_CENTRE: Record<string, string> = {
   arklow: "Law Centre Wicklow, the law centre for Co. Wicklow",
   athy: "Law Centre Newbridge, the law centre for Co. Kildare",
   ballinasloe: "the Galway law centres (Francis Street and Woodquay)",
+  balbriggan: "the north Dublin centres, such as Ballymun Law and Family Mediation Centre",
+  gorey: "Law Centre Wexford, the law centre for Co. Wexford",
+  tuam: "the Galway law centres (Francis Street and Woodquay)",
+  thurles: "Law Centre Nenagh, the law centre listed for Co. Tipperary",
+  trim: "Law Centre Navan, the law centre for Co. Meath",
+  fermoy: "Law Centre Cork North or Law Centre Cork South",
+  youghal: "Law Centre Cork North or Law Centre Cork South",
+  listowel: "Law Centre Tralee, the law centre for Co. Kerry",
+  loughrea: "the Galway law centres (Francis Street and Woodquay)",
 };
 
 export const FREE_HELP = [
