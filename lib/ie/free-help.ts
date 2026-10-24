@@ -43,6 +43,16 @@ export const NEAREST_LAW_CENTRE: Record<string, string> = {
   longford: "Law Centre Longford",
   roscommon: "Law Centre Athlone (no law centre is listed for Co. Roscommon)",
   "carrick-on-shannon": "Sligo Law and Family Mediation Centre or Law Centre Longford (no law centre is listed for Co. Leitrim)",
+  "dun-laoghaire": "one of the Dublin law centres, such as Law Centre Smithfield or Law Centre Dolphin House (none is listed in Dún Laoghaire)",
+  tallaght: "Tallaght Law and Family Mediation Centre",
+  killarney: "Law Centre Tralee, the law centre for Co. Kerry",
+  mallow: "Law Centre Cork North or Law Centre Cork South",
+  nenagh: "Law Centre Nenagh",
+  dungarvan: "Law Centre Waterford, the law centre for Co. Waterford",
+  ballina: "Castlebar Law and Family Mediation Centre, the law centre for Co. Mayo",
+  arklow: "Law Centre Wicklow, the law centre for Co. Wicklow",
+  athy: "Law Centre Newbridge, the law centre for Co. Kildare",
+  ballinasloe: "the Galway law centres (Francis Street and Woodquay)",
 };
 
 export const FREE_HELP = [

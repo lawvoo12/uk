@@ -17,6 +17,10 @@
 //    courts.ie office page (address, Eircode, jurisdictions; Clonmel's notice
 //    that Tipperary District Court's office moved to Nenagh from 1 Oct 2026)
 //    and courts.ie "Probate Offices" for the registry covering each county
+//  - Batch 1 towns added 24 Oct 2026 (Dún Laoghaire, Tallaght, Killarney,
+//    Mallow, Nenagh, Dungarvan, Ballina, Arklow, Athy, Ballinasloe): each
+//    town's courthouse page on courts.ie (all District Court only; Mallow
+//    listed as temporarily sitting at Fermoy)
 // Court names/links: re-check now and then — the Courts Service renames and
 // moves offices (Swords is currently listed as sitting at Balbriggan).
 // ============================================================================
@@ -464,6 +468,102 @@ export const IE_CITY_INFO: Record<string, IeCityInfo> = {
     districtCourt: "Carrick-on-Shannon Courthouse",
     probate: "the Sligo District Probate Registry (covers Sligo and Leitrim)",
     wrc: WRC_SLIGO,
+  },
+  // Batch 1 of larger towns (24 Oct 2026) — each town's District Court office
+  // from its courts.ie office page (address, Eircode, jurisdiction).
+  "dun-laoghaire": {
+    local:
+      "Dún Laoghaire District Courthouse is on Corrig Avenue. Circuit and High Court cases are heard in Dublin city, where Dublin Circuit Court's family law office is at Phoenix House, Smithfield, and estates for all of County Dublin go to the Probate Office there.",
+    courts: [
+      { name: "Dún Laoghaire District Courthouse", slug: "dún-laoghaire-district-court-office", use: DISTRICT },
+      { name: "Phoenix House, Smithfield", slug: "phoenix-house", use: "Dublin Circuit Court family law office" },
+    ],
+    districtCourt: "Dún Laoghaire District Courthouse",
+    probate: PROBATE_DUBLIN,
+    wrc: WRC_DUBLIN.replace("The WRC's Dublin office is", "The nearest WRC office is in Dublin,"),
+  },
+  tallaght: {
+    local:
+      "Tallaght District Court Office is at the Courthouse in Westpark, Dublin 24. Circuit and High Court cases are heard in Dublin city, and Tallaght has its own Legal Aid Board law and family mediation centre.",
+    courts: [
+      { name: "Tallaght Courthouse", slug: "tallaght-courthouse", use: DISTRICT },
+      { name: "Phoenix House, Smithfield", slug: "phoenix-house", use: "Dublin Circuit Court family law office" },
+    ],
+    districtCourt: "Tallaght Courthouse",
+    probate: PROBATE_DUBLIN,
+    wrc: WRC_DUBLIN.replace("The WRC's Dublin office is", "The nearest WRC office is in Dublin,"),
+  },
+  killarney: {
+    local:
+      "Killarney Courthouse handles District Court business for the town. Kerry estates go to the Tralee District Probate Registry, which covers the whole county.",
+    courts: [{ name: "Killarney Courthouse", slug: "killarney-courthouse", use: DISTRICT }],
+    courtNote: "Check the Legal Diary for where Circuit Court cases for Kerry are listed.",
+    districtCourt: "Killarney Courthouse",
+    probate: "the Tralee District Probate Registry (covers County Kerry)",
+    wrc: "The nearest WRC offices are in Cork (Elysian Building, Eglington Street) and Ennis.",
+  },
+  mallow: {
+    local:
+      "Mallow Courthouse on O'Brien Street handles District Court business, though the Courts Service currently lists it as temporarily sitting at Fermoy. Cork estates go to the Cork District Probate Registry, and the WRC has an office in Cork city.",
+    courts: [{ name: "Mallow Courthouse (temporarily sitting at Fermoy)", slug: "mallow-court-office", use: DISTRICT }],
+    courtNote: "Check the Legal Diary for where Circuit Court cases for Cork are listed.",
+    districtCourt: "Mallow District Court (currently sitting at Fermoy)",
+    probate: "the Cork District Probate Registry (covers County Cork)",
+    wrc: "The nearest WRC office is in Cork, in the Elysian Building, Eglington Street.",
+  },
+  nenagh: {
+    local:
+      "Nenagh District Courthouse on Banba Square has been the administration office for Tipperary District Court since 1 October 2026. Tipperary estates go to the Clonmel District Probate Registry, and Nenagh has the Legal Aid Board's law centre for the county.",
+    courts: [{ name: "Nenagh District Courthouse", slug: "nenagh-district-court-office", use: "District Court — the Tipperary District Court office since 1 October 2026" }],
+    courtNote: "Check the Legal Diary for where Circuit Court cases for Tipperary are listed.",
+    districtCourt: "Nenagh District Courthouse",
+    probate: "the Clonmel District Probate Registry (covers County Tipperary)",
+    wrc: WRC_SPREAD,
+  },
+  dungarvan: {
+    local:
+      "Dungarvan Courthouse on Bridge Street handles District Court business. Waterford estates go to the Waterford District Probate Registry in Waterford city.",
+    courts: [{ name: "Dungarvan Courthouse", slug: "dungarvan-courthouse", use: DISTRICT }],
+    courtNote: "Check the Legal Diary for where Circuit Court cases for Waterford are listed.",
+    districtCourt: "Dungarvan Courthouse",
+    probate: "the Waterford District Probate Registry (covers County Waterford)",
+    wrc: WRC_SPREAD,
+  },
+  ballina: {
+    local:
+      "Ballina District Courthouse is on Francis Street. Mayo estates go to the Castlebar District Probate Registry, and the nearest WRC office is in Sligo.",
+    courts: [{ name: "Ballina District Courthouse", slug: "ballina-district-court-office", use: DISTRICT }],
+    courtNote: "Check the Legal Diary for where Circuit Court cases for Mayo are listed.",
+    districtCourt: "Ballina District Courthouse",
+    probate: "the Castlebar District Probate Registry (covers County Mayo)",
+    wrc: WRC_SLIGO,
+  },
+  arklow: {
+    local:
+      "Arklow Courthouse, at Saint Anne's on Parade Ground, handles District Court business for south Wicklow. Wicklow has no local probate registry — estates go to the Probate Office in Dublin.",
+    courts: [{ name: "Arklow Courthouse", slug: "arklow-courthouse", use: DISTRICT }],
+    courtNote: "Check the Legal Diary for where Circuit Court cases for Wicklow are listed.",
+    districtCourt: "Arklow Courthouse",
+    probate: PROBATE_DUBLIN,
+    wrc: WRC_SPREAD,
+  },
+  athy: {
+    local:
+      "Athy Courthouse on Emily Square handles District Court business for south Kildare. Kildare estates go to the Probate Office in Dublin, and the WRC's head office is nearby in Carlow.",
+    courts: [{ name: "Athy Courthouse", slug: "athy-courthouse", use: DISTRICT }],
+    courtNote: "Check the Legal Diary for where Circuit Court cases for Kildare are listed.",
+    districtCourt: "Athy Courthouse",
+    probate: PROBATE_DUBLIN,
+    wrc: WRC_CARLOW,
+  },
+  ballinasloe: {
+    local:
+      "Ballinasloe Courthouse on Society Street handles District Court business for east Galway. Galway estates go to the Galway District Probate Registry, which covers Galway and Roscommon.",
+    courts: [{ name: "Ballinasloe Courthouse", slug: "ballinasloe-courthouse", use: DISTRICT }],
+    courtNote: "Check the Legal Diary for where Circuit Court cases for Galway are listed.",
+    districtCourt: "Ballinasloe Courthouse",
+    probate: "the Galway District Probate Registry (covers Galway and Roscommon)",
+    wrc: WRC_SPREAD,
   },
 };
 
