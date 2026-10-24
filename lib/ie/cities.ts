@@ -19,9 +19,10 @@ export interface IeCity {
   routingKeys: string[];
 }
 
+// D24 (Tallaght) has its own town page, so it is not in this list.
 const DUBLIN_KEYS = [
   "D01", "D02", "D03", "D04", "D05", "D06", "D6W", "D07", "D08", "D09", "D10", "D11", "D12",
-  "D13", "D14", "D15", "D16", "D17", "D18", "D20", "D22", "D24",
+  "D13", "D14", "D15", "D16", "D17", "D18", "D20", "D22",
 ];
 
 export const IE_CITIES: IeCity[] = [
@@ -56,6 +57,18 @@ export const IE_CITIES: IeCity[] = [
   { slug: "longford", name: "Longford", county: "Longford", province: "Leinster", latitude: 53.7276, longitude: -7.7998, routingKeys: ["N39"] },
   { slug: "roscommon", name: "Roscommon", county: "Roscommon", province: "Connacht", latitude: 53.6279, longitude: -8.1896, routingKeys: ["F42"] },
   { slug: "carrick-on-shannon", name: "Carrick-on-Shannon", county: "Leitrim", province: "Connacht", latitude: 53.9469, longitude: -8.0900, routingKeys: ["N41"] },
+  // Batch 1 of larger towns, 24 Oct 2026. Each has its own courthouse on
+  // courts.ie; routing keys from that courthouse's Eircode.
+  { slug: "dun-laoghaire", name: "Dún Laoghaire", county: "Dublin", province: "Leinster", latitude: 53.2944, longitude: -6.1339, routingKeys: ["A96"] },
+  { slug: "tallaght", name: "Tallaght", county: "Dublin", province: "Leinster", latitude: 53.2886, longitude: -6.3733, routingKeys: ["D24"] },
+  { slug: "killarney", name: "Killarney", county: "Kerry", province: "Munster", latitude: 52.0599, longitude: -9.5044, routingKeys: ["V93"] },
+  { slug: "mallow", name: "Mallow", county: "Cork", province: "Munster", latitude: 52.139, longitude: -8.6514, routingKeys: ["P51"] },
+  { slug: "nenagh", name: "Nenagh", county: "Tipperary", province: "Munster", latitude: 52.8619, longitude: -8.1967, routingKeys: ["E45"] },
+  { slug: "dungarvan", name: "Dungarvan", county: "Waterford", province: "Munster", latitude: 52.0845, longitude: -7.625, routingKeys: ["X35"] },
+  { slug: "ballina", name: "Ballina", county: "Mayo", province: "Connacht", latitude: 54.1149, longitude: -9.1551, routingKeys: ["F26"] },
+  { slug: "arklow", name: "Arklow", county: "Wicklow", province: "Leinster", latitude: 52.7977, longitude: -6.1599, routingKeys: ["Y14"] },
+  { slug: "athy", name: "Athy", county: "Kildare", province: "Leinster", latitude: 52.992, longitude: -6.987, routingKeys: ["R14"] },
+  { slug: "ballinasloe", name: "Ballinasloe", county: "Galway", province: "Connacht", latitude: 53.3275, longitude: -8.2194, routingKeys: ["H53"] },
 ];
 
 export const IE_PROVINCE_ORDER: IeProvince[] = ["Leinster", "Munster", "Connacht", "Ulster"];
