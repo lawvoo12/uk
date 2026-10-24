@@ -69,6 +69,17 @@ export const IE_CITIES: IeCity[] = [
   { slug: "arklow", name: "Arklow", county: "Wicklow", province: "Leinster", latitude: 52.7977, longitude: -6.1599, routingKeys: ["Y14"] },
   { slug: "athy", name: "Athy", county: "Kildare", province: "Leinster", latitude: 52.992, longitude: -6.987, routingKeys: ["R14"] },
   { slug: "ballinasloe", name: "Ballinasloe", county: "Galway", province: "Connacht", latitude: 53.3275, longitude: -8.2194, routingKeys: ["H53"] },
+  // Batch 2, 24 Oct 2026 — each has its own courthouse on courts.ie. Trim
+  // shares the C15 routing key with Navan, so it has none of its own here.
+  { slug: "balbriggan", name: "Balbriggan", county: "Dublin", province: "Leinster", latitude: 53.6128, longitude: -6.1819, routingKeys: ["K32"] },
+  { slug: "gorey", name: "Gorey", county: "Wexford", province: "Leinster", latitude: 52.6744, longitude: -6.2925, routingKeys: ["Y25"] },
+  { slug: "tuam", name: "Tuam", county: "Galway", province: "Connacht", latitude: 53.5146, longitude: -8.8517, routingKeys: ["H54"] },
+  { slug: "thurles", name: "Thurles", county: "Tipperary", province: "Munster", latitude: 52.6802, longitude: -7.8137, routingKeys: ["E41"] },
+  { slug: "trim", name: "Trim", county: "Meath", province: "Leinster", latitude: 53.555, longitude: -6.7915, routingKeys: [] },
+  { slug: "fermoy", name: "Fermoy", county: "Cork", province: "Munster", latitude: 52.1384, longitude: -8.2758, routingKeys: ["P61"] },
+  { slug: "youghal", name: "Youghal", county: "Cork", province: "Munster", latitude: 51.9541, longitude: -7.8506, routingKeys: ["P36"] },
+  { slug: "listowel", name: "Listowel", county: "Kerry", province: "Munster", latitude: 52.4464, longitude: -9.4853, routingKeys: ["V31"] },
+  { slug: "loughrea", name: "Loughrea", county: "Galway", province: "Connacht", latitude: 53.1969, longitude: -8.5667, routingKeys: ["H62"] },
 ];
 
 export const IE_PROVINCE_ORDER: IeProvince[] = ["Leinster", "Munster", "Connacht", "Ulster"];

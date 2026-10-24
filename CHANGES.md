@@ -570,3 +570,19 @@ Law Society of Ireland register on 24 Oct 2026.
 - 20 solicitors, 2 per town, each from the firm's own website, with
   `registerChecked` set to 24 Oct 2026.
 - Only /ie pages changed. The UK, US and Canada sitemaps are identical.
+
+## Update 34 — Ireland: batch 2, 9 more towns and 18 solicitors (24 Oct 2026)
+
+Approved by the site owner, who checked all 18 solicitors on the Law Society
+of Ireland register on 24 Oct 2026.
+
+- Towns: Balbriggan, Gorey, Tuam, Thurles, Trim, Fermoy, Youghal, Listowel
+  and Loughrea. Each has its own courthouse on courts.ie. Address, Eircode
+  and jurisdiction come from each office page.
+  - Trim's courthouse is listed for the Circuit Court only.
+  - Trim shares the C15 routing key with Navan, so it has none of its own.
+- Buncrana was left out. No firm's website said which solicitors work in
+  its Buncrana office.
+- 18 solicitors, 2 per town, from each firm's own website, with
+  `registerChecked` set to 24 Oct 2026.
+- Only /ie pages changed. The UK, US and Canada sitemaps are identical.

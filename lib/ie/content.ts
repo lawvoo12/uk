@@ -21,6 +21,9 @@
 //    Mallow, Nenagh, Dungarvan, Ballina, Arklow, Athy, Ballinasloe): each
 //    town's courthouse page on courts.ie (all District Court only; Mallow
 //    listed as temporarily sitting at Fermoy)
+//  - Batch 2 towns added 24 Oct 2026 (Balbriggan, Gorey, Tuam, Thurles, Trim,
+//    Fermoy, Youghal, Listowel, Loughrea): each courthouse's courts.ie page.
+//    Trim's lists the Circuit Court only.
 // Court names/links: re-check now and then — the Courts Service renames and
 // moves offices (Swords is currently listed as sitting at Balbriggan).
 // ============================================================================
@@ -562,6 +565,86 @@ export const IE_CITY_INFO: Record<string, IeCityInfo> = {
     courts: [{ name: "Ballinasloe Courthouse", slug: "ballinasloe-courthouse", use: DISTRICT }],
     courtNote: "Check the Legal Diary for where Circuit Court cases for Galway are listed.",
     districtCourt: "Ballinasloe Courthouse",
+    probate: "the Galway District Probate Registry (covers Galway and Roscommon)",
+    wrc: WRC_SPREAD,
+  },
+  // Batch 2 (24 Oct 2026) — each town's courthouse page on courts.ie.
+  balbriggan: {
+    local:
+      "Balbriggan Courthouse on St George's Square deals with District and Circuit Court business, and the Courts Service also lists Swords District Court as temporarily sitting here. Estates for all of County Dublin go to the Probate Office in Smithfield.",
+    courts: [{ name: "Balbriggan Courthouse", slug: "balbriggan-courthouse", use: COURTHOUSE }],
+    districtCourt: "Balbriggan Courthouse",
+    probate: PROBATE_DUBLIN,
+    wrc: WRC_DUBLIN.replace("The WRC's Dublin office is", "The nearest WRC office is in Dublin,"),
+  },
+  gorey: {
+    local:
+      "Gorey Courthouse, in Gorey Civic Centre on The Avenue, handles District Court business for north Wexford. Wexford estates go to the Wexford District Probate Registry in Wexford town.",
+    courts: [{ name: "Gorey Courthouse", slug: "gorey-courthouse", use: DISTRICT }],
+    courtNote: "Check the Legal Diary for where Circuit Court cases for Wexford are listed.",
+    districtCourt: "Gorey Courthouse",
+    probate: "the Wexford District Probate Registry (covers County Wexford)",
+    wrc: WRC_SPREAD,
+  },
+  tuam: {
+    local:
+      "Tuam Courthouse on Weir Road handles District Court business for north Galway. Galway estates go to the Galway District Probate Registry, which covers Galway and Roscommon.",
+    courts: [{ name: "Tuam Courthouse", slug: "tuam-courthouse", use: DISTRICT }],
+    courtNote: "Check the Legal Diary for where Circuit Court cases for Galway are listed.",
+    districtCourt: "Tuam Courthouse",
+    probate: "the Galway District Probate Registry (covers Galway and Roscommon)",
+    wrc: WRC_SPREAD,
+  },
+  thurles: {
+    local:
+      "Thurles Courthouse on O'Donovan Rossa Street deals with District and Circuit Court business. Tipperary estates go to the Clonmel District Probate Registry, and the Legal Aid Board's law centre for the county is in Nenagh.",
+    courts: [{ name: "Thurles Courthouse", slug: "thurles-courthouse", use: COURTHOUSE }],
+    districtCourt: "Thurles Courthouse",
+    probate: "the Clonmel District Probate Registry (covers County Tipperary)",
+    wrc: WRC_SPREAD,
+  },
+  trim: {
+    local:
+      "Trim Courthouse on Market Street is where the Circuit Court sits for County Meath — divorce, judicial separation and larger civil claims. Meath estates go to the Probate Office in Dublin.",
+    courts: [{ name: "Trim Courthouse", slug: "trim-courthouse", use: "Circuit Court — divorce, judicial separation, larger civil claims" }],
+    courtNote: "Check the Legal Diary for where District Court cases for your area are listed.",
+    districtCourt: "the District Court for your area (check the Legal Diary)",
+    probate: PROBATE_DUBLIN,
+    wrc: WRC_DUBLIN.replace("The WRC's Dublin office is", "The nearest WRC office is in Dublin,"),
+  },
+  fermoy: {
+    local:
+      "Fermoy Courthouse on Courthouse Road handles District Court business for north-east Cork, and the Courts Service lists Mallow District Court as temporarily sitting here. Cork estates go to the Cork District Probate Registry, and the WRC has an office in Cork city.",
+    courts: [{ name: "Fermoy Courthouse", slug: "fermoy-courthouse", use: DISTRICT }],
+    courtNote: "Check the Legal Diary for where Circuit Court cases for Cork are listed.",
+    districtCourt: "Fermoy Courthouse",
+    probate: "the Cork District Probate Registry (covers County Cork)",
+    wrc: "The nearest WRC office is in Cork, in the Elysian Building, Eglington Street.",
+  },
+  youghal: {
+    local:
+      "Youghal's District Court office is in Mall House on The Mall. Cork estates go to the Cork District Probate Registry, and the WRC has an office in Cork city.",
+    courts: [{ name: "Youghal Courthouse", slug: "youghal-courthouse", use: DISTRICT }],
+    courtNote: "Check the Legal Diary for where Circuit Court cases for Cork are listed.",
+    districtCourt: "Youghal Courthouse",
+    probate: "the Cork District Probate Registry (covers County Cork)",
+    wrc: "The nearest WRC office is in Cork, in the Elysian Building, Eglington Street.",
+  },
+  listowel: {
+    local:
+      "Listowel Courthouse on Charles Street handles District Court business for north Kerry. Kerry estates go to the Tralee District Probate Registry, which covers the whole county.",
+    courts: [{ name: "Listowel Courthouse", slug: "listowel-courthouse", use: DISTRICT }],
+    courtNote: "Check the Legal Diary for where Circuit Court cases for Kerry are listed.",
+    districtCourt: "Listowel Courthouse",
+    probate: "the Tralee District Probate Registry (covers County Kerry)",
+    wrc: "The nearest WRC offices are in Cork (Elysian Building, Eglington Street) and Ennis.",
+  },
+  loughrea: {
+    local:
+      "Loughrea's District Court office is at the Courthouse on The Green. Galway estates go to the Galway District Probate Registry, which covers Galway and Roscommon.",
+    courts: [{ name: "Loughrea District Courthouse", slug: "loughrea-district-court-office", use: DISTRICT }],
+    courtNote: "Check the Legal Diary for where Circuit Court cases for Galway are listed.",
+    districtCourt: "Loughrea District Courthouse",
     probate: "the Galway District Probate Registry (covers Galway and Roscommon)",
     wrc: WRC_SPREAD,
   },
