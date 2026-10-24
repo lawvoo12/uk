@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ChevronRight, MapPin } from "lucide-react";
 
 import { IE_CITIES, getIeCitiesGroupedByProvince } from "@/lib/ie/cities";
+import { IE_COUNTIES } from "@/lib/ie/counties";
 import { getLawyerCountsByCity } from "@/lib/data/lawyers";
 import { regionSlug } from "@/lib/seo/regions";
 import { SITE_URL } from "@/lib/seo/site";
@@ -91,6 +92,26 @@ export default function IeLocationsIndexPage() {
             </section>
           ))}
         </div>
+
+        <section aria-labelledby="counties-h" className="mt-12">
+          <h2 id="counties-h" className="font-serif text-2xl text-[#10233D]">
+            Browse by county
+          </h2>
+          <ul className="mt-4 flex flex-wrap gap-2">
+            {[...IE_COUNTIES]
+              .sort((a, b) => a.name.localeCompare(b.name))
+              .map((county) => (
+                <li key={county.slug}>
+                  <Link
+                    href={`/ie/county/${county.slug}`}
+                    className="inline-flex rounded-full border border-[#DCD8D0] bg-white px-3.5 py-1.5 text-sm text-[#5B6472] hover:border-[#B8A488] hover:text-[#10233D]"
+                  >
+                    Co. {county.name}
+                  </Link>
+                </li>
+              ))}
+          </ul>
+        </section>
       </div>
     </main>
   );

@@ -3,6 +3,7 @@ import type { MetadataRoute } from "next";
 import { SITE_URL } from "@/lib/seo/site";
 import { IE_LAWYERS } from "@/lib/ie/lawyers";
 import { IE_CITIES } from "@/lib/ie/cities";
+import { IE_COUNTIES } from "@/lib/ie/counties";
 import { PRACTICE_AREAS } from "@/lib/validations/lead-intake";
 import { IE_TOOLS } from "@/lib/tools";
 import { IE_GUIDES } from "@/lib/ie/guides";
@@ -97,5 +98,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.6,
   }));
 
-  return [...staticRoutes, ...locationRoutes, ...categoryHubRoutes, ...categoryCityRoutes, ...profileRoutes];
+  // County hubs with at least one listed solicitor (the others are noindex).
+  const countyRoutes: MetadataRoute.Sitemap = IE_COUNTIES.filter((county) =>
+    IE_CITIES.some((c) => c.county === county.name && citiesWithListings.has(c.slug))
+  ).map((county) => ({
+    url: `${baseUrl}/ie/county/${county.slug}`,
+    lastModified,
+    changeFrequency: "monthly" as const,
+    priority: 0.8,
+  }));
+
+  return [...staticRoutes, ...locationRoutes, ...countyRoutes, ...categoryHubRoutes, ...categoryCityRoutes, ...profileRoutes];
 }
