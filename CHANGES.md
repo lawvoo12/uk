@@ -503,3 +503,27 @@ certificate.
 - Only /ie pages changed. All UK and US pages are byte-identical to the
   previous build.
 - New Irish solicitors must get the same register check before they are added.
+
+## Update 31 — Ireland: 9 new towns and 14 solicitors (24 Oct 2026)
+
+Approved by the site owner (option A). The site owner checked all 14
+solicitors on the Law Society of Ireland register on 24 Oct 2026.
+
+- New towns: Bray, Clonmel, Tullamore, Portlaoise, Cavan, Monaghan, Longford,
+  Roscommon and Carrick-on-Shannon, one in each county that had none. All 26
+  counties are now covered.
+  - Court office, Eircode and jurisdictions come from each courthouse's
+    courts.ie page. Probate registries come from courts.ie "Probate Offices".
+    Law centres come from the Legal Aid Board finder.
+  - Clonmel notes that Tipperary District Court's office moved to Nenagh on
+    1 Oct 2026.
+- 14 solicitors in 8 towns, each from the firm's own website and with a
+  `registerChecked` date. Profiles show that date. Page text says
+  "checked … on 23–24 October 2026" (`IE_DATES.registerCheckPeriod`).
+- Portlaoise has no solicitor yet. Its town page is now noindex, a rule for
+  any town without a listing. Its area pages were already noindex.
+- Hard-coded "20 towns" text now comes from the data. The home hero counts
+  only towns with a listed firm. Search also finds "carrick on shannon"
+  typed without hyphens.
+- Only /ie pages changed. All UK, US and Canada sitemaps are identical, and
+  the UK and US pages are byte-identical to the previous build.

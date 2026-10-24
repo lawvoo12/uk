@@ -1,6 +1,6 @@
 // ============================================================================
 // Irish-law content for the /ie pages: practice-area intros and guides,
-// FAQs, and local information for each of the 20 towns.
+// FAQs, and local information for each town.
 //
 // Facts checked 28 Sep 2026 against official sources:
 //  - Courts: courts.ie "Courthouses and Offices" (www.courts.ie/offices) and
@@ -12,6 +12,11 @@
 //    and courts.ie "Understanding personal injuries"
 //  - Family courts reform: Law Society Gazette, 22 Apr 2026 (first family
 //    courts from January 2027)
+//  - Towns added 23 Oct 2026 (Bray, Clonmel, Tullamore, Portlaoise, Cavan,
+//    Monaghan, Longford, Roscommon, Carrick-on-Shannon): each courthouse's
+//    courts.ie office page (address, Eircode, jurisdictions; Clonmel's notice
+//    that Tipperary District Court's office moved to Nenagh from 1 Oct 2026)
+//    and courts.ie "Probate Offices" for the registry covering each county
 // Court names/links: re-check now and then — the Courts Service renames and
 // moves offices (Swords is currently listed as sitting at Balbriggan).
 // ============================================================================
@@ -54,13 +59,13 @@ export const IE_LINKS = {
 /** "Are they regulated?" — honest about whether Lawvoo has checked the register itself. */
 export const IE_REGULATION_ANSWER = `To practise in Ireland a solicitor must be on the Roll of Solicitors kept by the Law Society of Ireland and hold a current practising certificate. You can search any solicitor or firm on the Law Society's Find a Solicitor register. Complaints about a solicitor's services or conduct go to the Legal Services Regulatory Authority (LSRA). ${
   IE_REGISTER_CHECKED
-    ? `Every solicitor listed on Lawvoo was checked on the register on ${IE_DATES.registerCheck} — people move firms, so check again before you instruct them.`
+    ? `Every solicitor listed on Lawvoo was checked on the register on ${IE_DATES.registerCheckPeriod} — people move firms, so check again before you instruct them.`
     : "Lawvoo lists firms from the details they publish themselves — check the register before you instruct a firm."
 }`;
 
 /** Short sentence for page intros. */
 export const IE_CHECKED_SENTENCE = IE_REGISTER_CHECKED
-  ? `Each solicitor was checked on the Law Society of Ireland register on ${IE_DATES.registerCheck}.`
+  ? `Each solicitor was checked on the Law Society of Ireland register on ${IE_DATES.registerCheckPeriod}.`
   : "Firms here practise under Irish law — check each one on the Law Society of Ireland register before instructing.";
 
 export const IE_JURISDICTION_NOTE = {
@@ -194,6 +199,8 @@ const WRC_DUBLIN = "The WRC's Dublin office is at Lansdowne House, Lansdowne Roa
 const WRC_CARLOW = "The nearest WRC office is its head office on O'Brien Road, Carlow.";
 const WRC_ENNIS = "The nearest WRC office is at Clare Technology Park, Gort Road, Ennis.";
 const WRC_SLIGO = "The nearest WRC office is at Marino House, Finisklin Business Park, Sligo.";
+
+const WRC_SPREAD = "WRC offices are in Dublin, Carlow, Cork, Ennis and Sligo, and many hearings take place remotely.";
 
 const PROBATE_DUBLIN = "the Probate Office, Phoenix House, Smithfield, Dublin 7 (covers Dublin, Meath, Kildare and Wicklow)";
 
@@ -375,6 +382,87 @@ export const IE_CITY_INFO: Record<string, IeCityInfo> = {
     courts: [{ name: "Castlebar Courthouse", slug: "castlebar-court-office", use: COURTHOUSE }],
     districtCourt: "Castlebar Courthouse",
     probate: "the Castlebar District Probate Registry (covers County Mayo)",
+    wrc: WRC_SLIGO,
+  },
+  bray: {
+    local:
+      "Bray is in north County Wicklow. Bray Courthouse, in the Civic Centre on Main Street, deals with District and Circuit Court business. Wicklow has no local probate registry — estates go to the Probate Office in Dublin, which is also where the nearest WRC office is.",
+    courts: [{ name: "Bray Courthouse", slug: "bray-court-office", use: COURTHOUSE }],
+    districtCourt: "Bray Courthouse",
+    probate: PROBATE_DUBLIN,
+    wrc: WRC_DUBLIN.replace("The WRC's Dublin office is", "The nearest WRC office is in Dublin,"),
+  },
+  clonmel: {
+    local:
+      "Clonmel Courthouse on Nelson Street handles Circuit Court business for Tipperary. Since 1 October 2026 the administration office for Tipperary District Court has been at Nenagh Courthouse instead of Clonmel. Clonmel has the District Probate Registry for all of County Tipperary.",
+    courts: [
+      { name: "Clonmel Courthouse", slug: "clonmel-court-office", use: "Circuit Court — divorce, judicial separation, larger civil claims" },
+      { name: "Nenagh District Courthouse", slug: "nenagh-district-court-office", use: "Tipperary District Court office (from 1 October 2026)" },
+    ],
+    courtNote: "Check the Legal Diary for where a particular case is listed.",
+    districtCourt: "Tipperary District Court (its office moved to Nenagh Courthouse on 1 October 2026)",
+    probate: "the Clonmel District Probate Registry (covers County Tipperary)",
+    wrc: WRC_SPREAD,
+  },
+  tullamore: {
+    local:
+      "Tullamore is the county town of Offaly. Tullamore Courthouse on Cormac Street deals with District Court business, and Offaly estates go to the Mullingar District Probate Registry, which covers Westmeath and Offaly.",
+    courts: [{ name: "Tullamore Courthouse", slug: "tullamore-court-office", use: DISTRICT }],
+    courtNote: "Check the Legal Diary for where Circuit Court cases for Offaly are listed.",
+    districtCourt: "Tullamore Courthouse",
+    probate: "the Mullingar District Probate Registry (covers Westmeath and Offaly)",
+    wrc: WRC_SPREAD,
+  },
+  portlaoise: {
+    local:
+      "Portlaoise is the county town of Laois. Portlaoise Courthouse on Church Street deals with District and Circuit Court business, and Laois estates go to the Kilkenny District Probate Registry, which covers Kilkenny, Carlow and Laois. The WRC's head office is nearby in Carlow.",
+    courts: [{ name: "Portlaoise Courthouse", slug: "portlaoise-court-office", use: COURTHOUSE }],
+    districtCourt: "Portlaoise Courthouse",
+    probate: "the Kilkenny District Probate Registry (covers Kilkenny, Carlow and Laois)",
+    wrc: WRC_CARLOW,
+  },
+  cavan: {
+    local:
+      "Cavan Courthouse on Farnham Street deals with District and Circuit Court business, and the same building has the District Probate Registry for Cavan and Longford.",
+    courts: [{ name: "Cavan Courthouse", slug: "cavan-courthouse", use: COURTHOUSE }],
+    districtCourt: "Cavan Courthouse",
+    probate: "the Cavan District Probate Registry (covers Cavan and Longford)",
+    wrc: WRC_SPREAD,
+  },
+  monaghan: {
+    local:
+      "Monaghan Courthouse on Church Square deals with District and Circuit Court business. Monaghan has no probate registry of its own — estates go to the Dundalk District Probate Registry, which covers Louth and Monaghan.",
+    courts: [{ name: "Monaghan Courthouse", slug: "monaghan-court-office", use: COURTHOUSE }],
+    districtCourt: "Monaghan Courthouse",
+    probate: "the Dundalk District Probate Registry (covers Louth and Monaghan)",
+    wrc: WRC_SPREAD,
+  },
+  longford: {
+    local:
+      "Longford Courthouse on Main Street deals with District Court business. Longford estates go to the Cavan District Probate Registry, which covers Cavan and Longford.",
+    courts: [{ name: "Longford Courthouse", slug: "longford-court-office", use: DISTRICT }],
+    courtNote: "Check the Legal Diary for where Circuit Court cases for Longford are listed.",
+    districtCourt: "Longford Courthouse",
+    probate: "the Cavan District Probate Registry (covers Cavan and Longford)",
+    wrc: WRC_SPREAD,
+  },
+  roscommon: {
+    local:
+      "Roscommon Courthouse on Racecourse Road hears District and Circuit Court cases, and the District Court office is in Government Buildings on Golf Links Road. Roscommon estates go to the Galway District Probate Registry, which covers Galway and Roscommon.",
+    courts: [
+      { name: "Roscommon Courthouse", slug: "roscommon-courthouse", use: COURTHOUSE },
+      { name: "Roscommon Court Office", slug: "roscommon-court-office", use: "District Court office" },
+    ],
+    districtCourt: "Roscommon Courthouse",
+    probate: "the Galway District Probate Registry (covers Galway and Roscommon)",
+    wrc: WRC_SPREAD,
+  },
+  "carrick-on-shannon": {
+    local:
+      "Carrick-on-Shannon is the county town of Leitrim. Its courthouse at Shannon Lodge deals with District and Circuit Court business. Leitrim estates go to the Sligo District Probate Registry, and the nearest WRC office is also in Sligo.",
+    courts: [{ name: "Carrick-on-Shannon Courthouse", slug: "carrick-on-shannon-court-office", use: COURTHOUSE }],
+    districtCourt: "Carrick-on-Shannon Courthouse",
+    probate: "the Sligo District Probate Registry (covers Sligo and Leitrim)",
     wrc: WRC_SLIGO,
   },
 };

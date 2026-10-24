@@ -20,7 +20,7 @@ interface PageProps {
   params: Promise<{ category: string; city: string }>;
 }
 
-// 6 practice areas × 20 towns = 120 pages, all built ahead of time. Only
+// 6 practice areas × every town in lib/ie/cities.ts, all built ahead of time. Only
 // combinations with at least one solicitor are in /ie/sitemap.xml.
 export function generateStaticParams() {
   return PRACTICE_AREAS.flatMap((area) => IE_CITIES.map((city) => ({ category: area.slug, city: city.slug })));

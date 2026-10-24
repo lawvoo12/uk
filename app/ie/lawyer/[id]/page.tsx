@@ -44,6 +44,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 export default async function IeLawyerProfilePage({ params }: PageProps) {
   const { id } = await params;
   const lawyer = getLawyerProfileById(id, "ie");
+  const checkedOn = IE_LAWYERS.find((l) => l.id === id)?.registerChecked ?? IE_DATES.registerCheck;
   if (!lawyer) notFound();
 
   // Irish enquiries can't be about personal injury: pre-select the
@@ -91,7 +92,7 @@ export default async function IeLawyerProfilePage({ params }: PageProps) {
               ...(IE_REGISTER_CHECKED
                 ? { practisingCertificate: { issuer: "Law Society of Ireland", url: "https://www.lawsociety.ie/" } }
                 : {}),
-              dateModified: contentDateIso(IE_REGISTER_CHECKED ? IE_DATES.registerCheck : IE_DATES.listings),
+              dateModified: contentDateIso(IE_REGISTER_CHECKED ? checkedOn : IE_DATES.listings),
             })
           ),
         }}
@@ -229,7 +230,7 @@ export default async function IeLawyerProfilePage({ params }: PageProps) {
             Solicitors in Ireland are on the Roll kept by the {regulator.name}; complaints about them go to the Legal
             Services Regulatory Authority (LSRA).{" "}
             {IE_REGISTER_CHECKED
-              ? `We checked ${lawyer.lawyerName} on the register on ${IE_DATES.registerCheck}; they hold a practising certificate. `
+              ? `We checked ${lawyer.lawyerName} on the register on ${checkedOn}; they hold a practising certificate. `
               : ""}
             You can independently check this firm on the{" "}
             <a

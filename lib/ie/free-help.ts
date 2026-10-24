@@ -12,7 +12,7 @@
 
 export const LAW_CENTRE_FINDER = "https://legalaidboard.ie/en/contact-us/find-a-law-centre/";
 
-/** Nearest Legal Aid Board law centre(s) for each of the 20 towns. */
+/** Nearest Legal Aid Board law centre(s) for each town. The nine towns added 23 Oct 2026 were checked on the law centre finder that day. */
 export const NEAREST_LAW_CENTRE: Record<string, string> = {
   dublin: "several Dublin law centres, including Smithfield, Chancery Street, Dolphin House and Jervis Street",
   cork: "Law Centre (Popes Quay) and Law Centre (Lapps Quay), Cork",
@@ -34,6 +34,15 @@ export const NEAREST_LAW_CENTRE: Record<string, string> = {
   wexford: "Law Centre (Wexford)",
   mullingar: "Law Centre (Athlone), or the Longford and Tullamore law centres",
   castlebar: "Castlebar Law and Family Mediation Centre",
+  bray: "Law Centre Wicklow, the law centre for Co. Wicklow",
+  clonmel: "Law Centre Nenagh, the law centre listed for Co. Tipperary",
+  tullamore: "Law Centre Tullamore",
+  portlaoise: "Portlaoise Law and Family Mediation Centre",
+  cavan: "Cavan Law Centre",
+  monaghan: "Law Centre Monaghan",
+  longford: "Law Centre Longford",
+  roscommon: "Law Centre Athlone (no law centre is listed for Co. Roscommon)",
+  "carrick-on-shannon": "Sligo Law and Family Mediation Centre or Law Centre Longford (no law centre is listed for Co. Leitrim)",
 };
 
 export const FREE_HELP = [
