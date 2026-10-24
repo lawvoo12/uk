@@ -157,7 +157,7 @@ export const TRUST: Record<TrustCountry, TrustConfig> = {
         paragraphs: [
           "Solicitors in Ireland are listed on the Law Society of Ireland's Find a Solicitor register.",
           IE_REGISTER_CHECKED
-            ? `We checked every listed solicitor on that register on ${IE_DATES.registerCheck}, and each holds a practising certificate.`
+            ? `We checked every listed solicitor on that register on ${IE_DATES.registerCheckPeriod}, and each holds a practising certificate.`
             : "We are still completing a check of every listed firm on that register. Until it's done, please check the firm there yourself — every profile links to it.",
         ],
         links: [{ label: REGULATORS.LSI.registerLabel, href: LSI_REGISTER_URL }],
