@@ -548,3 +548,6 @@ Approved by the site owner.
   - Fergus A. Feeney (Longford).
 - Only /ie pages changed. The UK, US and Canada sitemaps are identical. The
   Irish sitemap now has 283 URLs.
+- The note under the practice area cards on the Irish home page,
+  /ie/solicitors and the county pages now says every solicitor was checked on
+  the register. Before, it asked visitors to check the firm themselves.
