@@ -551,3 +551,22 @@ Approved by the site owner.
 - The note under the practice area cards on the Irish home page,
   /ie/solicitors and the county pages now says every solicitor was checked on
   the register. Before, it asked visitors to check the firm themselves.
+
+## Update 33 — Ireland: 10 more towns and 20 solicitors (24 Oct 2026)
+
+Approved by the site owner. The site owner checked all 20 solicitors on the
+Law Society of Ireland register on 24 Oct 2026.
+
+- Batch 1 of larger towns: Dún Laoghaire, Tallaght, Killarney, Mallow, Nenagh,
+  Dungarvan, Ballina, Arklow, Athy and Ballinasloe.
+  - Each has its own courthouse on courts.ie. Address, Eircode and
+    jurisdiction come from each office page.
+  - Mallow is noted as temporarily sitting at Fermoy.
+  - Newbridge, Maynooth and Greystones were swapped for Arklow, Athy and
+    Ballinasloe because they have no courthouse of their own.
+- Law centres come from the Legal Aid Board finder. The probate registry for
+  each county comes from courts.ie "Probate Offices".
+- The Eircode routing key D24 now finds Tallaght instead of Dublin.
+- 20 solicitors, 2 per town, each from the firm's own website, with
+  `registerChecked` set to 24 Oct 2026.
+- Only /ie pages changed. The UK, US and Canada sitemaps are identical.
