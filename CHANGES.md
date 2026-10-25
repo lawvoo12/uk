@@ -606,3 +606,23 @@ of Ireland register on 25 Oct 2026.
 - `IE_DATES.registerCheckPeriod` is now 23–25 October 2026.
 - Only /ie pages changed. The UK, US and Canada sitemaps are identical. The
   IE sitemap grew from 412 to 479 URLs.
+
+## Update 36 — Ireland: batch 4, 10 more towns and 14 solicitors (25 Oct 2026)
+
+Approved by the site owner, who checked all 14 solicitors on the Law Society
+of Ireland register on 25 Oct 2026.
+
+- Towns: Ardee, Kilmallock, Castlerea, Tubbercurry, Manorhamilton, Clifden,
+  Gort, Kenmare, Skibbereen and Bantry. Each has its own courthouse on
+  courts.ie, listed for the District Court only.
+- Some towns share a routing key with a town already listed, so they have
+  none of their own: Ardee (A92), Tubbercurry and Manorhamilton (F91), Gort
+  (H91) and Kenmare (V93).
+- Donegal Town was left out. Its courthouse is temporarily closed, and the
+  firms there have several offices without saying which solicitors work in
+  Donegal Town.
+- 14 solicitors, from each firm's own website. Six towns have one solicitor
+  each: Ardee, Castlerea, Tubbercurry, Manorhamilton, Kenmare and Bantry.
+  Several other local firm sites could not be opened in the browser.
+- Only /ie pages changed. The UK, US and Canada sitemaps are identical. The
+  IE sitemap grew from 479 to 538 URLs.
