@@ -114,6 +114,18 @@ export const IE_CITIES: IeCity[] = [
   { slug: "strokestown", name: "Strokestown", county: "Roscommon", province: "Connacht", latitude: 53.7764, longitude: -8.1036, routingKeys: [] },
   { slug: "dungloe", name: "Dungloe", county: "Donegal", province: "Ulster", latitude: 54.9506, longitude: -8.3594, routingKeys: [] },
   { slug: "buncrana", name: "Buncrana", county: "Donegal", province: "Ulster", latitude: 55.1333, longitude: -7.45, routingKeys: ["F93"] },
+  // Batch 6, 25 Oct 2026 — larger towns with no courthouse of their own on
+  // courts.ie. Their pages list the nearest courthouses in the same county.
+  // Maynooth and Celbridge share W23, so neither has a routing key here.
+  { slug: "newbridge", name: "Newbridge", county: "Kildare", province: "Leinster", latitude: 53.1819, longitude: -6.7967, routingKeys: ["W12"] },
+  { slug: "maynooth", name: "Maynooth", county: "Kildare", province: "Leinster", latitude: 53.3815, longitude: -6.591, routingKeys: [] },
+  { slug: "celbridge", name: "Celbridge", county: "Kildare", province: "Leinster", latitude: 53.3398, longitude: -6.5387, routingKeys: [] },
+  { slug: "greystones", name: "Greystones", county: "Wicklow", province: "Leinster", latitude: 53.144, longitude: -6.072, routingKeys: ["A63"] },
+  { slug: "carrigaline", name: "Carrigaline", county: "Cork", province: "Munster", latitude: 51.8117, longitude: -8.3986, routingKeys: ["P43"] },
+  { slug: "cobh", name: "Cobh", county: "Cork", province: "Munster", latitude: 51.8503, longitude: -8.2967, routingKeys: ["P24"] },
+  { slug: "enniscorthy", name: "Enniscorthy", county: "Wexford", province: "Leinster", latitude: 52.5008, longitude: -6.5578, routingKeys: ["Y21"] },
+  { slug: "westport", name: "Westport", county: "Mayo", province: "Connacht", latitude: 53.8008, longitude: -9.5183, routingKeys: ["F28"] },
+  { slug: "shannon", name: "Shannon", county: "Clare", province: "Munster", latitude: 52.7037, longitude: -8.8642, routingKeys: ["V14"] },
 ];
 
 export const IE_PROVINCE_ORDER: IeProvince[] = ["Leinster", "Munster", "Connacht", "Ulster"];

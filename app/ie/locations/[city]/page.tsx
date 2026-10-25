@@ -230,7 +230,7 @@ export default async function IeLocationPage({ params }: PageProps) {
 
               <h3 className="mt-6 flex items-center gap-2 text-sm font-medium text-[#10233D]">
                 <Landmark className="h-4 w-4 text-[#B8863B]" strokeWidth={1.75} />
-                Courts serving {city.name}
+                {local.nearestOnly ? `Nearest courthouses to ${city.name}` : `Courts serving ${city.name}`}
               </h3>
               {local.courtNote && <p className="mt-1 text-sm text-[#5B6472]">{local.courtNote}</p>}
               <ul className="mt-3 divide-y divide-[#EFECE6] rounded-lg border border-[#DCD8D0]">

@@ -643,3 +643,23 @@ of Ireland register on 25 Oct 2026.
   named on the firm's own website.
 - Only /ie pages changed. The UK, US and Canada sitemaps are identical. The
   IE sitemap grew from 538 to 570 URLs.
+
+## Update 38 — Ireland: batch 6, 9 larger towns without a courthouse and 16 solicitors (25 Oct 2026)
+
+Approved by the site owner, who checked all 16 solicitors on the Law Society
+of Ireland register on 25 Oct 2026.
+
+- Towns: Newbridge, Maynooth, Celbridge, Greystones, Carrigaline, Cobh,
+  Enniscorthy, Westport and Shannon. None has a courthouse of its own on
+  courts.ie.
+- New `nearestOnly` flag in `IeCityInfo`. When it is set, the town page's
+  courts heading reads "Nearest courthouses to X" instead of "Courts serving
+  X". The page lists the two nearest courthouses in the same county, taken
+  from towns already listed. A note says the town has no courthouse and
+  points to the Legal Diary. The family FAQ names "the District Court for
+  your area (check the Legal Diary)" and does not name a venue.
+- Maynooth and Celbridge share the W23 routing key, so neither has one.
+- 16 solicitors, from each firm's own website. Enniscorthy and Shannon have
+  one each. Ashbourne was left out because no firm website was found there.
+- Only /ie pages changed. The UK, US and Canada sitemaps are identical. The
+  IE sitemap grew from 570 to 631 URLs.
