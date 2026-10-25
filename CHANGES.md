@@ -626,3 +626,20 @@ of Ireland register on 25 Oct 2026.
   Several other local firm sites could not be opened in the browser.
 - Only /ie pages changed. The UK, US and Canada sitemaps are identical. The
   IE sitemap grew from 479 to 538 URLs.
+
+## Update 37 — Ireland: batch 5, 5 more towns and 9 solicitors (25 Oct 2026)
+
+Approved by the site owner, who checked all 9 solicitors on the Law Society
+of Ireland register on 25 Oct 2026.
+
+- Towns: Dingle, Caherciveen, Strokestown, Dungloe (An Clochán Liath) and
+  Buncrana. Each has its own courthouse on courts.ie. Buncrana lists District
+  and Circuit Court business; the other four list the District Court only.
+- Dingle (V92), Strokestown (F42) and Dungloe (F94) share a routing key with
+  a town already listed, so they have none of their own.
+- 9 solicitors, from each firm's own website. Caherciveen has one.
+- Left out: Ballaghaderreen, Belmullet, Glenties, Achill, Inis Mór, Derrybeg
+  and Donegal Town. None had a solicitor with a full-time office in the town
+  named on the firm's own website.
+- Only /ie pages changed. The UK, US and Canada sitemaps are identical. The
+  IE sitemap grew from 538 to 570 URLs.
