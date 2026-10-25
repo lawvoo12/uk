@@ -586,3 +586,23 @@ of Ireland register on 24 Oct 2026.
 - 18 solicitors, 2 per town, from each firm's own website, with
   `registerChecked` set to 24 Oct 2026.
 - Only /ie pages changed. The UK, US and Canada sitemaps are identical.
+
+## Update 35 — Ireland: batch 3, 10 more towns and 19 solicitors (25 Oct 2026)
+
+Approved by the site owner, who checked all 19 solicitors on the Law Society
+of Ireland register on 25 Oct 2026.
+
+- Towns: Midleton, Newcastle West, Clonakilty, Bandon, Carrick-on-Suir,
+  Kilrush, Carrickmacross, Cashel, Ballyshannon and Macroom. Each has its own
+  courthouse on courts.ie. Address, Eircode and jurisdiction come from each
+  office page.
+  - Newcastle West and Kilrush courthouses list District and Circuit Court
+    business. The others list the District Court only.
+  - Ballyshannon: the Courts Service lists Donegal Courthouse sittings as
+    temporarily moved there.
+- 19 solicitors, from each firm's own website, with `registerChecked` set to
+  25 Oct 2026. Ballyshannon has only one. Another firm there has several
+  offices, and its website doesn't say which solicitors work in Ballyshannon.
+- `IE_DATES.registerCheckPeriod` is now 23–25 October 2026.
+- Only /ie pages changed. The UK, US and Canada sitemaps are identical. The
+  IE sitemap grew from 412 to 479 URLs.

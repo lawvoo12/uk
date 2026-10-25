@@ -30,9 +30,9 @@ export const IE_DATES = {
   listings: "28 September 2026",
   /** Every listed solicitor confirmed on the Law Society of Ireland register (site owner, 23 Oct 2026). */
   registerCheck: "23 October 2026",
-  /** First and latest register checks, for page text ("on 23–24 October 2026"). Update when solicitors are added. */
-  registerCheckPeriod: "23–24 October 2026",
-  registerCheckLatest: "24 October 2026",
+  /** First and latest register checks, for page text ("on 23–25 October 2026"). Update when solicitors are added. */
+  registerCheckPeriod: "23–25 October 2026",
+  registerCheckLatest: "25 October 2026",
   freeLegalHelp: "30 September 2026",
   irishLanguage: "2 October 2026",
   privacy: "22 October 2026",

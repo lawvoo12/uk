@@ -80,6 +80,18 @@ export const IE_CITIES: IeCity[] = [
   { slug: "youghal", name: "Youghal", county: "Cork", province: "Munster", latitude: 51.9541, longitude: -7.8506, routingKeys: ["P36"] },
   { slug: "listowel", name: "Listowel", county: "Kerry", province: "Munster", latitude: 52.4464, longitude: -9.4853, routingKeys: ["V31"] },
   { slug: "loughrea", name: "Loughrea", county: "Galway", province: "Connacht", latitude: 53.1969, longitude: -8.5667, routingKeys: ["H62"] },
+  // Batch 3, 25 Oct 2026 — each has its own courthouse on courts.ie; routing
+  // keys from that courthouse's Eircode.
+  { slug: "midleton", name: "Midleton", county: "Cork", province: "Munster", latitude: 51.9153, longitude: -8.1752, routingKeys: ["P25"] },
+  { slug: "newcastle-west", name: "Newcastle West", county: "Limerick", province: "Munster", latitude: 52.4492, longitude: -9.0611, routingKeys: ["V42"] },
+  { slug: "clonakilty", name: "Clonakilty", county: "Cork", province: "Munster", latitude: 51.6231, longitude: -8.8706, routingKeys: ["P85"] },
+  { slug: "bandon", name: "Bandon", county: "Cork", province: "Munster", latitude: 51.746, longitude: -8.7425, routingKeys: ["P72"] },
+  { slug: "carrick-on-suir", name: "Carrick-on-Suir", county: "Tipperary", province: "Munster", latitude: 52.3492, longitude: -7.4131, routingKeys: ["E32"] },
+  { slug: "kilrush", name: "Kilrush", county: "Clare", province: "Munster", latitude: 52.6397, longitude: -9.4836, routingKeys: ["V15"] },
+  { slug: "carrickmacross", name: "Carrickmacross", county: "Monaghan", province: "Ulster", latitude: 53.9775, longitude: -6.7189, routingKeys: ["A81"] },
+  { slug: "cashel", name: "Cashel", county: "Tipperary", province: "Munster", latitude: 52.516, longitude: -7.8855, routingKeys: ["E25"] },
+  { slug: "ballyshannon", name: "Ballyshannon", county: "Donegal", province: "Ulster", latitude: 54.5036, longitude: -8.1897, routingKeys: ["F94"] },
+  { slug: "macroom", name: "Macroom", county: "Cork", province: "Munster", latitude: 51.9045, longitude: -8.9568, routingKeys: ["P12"] },
 ];
 
 export const IE_PROVINCE_ORDER: IeProvince[] = ["Leinster", "Munster", "Connacht", "Ulster"];
