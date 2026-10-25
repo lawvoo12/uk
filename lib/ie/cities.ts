@@ -92,6 +92,20 @@ export const IE_CITIES: IeCity[] = [
   { slug: "cashel", name: "Cashel", county: "Tipperary", province: "Munster", latitude: 52.516, longitude: -7.8855, routingKeys: ["E25"] },
   { slug: "ballyshannon", name: "Ballyshannon", county: "Donegal", province: "Ulster", latitude: 54.5036, longitude: -8.1897, routingKeys: ["F94"] },
   { slug: "macroom", name: "Macroom", county: "Cork", province: "Munster", latitude: 51.9045, longitude: -8.9568, routingKeys: ["P12"] },
+  // Batch 4, 25 Oct 2026 — each has its own courthouse on courts.ie. Ardee
+  // (A92, Drogheda), Tubbercurry and Manorhamilton (F91, Sligo), Gort (H91,
+  // Galway) and Kenmare (V93, Killarney) share a routing key with a listed
+  // town, so they have none of their own here.
+  { slug: "ardee", name: "Ardee", county: "Louth", province: "Leinster", latitude: 53.8586, longitude: -6.5394, routingKeys: [] },
+  { slug: "kilmallock", name: "Kilmallock", county: "Limerick", province: "Munster", latitude: 52.4002, longitude: -8.5772, routingKeys: ["V35"] },
+  { slug: "castlerea", name: "Castlerea", county: "Roscommon", province: "Connacht", latitude: 53.7686, longitude: -8.4927, routingKeys: ["F45"] },
+  { slug: "tubbercurry", name: "Tubbercurry", county: "Sligo", province: "Connacht", latitude: 54.0556, longitude: -8.7286, routingKeys: [] },
+  { slug: "manorhamilton", name: "Manorhamilton", county: "Leitrim", province: "Connacht", latitude: 54.3036, longitude: -8.1764, routingKeys: [] },
+  { slug: "clifden", name: "Clifden", county: "Galway", province: "Connacht", latitude: 53.4894, longitude: -10.0189, routingKeys: ["H71"] },
+  { slug: "gort", name: "Gort", county: "Galway", province: "Connacht", latitude: 53.0659, longitude: -8.8186, routingKeys: [] },
+  { slug: "kenmare", name: "Kenmare", county: "Kerry", province: "Munster", latitude: 51.8801, longitude: -9.5832, routingKeys: [] },
+  { slug: "skibbereen", name: "Skibbereen", county: "Cork", province: "Munster", latitude: 51.55, longitude: -9.2667, routingKeys: ["P81"] },
+  { slug: "bantry", name: "Bantry", county: "Cork", province: "Munster", latitude: 51.6801, longitude: -9.4526, routingKeys: ["P75"] },
 ];
 
 export const IE_PROVINCE_ORDER: IeProvince[] = ["Leinster", "Munster", "Connacht", "Ulster"];

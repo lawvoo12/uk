@@ -72,6 +72,16 @@ export const NEAREST_LAW_CENTRE: Record<string, string> = {
   cashel: "Law Centre Nenagh, the law centre listed for Co. Tipperary",
   ballyshannon: "Letterkenny Law and Family Mediation Centre",
   macroom: "Law Centre Cork North or Law Centre Cork South",
+  ardee: "Dundalk Law and Family Mediation Centre",
+  kilmallock: "Limerick Law and Family Mediation Centre",
+  castlerea: "Law Centre Athlone or the Galway law centres (no law centre is listed for Co. Roscommon)",
+  tubbercurry: "Sligo Law and Family Mediation Centre",
+  manorhamilton: "Sligo Law and Family Mediation Centre (no law centre is listed for Co. Leitrim)",
+  clifden: "the Galway law centres (Francis Street and Woodquay)",
+  gort: "the Galway law centres (Francis Street and Woodquay), or Law Centre (Ennis)",
+  kenmare: "Law Centre Tralee, the law centre for Co. Kerry",
+  skibbereen: "Law Centre Cork North or Law Centre Cork South",
+  bantry: "Law Centre Cork North or Law Centre Cork South",
 };
 
 export const FREE_HELP = [

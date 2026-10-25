@@ -737,6 +737,97 @@ export const IE_CITY_INFO: Record<string, IeCityInfo> = {
     probate: "the Cork District Probate Registry (covers County Cork)",
     wrc: "The nearest WRC office is in Cork, in the Elysian Building, Eglington Street.",
   },
+  // Batch 4 (25 Oct 2026) — each town's courthouse page on courts.ie.
+  ardee: {
+    local:
+      "Ardee Courthouse on Fair Green handles District Court business for mid-Louth. Louth estates go to the Dundalk District Probate Registry, which covers Louth and Monaghan.",
+    courts: [{ name: "Ardee Courthouse", slug: "ardee-courthouse", use: DISTRICT }],
+    courtNote: "Check the Legal Diary for where Circuit Court cases for Louth are listed.",
+    districtCourt: "Ardee Courthouse",
+    probate: "the Dundalk District Probate Registry (covers Louth and Monaghan)",
+    wrc: WRC_SPREAD,
+  },
+  kilmallock: {
+    local:
+      "Kilmallock Courthouse on Railway Road handles District Court business for south Limerick. Limerick estates go to the Limerick District Probate Registry, and the nearest WRC office is in Ennis.",
+    courts: [{ name: "Kilmallock Courthouse", slug: "kilmallock-courthouse", use: DISTRICT }],
+    courtNote: "Check the Legal Diary for where Circuit Court cases for Limerick are listed.",
+    districtCourt: "Kilmallock Courthouse",
+    probate: "the Limerick District Probate Registry (covers Limerick and Clare)",
+    wrc: WRC_ENNIS,
+  },
+  castlerea: {
+    local:
+      "Castlerea Courthouse on Barrack Street handles District Court business for west Roscommon. Roscommon estates go to the Galway District Probate Registry, and no Legal Aid Board law centre is listed for the county.",
+    courts: [{ name: "Castlerea Courthouse", slug: "castlerea-courthouse", use: DISTRICT }],
+    courtNote: "Check the Legal Diary for where Circuit Court cases for Roscommon are listed.",
+    districtCourt: "Castlerea Courthouse",
+    probate: "the Galway District Probate Registry (covers Galway and Roscommon)",
+    wrc: WRC_SPREAD,
+  },
+  tubbercurry: {
+    local:
+      "Tubbercurry's District Court sits at Teach Laighine on Humbert Street. Sligo estates go to the Sligo District Probate Registry, and the WRC has an office in Sligo town.",
+    courts: [{ name: "Tubbercurry Courthouse", slug: "tubbercurry-courthouse", use: DISTRICT }],
+    courtNote: "Check the Legal Diary for where Circuit Court cases for Sligo are listed.",
+    districtCourt: "Tubbercurry Courthouse",
+    probate: "the Sligo District Probate Registry (covers Sligo and Leitrim)",
+    wrc: WRC_SLIGO,
+  },
+  manorhamilton: {
+    local:
+      "Manorhamilton's District Court sits at The Glens Centre on New Line. Leitrim estates go to the Sligo District Probate Registry, which covers Sligo and Leitrim, and the nearest WRC office is in Sligo.",
+    courts: [{ name: "Manorhamilton Courthouse", slug: "manorhamilton-courthouse-", use: DISTRICT }],
+    courtNote: "Check the Legal Diary for where Circuit Court cases for Leitrim are listed.",
+    districtCourt: "Manorhamilton Courthouse",
+    probate: "the Sligo District Probate Registry (covers Sligo and Leitrim)",
+    wrc: WRC_SLIGO,
+  },
+  clifden: {
+    local:
+      "Clifden Courthouse on the Galway Road handles District Court business for Connemara. Galway estates go to the Galway District Probate Registry, which covers Galway and Roscommon.",
+    courts: [{ name: "Clifden Courthouse", slug: "clifden-courthouse", use: DISTRICT }],
+    courtNote: "Check the Legal Diary for where Circuit Court cases for Galway are listed.",
+    districtCourt: "Clifden Courthouse",
+    probate: "the Galway District Probate Registry (covers Galway and Roscommon)",
+    wrc: WRC_SPREAD,
+  },
+  gort: {
+    local:
+      "Gort Courthouse on Market Square handles District Court business for south Galway. Galway estates go to the Galway District Probate Registry, which covers Galway and Roscommon.",
+    courts: [{ name: "Gort Courthouse", slug: "gort-courthouse", use: DISTRICT }],
+    courtNote: "Check the Legal Diary for where Circuit Court cases for Galway are listed.",
+    districtCourt: "Gort Courthouse",
+    probate: "the Galway District Probate Registry (covers Galway and Roscommon)",
+    wrc: WRC_SPREAD,
+  },
+  kenmare: {
+    local:
+      "Kenmare Courthouse on The Square handles District Court business for south Kerry. Kerry estates go to the Tralee District Probate Registry, which covers the whole county.",
+    courts: [{ name: "Kenmare Courthouse", slug: "kenmare-courthouse", use: DISTRICT }],
+    courtNote: "Check the Legal Diary for where Circuit Court cases for Kerry are listed.",
+    districtCourt: "Kenmare Courthouse",
+    probate: "the Tralee District Probate Registry (covers County Kerry)",
+    wrc: "The nearest WRC offices are in Cork (Elysian Building, Eglington Street) and Ennis.",
+  },
+  skibbereen: {
+    local:
+      "Skibbereen Courthouse on North Street handles District Court business for west Cork. Cork estates go to the Cork District Probate Registry, and the WRC has an office in Cork city.",
+    courts: [{ name: "Skibbereen Courthouse", slug: "skibbereen-courthouse", use: DISTRICT }],
+    courtNote: "Check the Legal Diary for where Circuit Court cases for Cork are listed.",
+    districtCourt: "Skibbereen Courthouse",
+    probate: "the Cork District Probate Registry (covers County Cork)",
+    wrc: "The nearest WRC office is in Cork, in the Elysian Building, Eglington Street.",
+  },
+  bantry: {
+    local:
+      "Bantry Courthouse on Wolfe Tone Square handles District Court business for the Beara and Sheep's Head areas of west Cork. Cork estates go to the Cork District Probate Registry, and the WRC has an office in Cork city.",
+    courts: [{ name: "Bantry Courthouse", slug: "bantry-courthouse", use: DISTRICT }],
+    courtNote: "Check the Legal Diary for where Circuit Court cases for Cork are listed.",
+    districtCourt: "Bantry Courthouse",
+    probate: "the Cork District Probate Registry (covers County Cork)",
+    wrc: "The nearest WRC office is in Cork, in the Elysian Building, Eglington Street.",
+  },
 };
 
 // ---------------------------------------------------------------------------
