@@ -62,6 +62,16 @@ export const NEAREST_LAW_CENTRE: Record<string, string> = {
   youghal: "Law Centre Cork North or Law Centre Cork South",
   listowel: "Law Centre Tralee, the law centre for Co. Kerry",
   loughrea: "the Galway law centres (Francis Street and Woodquay)",
+  midleton: "Law Centre Cork North or Law Centre Cork South",
+  "newcastle-west": "Limerick Law and Family Mediation Centre",
+  clonakilty: "Law Centre Cork North or Law Centre Cork South",
+  bandon: "Law Centre Cork North or Law Centre Cork South",
+  "carrick-on-suir": "Law Centre Nenagh, the law centre listed for Co. Tipperary",
+  kilrush: "Law Centre (Ennis)",
+  carrickmacross: "Law Centre Monaghan",
+  cashel: "Law Centre Nenagh, the law centre listed for Co. Tipperary",
+  ballyshannon: "Letterkenny Law and Family Mediation Centre",
+  macroom: "Law Centre Cork North or Law Centre Cork South",
 };
 
 export const FREE_HELP = [

@@ -648,6 +648,95 @@ export const IE_CITY_INFO: Record<string, IeCityInfo> = {
     probate: "the Galway District Probate Registry (covers Galway and Roscommon)",
     wrc: WRC_SPREAD,
   },
+  // Batch 3 (25 Oct 2026) — each town's courthouse page on courts.ie.
+  "midleton": {
+    local:
+      "Midleton Courthouse on Oliver Plunkett Place handles District Court business for east Cork. Cork estates go to the Cork District Probate Registry, and the WRC has an office in Cork city.",
+    courts: [{ name: "Midleton Courthouse", slug: "midleton-courthouse", use: DISTRICT }],
+    courtNote: "Check the Legal Diary for where Circuit Court cases for Cork are listed.",
+    districtCourt: "Midleton Courthouse",
+    probate: "the Cork District Probate Registry (covers County Cork)",
+    wrc: "The nearest WRC office is in Cork, in the Elysian Building, Eglington Street.",
+  },
+  "newcastle-west": {
+    local:
+      "Newcastle West Courthouse on Bishop Street deals with District and Circuit Court business for west Limerick. Limerick estates go to the Limerick District Probate Registry, which covers Limerick and Clare, and the nearest WRC office is in Ennis.",
+    courts: [{ name: "Newcastle West Courthouse", slug: "newcastle-courthouse", use: COURTHOUSE }],
+    districtCourt: "Newcastle West Courthouse",
+    probate: "the Limerick District Probate Registry (covers Limerick and Clare)",
+    wrc: WRC_ENNIS,
+  },
+  "clonakilty": {
+    local:
+      "Clonakilty's District Court office is in Block H, The Waterfront, on Clarke Street. Cork estates go to the Cork District Probate Registry, and the WRC has an office in Cork city.",
+    courts: [{ name: "Clonakilty District Court Office", slug: "clonakilty-district-court-office", use: DISTRICT }],
+    courtNote: "Check the Legal Diary for where Circuit Court cases for Cork are listed.",
+    districtCourt: "Clonakilty District Court Office",
+    probate: "the Cork District Probate Registry (covers County Cork)",
+    wrc: "The nearest WRC office is in Cork, in the Elysian Building, Eglington Street.",
+  },
+  "bandon": {
+    local:
+      "Bandon Courthouse on Emmet Row handles District Court business. Cork estates go to the Cork District Probate Registry, and the WRC has an office in Cork city.",
+    courts: [{ name: "Bandon Courthouse", slug: "bandon-courthouse", use: DISTRICT }],
+    courtNote: "Check the Legal Diary for where Circuit Court cases for Cork are listed.",
+    districtCourt: "Bandon Courthouse",
+    probate: "the Cork District Probate Registry (covers County Cork)",
+    wrc: "The nearest WRC office is in Cork, in the Elysian Building, Eglington Street.",
+  },
+  "carrick-on-suir": {
+    local:
+      "Carrick-on-Suir Courthouse on Greenside South handles District Court business for south Tipperary. Since 1 October 2026 the administration office for Tipperary District Court has been at Nenagh Courthouse. Tipperary estates go to the Clonmel District Probate Registry.",
+    courts: [{ name: "Carrick-on-Suir Courthouse", slug: "carrick-on-suir-courthouse", use: DISTRICT }],
+    courtNote: "Check the Legal Diary for where Circuit Court cases for Tipperary are listed.",
+    districtCourt: "Carrick-on-Suir Courthouse",
+    probate: "the Clonmel District Probate Registry (covers County Tipperary)",
+    wrc: WRC_SPREAD,
+  },
+  "kilrush": {
+    local:
+      "Kilrush Courthouse on Moore Street deals with District and Circuit Court business for west Clare. Clare estates go to the Limerick District Probate Registry, and the WRC has an office in Ennis.",
+    courts: [{ name: "Kilrush Courthouse", slug: "kilrush-courthouse", use: COURTHOUSE }],
+    districtCourt: "Kilrush Courthouse",
+    probate: "the Limerick District Probate Registry (covers Limerick and Clare)",
+    wrc: WRC_ENNIS,
+  },
+  "carrickmacross": {
+    local:
+      "Carrickmacross Courthouse on Market Square handles District Court business for south Monaghan. Monaghan has no probate registry of its own — estates go to the Dundalk District Probate Registry, which covers Louth and Monaghan.",
+    courts: [{ name: "Carrickmacross Courthouse", slug: "carrickmacross-courthouse", use: DISTRICT }],
+    courtNote: "Check the Legal Diary for where Circuit Court cases for Monaghan are listed.",
+    districtCourt: "Carrickmacross Courthouse",
+    probate: "the Dundalk District Probate Registry (covers Louth and Monaghan)",
+    wrc: WRC_SPREAD,
+  },
+  "cashel": {
+    local:
+      "Cashel Courthouse on Commandant P.J. Hogan Square handles District Court business. Since 1 October 2026 the administration office for Tipperary District Court has been at Nenagh Courthouse. Tipperary estates go to the Clonmel District Probate Registry.",
+    courts: [{ name: "Cashel Courthouse", slug: "cashel-courthouse-", use: DISTRICT }],
+    courtNote: "Check the Legal Diary for where Circuit Court cases for Tipperary are listed.",
+    districtCourt: "Cashel Courthouse",
+    probate: "the Clonmel District Probate Registry (covers County Tipperary)",
+    wrc: WRC_SPREAD,
+  },
+  "ballyshannon": {
+    local:
+      "Ballyshannon Courthouse at Portnason handles District Court business for south Donegal, and the Courts Service lists Donegal Courthouse sittings as temporarily moved here. Donegal estates go to the Letterkenny District Probate Registry, and the nearest WRC office is in Sligo.",
+    courts: [{ name: "Ballyshannon Courthouse", slug: "ballyshannon-courthouse", use: DISTRICT }],
+    courtNote: "Check the Legal Diary for where Circuit Court cases for Donegal are listed.",
+    districtCourt: "Ballyshannon Courthouse",
+    probate: "the Letterkenny District Probate Registry (covers County Donegal)",
+    wrc: WRC_SLIGO,
+  },
+  "macroom": {
+    local:
+      "Macroom Courthouse on Barrack Lane handles District Court business for mid-Cork. Cork estates go to the Cork District Probate Registry, and the WRC has an office in Cork city.",
+    courts: [{ name: "Macroom Courthouse", slug: "macroom-courthouse", use: DISTRICT }],
+    courtNote: "Check the Legal Diary for where Circuit Court cases for Cork are listed.",
+    districtCourt: "Macroom Courthouse",
+    probate: "the Cork District Probate Registry (covers County Cork)",
+    wrc: "The nearest WRC office is in Cork, in the Elysian Building, Eglington Street.",
+  },
 };
 
 // ---------------------------------------------------------------------------
