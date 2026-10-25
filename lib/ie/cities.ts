@@ -106,6 +106,14 @@ export const IE_CITIES: IeCity[] = [
   { slug: "kenmare", name: "Kenmare", county: "Kerry", province: "Munster", latitude: 51.8801, longitude: -9.5832, routingKeys: [] },
   { slug: "skibbereen", name: "Skibbereen", county: "Cork", province: "Munster", latitude: 51.55, longitude: -9.2667, routingKeys: ["P81"] },
   { slug: "bantry", name: "Bantry", county: "Cork", province: "Munster", latitude: 51.6801, longitude: -9.4526, routingKeys: ["P75"] },
+  // Batch 5, 25 Oct 2026 — each has its own courthouse on courts.ie. Dingle
+  // (V92, Tralee), Strokestown (F42, Roscommon) and Dungloe (F94,
+  // Ballyshannon) share a routing key with a listed town.
+  { slug: "dingle", name: "Dingle", county: "Kerry", province: "Munster", latitude: 52.1408, longitude: -10.2689, routingKeys: [] },
+  { slug: "caherciveen", name: "Caherciveen", county: "Kerry", province: "Munster", latitude: 51.9486, longitude: -10.2219, routingKeys: ["V23"] },
+  { slug: "strokestown", name: "Strokestown", county: "Roscommon", province: "Connacht", latitude: 53.7764, longitude: -8.1036, routingKeys: [] },
+  { slug: "dungloe", name: "Dungloe", county: "Donegal", province: "Ulster", latitude: 54.9506, longitude: -8.3594, routingKeys: [] },
+  { slug: "buncrana", name: "Buncrana", county: "Donegal", province: "Ulster", latitude: 55.1333, longitude: -7.45, routingKeys: ["F93"] },
 ];
 
 export const IE_PROVINCE_ORDER: IeProvince[] = ["Leinster", "Munster", "Connacht", "Ulster"];

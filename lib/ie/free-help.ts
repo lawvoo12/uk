@@ -82,6 +82,11 @@ export const NEAREST_LAW_CENTRE: Record<string, string> = {
   kenmare: "Law Centre Tralee, the law centre for Co. Kerry",
   skibbereen: "Law Centre Cork North or Law Centre Cork South",
   bantry: "Law Centre Cork North or Law Centre Cork South",
+  dingle: "Law Centre Tralee, the law centre for Co. Kerry",
+  caherciveen: "Law Centre Tralee, the law centre for Co. Kerry",
+  strokestown: "Law Centre Athlone or Law Centre Longford (no law centre is listed for Co. Roscommon)",
+  dungloe: "Letterkenny Law and Family Mediation Centre",
+  buncrana: "Letterkenny Law and Family Mediation Centre",
 };
 
 export const FREE_HELP = [

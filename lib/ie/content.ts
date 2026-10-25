@@ -828,6 +828,51 @@ export const IE_CITY_INFO: Record<string, IeCityInfo> = {
     probate: "the Cork District Probate Registry (covers County Cork)",
     wrc: "The nearest WRC office is in Cork, in the Elysian Building, Eglington Street.",
   },
+  // Batch 5 (25 Oct 2026) — each town's courthouse page on courts.ie.
+  dingle: {
+    local:
+      "Dingle Courthouse on The Mall handles District Court business for the Dingle Peninsula. Kerry estates go to the Tralee District Probate Registry, which covers the whole county.",
+    courts: [{ name: "Dingle Courthouse", slug: "dingle-courthouse", use: DISTRICT }],
+    courtNote: "Check the Legal Diary for where Circuit Court cases for Kerry are listed.",
+    districtCourt: "Dingle Courthouse",
+    probate: "the Tralee District Probate Registry (covers County Kerry)",
+    wrc: "The nearest WRC offices are in Cork (Elysian Building, Eglington Street) and Ennis.",
+  },
+  caherciveen: {
+    local:
+      "Caherciveen Courthouse on New Market Street handles District Court business for the Iveragh Peninsula. Kerry estates go to the Tralee District Probate Registry, which covers the whole county.",
+    courts: [{ name: "Caherciveen Courthouse", slug: "caherciveen-courthouse", use: DISTRICT }],
+    courtNote: "Check the Legal Diary for where Circuit Court cases for Kerry are listed.",
+    districtCourt: "Caherciveen Courthouse",
+    probate: "the Tralee District Probate Registry (covers County Kerry)",
+    wrc: "The nearest WRC offices are in Cork (Elysian Building, Eglington Street) and Ennis.",
+  },
+  strokestown: {
+    local:
+      "Strokestown Courthouse on Church Street handles District Court business for north Roscommon. Roscommon estates go to the Galway District Probate Registry, and no Legal Aid Board law centre is listed for the county.",
+    courts: [{ name: "Strokestown Courthouse", slug: "strokestown-courthouse", use: DISTRICT }],
+    courtNote: "Check the Legal Diary for where Circuit Court cases for Roscommon are listed.",
+    districtCourt: "Strokestown Courthouse",
+    probate: "the Galway District Probate Registry (covers Galway and Roscommon)",
+    wrc: WRC_SPREAD,
+  },
+  dungloe: {
+    local:
+      "An Clochán Liath District Court, on Chapel Road in Dungloe, handles District Court business for west Donegal. Donegal estates go to the Letterkenny District Probate Registry, and the nearest WRC office is in Sligo.",
+    courts: [{ name: "An Clochán Liath (Dungloe) Courthouse", slug: "an-clochan-liath-courthouse", use: DISTRICT }],
+    courtNote: "Check the Legal Diary for where Circuit Court cases for Donegal are listed.",
+    districtCourt: "An Clochán Liath (Dungloe) Courthouse",
+    probate: "the Letterkenny District Probate Registry (covers County Donegal)",
+    wrc: WRC_SLIGO,
+  },
+  buncrana: {
+    local:
+      "Buncrana Courthouse on Lower Main Street deals with District and Circuit Court business for Inishowen. Donegal estates go to the Letterkenny District Probate Registry. In a border area, some family and property matters involve Northern Ireland, where a different legal system applies.",
+    courts: [{ name: "Buncrana Courthouse", slug: "buncrana-courthouse", use: COURTHOUSE }],
+    districtCourt: "Buncrana Courthouse",
+    probate: "the Letterkenny District Probate Registry (covers County Donegal)",
+    wrc: WRC_SLIGO,
+  },
 };
 
 // ---------------------------------------------------------------------------
