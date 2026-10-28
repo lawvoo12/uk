@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 import {
   resolveCaSearchDestination,
   resolveIeSearchDestination,
+  resolveNzSearchDestination,
   resolveSearchDestination,
   resolveUsSearchDestination,
 } from "@/lib/actions/search";
@@ -20,6 +21,7 @@ const RESOLVE = {
   ie: resolveIeSearchDestination,
   ca: resolveCaSearchDestination,
   us: resolveUsSearchDestination,
+  nz: resolveNzSearchDestination,
 } satisfies Record<Country, unknown>;
 
 export function HeroSearch({ country = "uk" }: { country?: Country } = {}) {

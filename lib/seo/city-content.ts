@@ -14,6 +14,7 @@
 import type { Regulator } from "@/lib/data/static-lawyers";
 import { CA_COURT_SERVICES, CA_JURISDICTION_NOTES } from "@/lib/ca/regulators";
 import { US_COURT_SERVICES, US_JURISDICTION_NOTES } from "@/lib/us/regulators";
+import { NZ_COURT_SERVICES, NZ_JURISDICTION_NOTES } from "@/lib/nz/regulators";
 
 export interface LocalCourt {
   name: string;
@@ -282,6 +283,8 @@ export const COURT_SERVICE: Record<Regulator, { name: string; url: string }> = {
   ...CA_COURT_SERVICES,
   // US state bars — lib/us/regulators.ts (used by the /us pages only)
   ...US_COURT_SERVICES,
+  // New Zealand — lib/nz/regulators.ts (used by the /nz pages only)
+  ...NZ_COURT_SERVICES,
 };
 
 /** Plain-language note on the legal system a city falls under. */
@@ -307,4 +310,5 @@ export const JURISDICTION_NOTE: Record<Regulator, { title: string; body: string 
   ...CA_JURISDICTION_NOTES,
   // US state bars — lib/us/regulators.ts (used by the /us pages only)
   ...US_JURISDICTION_NOTES,
+  ...NZ_JURISDICTION_NOTES,
 };

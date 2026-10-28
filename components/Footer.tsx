@@ -8,6 +8,7 @@ import { PRACTICE_AREAS } from "@/lib/validations/lead-intake";
 import { CA_TOOLS, IE_TOOLS, TOOLS, US_TOOLS } from "@/lib/tools";
 import { CA_PRACTICE_AREAS } from "@/lib/ca/practice-areas";
 import { US_PRACTICE_AREAS } from "@/lib/us/practice-areas";
+import { NZ_PRACTICE_AREAS } from "@/lib/nz/practice-areas";
 import { countryFromPath } from "@/lib/country";
 
 // A client component only so it can read the URL and show UK (/uk), Ireland
@@ -50,9 +51,20 @@ const US_POPULAR_CITIES = [
   { slug: "dothan-al", name: "Dothan, AL" },
 ];
 
+// New Zealand (/nz): its own footer, shown only on /nz pages. The other
+// countries' footers don't link to /nz until the section is live.
+const NZ_POPULAR_CITIES = [
+  { slug: "auckland", name: "Auckland" },
+  { slug: "wellington", name: "Wellington" },
+  { slug: "christchurch", name: "Christchurch" },
+  { slug: "hamilton", name: "Hamilton" },
+  { slug: "tauranga", name: "Tauranga" },
+  { slug: "dunedin", name: "Dunedin" },
+];
+
 export function Footer() {
   const country = countryFromPath(usePathname());
-  const CountryFooter = { uk: UkFooter, ie: IrelandFooter, ca: CanadaFooter, us: UsFooter }[country];
+  const CountryFooter = { uk: UkFooter, ie: IrelandFooter, ca: CanadaFooter, us: UsFooter, nz: NzFooter }[country];
   return <CountryFooter />;
 }
 
@@ -630,6 +642,105 @@ function UsFooter() {
           <p>
             © {year} Lawvoo US. We are a directory, not a law firm — we don&apos;t provide legal advice, and using
             this site doesn&apos;t create a lawyer-client relationship with us.
+          </p>
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+function NzFooter() {
+  const year = new Date().getFullYear();
+
+  return (
+    <footer className="border-t border-[#DCD8D0] bg-white">
+      <div className="mx-auto max-w-6xl px-4 py-12">
+        <div className="grid grid-cols-2 gap-8 sm:grid-cols-3 lg:grid-cols-4">
+          <div className="col-span-2 sm:col-span-3 lg:col-span-1">
+            <Link href="/nz" className="flex items-center gap-2 font-serif text-lg text-[#10233D]">
+              <Scale className="h-5 w-5 text-[#B8863B]" strokeWidth={1.75} />
+              Lawvoo New Zealand
+            </Link>
+            <p className="mt-3 text-sm text-[#5B6472]">Find lawyers in New Zealand by area of law and city — free to use.</p>
+          </div>
+
+          <div>
+            <h3 className="text-sm font-medium text-[#10233D]">Practice areas</h3>
+            <ul className="mt-3 space-y-2 text-sm text-[#5B6472]">
+              {NZ_PRACTICE_AREAS.map((area) => (
+                <li key={area.slug}>
+                  <Link href={`/nz/lawyers/${area.urlSlug}`} className="hover:text-[#10233D]">
+                    {area.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <h3 className="text-sm font-medium text-[#10233D]">Cities</h3>
+            <ul className="mt-3 space-y-2 text-sm text-[#5B6472]">
+              {NZ_POPULAR_CITIES.map((city) => (
+                <li key={city.slug}>
+                  <Link href={`/nz/locations/${city.slug}`} className="hover:text-[#10233D]">
+                    Lawyers in {city.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <h3 className="text-sm font-medium text-[#10233D]">Company</h3>
+            <ul className="mt-3 space-y-2 text-sm text-[#5B6472]">
+              <li>
+                <Link href="/nz/locations" className="hover:text-[#10233D]">
+                  All locations
+                </Link>
+              </li>
+              <li>
+                <Link href="/nz/about" className="hover:text-[#10233D]">
+                  About Lawvoo New Zealand
+                </Link>
+              </li>
+              <li>
+                <Link href="/nz/how-we-verify" className="hover:text-[#10233D]">
+                  How we check listings
+                </Link>
+              </li>
+              <li>
+                <Link href="/nz/contact" className="hover:text-[#10233D]">
+                  Contact
+                </Link>
+              </li>
+              <li>
+                <Link href="/nz/listings" className="hover:text-[#10233D]">
+                  For lawyers: update or remove a listing
+                </Link>
+              </li>
+              <li>
+                <Link href="/nz/terms" className="hover:text-[#10233D]">
+                  Terms of Use
+                </Link>
+              </li>
+              <li>
+                <Link href="/nz/privacy" className="hover:text-[#10233D]">
+                  Privacy Policy
+                </Link>
+              </li>
+              <li>
+                <Link href="/uk" className="hover:text-[#10233D]">
+                  Lawvoo UK →
+                </Link>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div className="mt-10 border-t border-[#DCD8D0] pt-6 text-xs text-[#A8A398]">
+          <p>
+            © {year} Lawvoo New Zealand. We are a directory, not a law firm — we don&apos;t provide legal advice, and
+            using this site doesn&apos;t create a lawyer-client relationship with us.
           </p>
         </div>
       </div>

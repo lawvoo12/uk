@@ -2,12 +2,13 @@ import { STATIC_LAWYERS, type Regulator, type StaticLawyer } from "@/lib/data/st
 import { IE_LAWYERS } from "@/lib/ie/lawyers";
 import { CA_LAWYERS } from "@/lib/ca/lawyers";
 import { US_LAWYERS } from "@/lib/us/lawyers";
+import { NZ_LAWYERS } from "@/lib/nz/lawyers";
 import type { Country } from "@/lib/country";
 import type { PracticeAreaSlug } from "@/lib/validations/lead-intake";
 
-/** The listings for one country section: UK (default), Ireland, Canada or the US. */
+/** The listings for one country section: UK (default), Ireland, Canada, the US or New Zealand. */
 export function lawyersFor(country: Country = "uk"): StaticLawyer[] {
-  return { uk: STATIC_LAWYERS, ie: IE_LAWYERS, ca: CA_LAWYERS, us: US_LAWYERS }[country];
+  return { uk: STATIC_LAWYERS, ie: IE_LAWYERS, ca: CA_LAWYERS, us: US_LAWYERS, nz: NZ_LAWYERS }[country];
 }
 
 export interface LawyerListing {

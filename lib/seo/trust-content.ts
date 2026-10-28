@@ -1,20 +1,22 @@
 // ============================================================================
 // What the About, How we verify and Contact pages say for the UK, Ireland
-// and Canada (the US pages live in app/us/). Every line must be TRUE for that
+// Canada and New Zealand (the US pages live in app/us/). Every line must be TRUE for that
 // country today — it mirrors the "how each entry was verified" notes at the
 // top of lib/data/static-lawyers.ts, lib/data/uk-lawyers-extra.ts,
 // lib/ie/lawyers.ts and lib/ca/lawyers.ts. Change them together.
 // ============================================================================
 
-import { CA_LEADS_ENABLED, IE_LEADS_ENABLED, LEADS_ENABLED } from "@/lib/config";
+import { CA_LEADS_ENABLED, IE_LEADS_ENABLED, LEADS_ENABLED, NZ_LEADS_ENABLED } from "@/lib/config";
 import { CA_LAWYERS } from "@/lib/ca/lawyers";
 import { CA_CONTENT_CHECKED } from "@/lib/ca/content";
 import { CA_PROVINCE_ORDER, CA_PROVINCES } from "@/lib/ca/provinces";
 import { IE_REGISTER_CHECKED, LSI_REGISTER_URL } from "@/lib/ie/lawyers";
 import { REGULATORS } from "@/lib/seo/regulators";
-import { CA_DATES, IE_DATES, UK_DATES } from "@/lib/seo/page-dates";
+import { CA_DATES, IE_DATES, NZ_DATES, UK_DATES } from "@/lib/seo/page-dates";
+import { NZ_CONTENT_CHECKED, NZ_LINKS } from "@/lib/nz/content";
+import { NZ_REGISTER_LABEL, NZ_REGISTER_URL } from "@/lib/nz/regulators";
 
-export type TrustCountry = "uk" | "ie" | "ca";
+export type TrustCountry = "uk" | "ie" | "ca" | "nz";
 
 export interface TrustLink {
   label: string;
@@ -33,8 +35,8 @@ export interface TrustSection {
 
 export interface TrustConfig {
   code: TrustCountry;
-  base: "/uk" | "/ie" | "/ca";
-  locale: "en-GB" | "en-IE" | "en-CA";
+  base: "/uk" | "/ie" | "/ca" | "/nz";
+  locale: "en-GB" | "en-IE" | "en-CA" | "en-NZ";
   /** "Lawvoo UK" */
   brand: string;
   /** "the UK" / "Ireland" / "Canada" */
@@ -231,6 +233,62 @@ export const TRUST: Record<TrustCountry, TrustConfig> = {
         paragraphs: [
           `Legal facts on our Canadian pages — time limits, taxes, which court or tribunal handles what — are read on official provincial and federal sources. The province pages were last checked on ${CA_CONTENT_CHECKED}, and the land transfer tax calculator shows the date its rates were checked. If a figure can't be confirmed on an official source, we leave it out. Nothing on the site is legal advice.`,
         ],
+      },
+    ],
+  },
+
+  nz: {
+    code: "nz",
+    base: "/nz",
+    locale: "en-NZ",
+    brand: "Lawvoo New Zealand",
+    where: "New Zealand",
+    word: "lawyer",
+    browsePath: "/nz/lawyers",
+    leadsEnabled: NZ_LEADS_ENABLED,
+    noPiEnquiries: true,
+    paymentSentence: "Listed firms are not Lawvoo partners, haven't paid to appear, and don't pay us for enquiries or referrals.",
+    dates: { about: NZ_DATES.about, "how-we-verify": NZ_DATES["how-we-verify"], contact: NZ_DATES.contact },
+    coverage:
+      "In New Zealand we list lawyers in Auckland, Wellington, Christchurch, Hamilton, Tauranga and Dunedin, by area of law, and we add cities and lawyers over time.",
+    listingBullets: [
+      "Names, roles, office addresses and practice areas come from each firm's own website.",
+      "Before a lawyer is added, we look them up on the New Zealand Law Society's register, and each profile shows the date of that check.",
+      "Years of experience are shown only when the firm publishes the lawyer's admission year; otherwise the profile says \"Not published\".",
+      NO_RATINGS,
+    ],
+    verify: [
+      {
+        heading: "1. Where listing details come from",
+        paragraphs: [
+          "Each lawyer's name, role, office address, practice areas and short description come from their profile on the firm's own website. Every profile links to that source page, marked \"Source profile\". We don't list virtual or appointment-only offices.",
+        ],
+      },
+      {
+        heading: "2. The register check",
+        paragraphs: [
+          "Lawyers in New Zealand must hold a practising certificate from the New Zealand Law Society. Before a lawyer is added, we look them up on the Law Society's register and only list them if the entry shows a current practising certificate. Each profile shows the date of the check.",
+        ],
+        links: [{ label: NZ_REGISTER_LABEL, href: NZ_REGISTER_URL }],
+        after: [
+          "A listing is a snapshot — lawyers move firms and their status can change — so please check the lawyer on the register yourself before you hire them.",
+        ],
+      },
+      {
+        heading: "3. What we don't publish",
+        bullets: [
+          NO_RATINGS,
+          "No \"best\" or \"top-rated\" badges. We don't rank lawyers by quality.",
+          "Years of experience only when the firm publishes the admission year; otherwise \"Not published\".",
+          NO_PAID,
+        ],
+      },
+      {
+        heading: "4. Legal facts on our pages",
+        paragraphs: [
+          `Legal facts on our New Zealand pages — time limits, court limits, fees, which court or tribunal handles what — are read on official sources such as the Ministry of Justice, Employment New Zealand and the legislation itself. They were last checked on ${NZ_CONTENT_CHECKED}. If a figure can't be confirmed on an official source, we leave it out and link to the official page. Nothing on the site is legal advice.`,
+        ],
+        links: [{ label: "Ministry of Justice — find a court", href: NZ_LINKS.findCourt }],
       },
     ],
   },
