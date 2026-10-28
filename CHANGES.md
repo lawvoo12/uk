@@ -647,7 +647,8 @@ of Ireland register on 25 Oct 2026.
 ## Update 38 — Ireland: batch 6, 9 larger towns without a courthouse and 16 solicitors (25 Oct 2026)
 
 Approved by the site owner, who checked all 16 solicitors on the Law Society
-of Ireland register on 25 Oct 2026.
+of Ireland register on 28 Oct 2026. `IE_DATES.registerCheckPeriod` is now
+23–28 October 2026.
 
 - Towns: Newbridge, Maynooth, Celbridge, Greystones, Carrigaline, Cobh,
   Enniscorthy, Westport and Shannon. None has a courthouse of its own on

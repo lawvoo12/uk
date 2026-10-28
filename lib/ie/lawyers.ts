@@ -2299,7 +2299,7 @@ export const IE_LAWYERS: IeLawyer[] = [
   // ---------------------------------------------------------------- Batch 6 towns (25 Oct 2026)
   // Larger towns with no courthouse of their own. Read on each firm's own
   // website on 25 Oct 2026; confirmed on the register by the site owner on
-  // 25 October 2026.
+  // 28 October 2026.
   ie({
     id: "newbridge-eric-boland",
     firmName: "Patrick V Boland & Son Solicitors LLP",
@@ -2313,7 +2313,7 @@ export const IE_LAWYERS: IeLawyer[] = [
     yearsExperience: 20,
     experienceNote: "20 (qualified 2006)",
     profileUrl: "https://www.pvbolandsolicitors.ie/about_us.php",
-    registerChecked: "25 October 2026",
+    registerChecked: "28 October 2026",
     verification: `${FIRM_SITE}: 'About us' page (role, qualification year, practice areas).`,
   }),
   ie({
@@ -2329,7 +2329,7 @@ export const IE_LAWYERS: IeLawyer[] = [
     yearsExperience: 20,
     experienceNote: "20 (qualified 2006)",
     profileUrl: "https://www.pvbolandsolicitors.ie/about_us.php",
-    registerChecked: "25 October 2026",
+    registerChecked: "28 October 2026",
     verification: `${FIRM_SITE}: 'About us' page (role, qualification year, practice areas).`,
   }),
   ie({
@@ -2345,7 +2345,7 @@ export const IE_LAWYERS: IeLawyer[] = [
     yearsExperience: 23,
     experienceNote: "23 (qualified 2003)",
     profileUrl: "https://www.fieldsolicitors.ie/aboutus/",
-    registerChecked: "25 October 2026",
+    registerChecked: "28 October 2026",
     verification: `${FIRM_SITE}: 'About' page (role, qualification year, practice areas, address).`,
   }),
   ie({
@@ -2362,7 +2362,7 @@ export const IE_LAWYERS: IeLawyer[] = [
     yearsExperience: 41,
     experienceNote: "41 (qualified 1985)",
     profileUrl: "https://www.quinnlegal.ie/about",
-    registerChecked: "25 October 2026",
+    registerChecked: "28 October 2026",
     verification: `${FIRM_SITE}: 'About' page (role, qualification year, practice areas, address).`,
   }),
   ie({
@@ -2378,7 +2378,7 @@ export const IE_LAWYERS: IeLawyer[] = [
     yearsExperience: 34,
     experienceNote: "34 (qualified 1992)",
     profileUrl: "http://www.mulhernsolicitors.com/",
-    registerChecked: "25 October 2026",
+    registerChecked: "28 October 2026",
     verification: `${FIRM_SITE}: home page (principal, qualification year, services, address).`,
   }),
   ie({
@@ -2394,7 +2394,7 @@ export const IE_LAWYERS: IeLawyer[] = [
     yearsExperience: 19,
     experienceNote: "19 (admitted 2007)",
     profileUrl: "https://www.morgansolicitors.ie/attorney/kevin-morgan/",
-    registerChecked: "25 October 2026",
+    registerChecked: "28 October 2026",
     verification: `${FIRM_SITE}: profile page (role, admission year, practice areas); address and hours from the site.`,
   }),
   ie({
@@ -2410,7 +2410,7 @@ export const IE_LAWYERS: IeLawyer[] = [
     yearsExperience: 34,
     experienceNote: "34 (qualified 1992)",
     profileUrl: "https://www.feltonmcknight.ie/our-people/",
-    registerChecked: "25 October 2026",
+    registerChecked: "28 October 2026",
     verification: `${FIRM_SITE}: 'Our people' page (role, qualification year, practice areas); address from the site footer.`,
   }),
   ie({
@@ -2427,7 +2427,7 @@ export const IE_LAWYERS: IeLawyer[] = [
     yearsExperience: 36,
     experienceNote: "36 (qualified 1990)",
     profileUrl: "https://www.feltonmcknight.ie/our-people/",
-    registerChecked: "25 October 2026",
+    registerChecked: "28 October 2026",
     verification: `${FIRM_SITE}: 'Our people' page (role, qualification year); firm practice areas from the same page.`,
   }),
   ie({
@@ -2443,7 +2443,7 @@ export const IE_LAWYERS: IeLawyer[] = [
     yearsExperience: 40,
     experienceNote: "40 (qualified 1986)",
     profileUrl: "https://arw.ie/?team=colm-o-rourke",
-    registerChecked: "25 October 2026",
+    registerChecked: "28 October 2026",
     verification: `${FIRM_SITE}: profile page (role, qualification year, practice areas); office address and hours from the home page.`,
   }),
   ie({
@@ -2459,7 +2459,7 @@ export const IE_LAWYERS: IeLawyer[] = [
     yearsExperience: 31,
     experienceNote: "31 (qualified 1995)",
     profileUrl: "https://arw.ie/?team=maura-lawton",
-    registerChecked: "25 October 2026",
+    registerChecked: "28 October 2026",
     verification: `${FIRM_SITE}: profile page (role, qualification year, practice areas).`,
   }),
   ie({
@@ -2475,7 +2475,7 @@ export const IE_LAWYERS: IeLawyer[] = [
     yearsExperience: 32,
     experienceNote: "32 (qualified 1994)",
     profileUrl: "https://www.donryan.ie/about/",
-    registerChecked: "25 October 2026",
+    registerChecked: "28 October 2026",
     verification: `${FIRM_SITE}: 'About' page (role, qualification year, practice areas).`,
   }),
   ie({
@@ -2491,7 +2491,7 @@ export const IE_LAWYERS: IeLawyer[] = [
     yearsExperience: 18,
     experienceNote: "18 (qualified 2008)",
     profileUrl: "https://www.donryan.ie/about/",
-    registerChecked: "25 October 2026",
+    registerChecked: "28 October 2026",
     verification: `${FIRM_SITE}: 'About' page (qualification year, practice areas).`,
   }),
   ie({
@@ -2507,7 +2507,7 @@ export const IE_LAWYERS: IeLawyer[] = [
     yearsExperience: 19,
     experienceNote: "19 (qualified 2007)",
     profileUrl: "https://johnasinnottsolicitors.ie/member/jason-dunne/",
-    registerChecked: "25 October 2026",
+    registerChecked: "28 October 2026",
     verification: `${FIRM_SITE}: profile page (qualification year, practice areas); address from the site footer.`,
   }),
   ie({
@@ -2524,7 +2524,7 @@ export const IE_LAWYERS: IeLawyer[] = [
     yearsExperience: 20,
     experienceNote: "20 (qualified 2006)",
     profileUrl: "https://morahans.ie/",
-    registerChecked: "25 October 2026",
+    registerChecked: "28 October 2026",
     verification: `${FIRM_SITE}: team section (role, qualification year, practice areas); address from the site footer.`,
   }),
   ie({
@@ -2540,7 +2540,7 @@ export const IE_LAWYERS: IeLawyer[] = [
     yearsExperience: null,
     experienceNote: "Not published as a year (the firm says over 45 years)",
     profileUrl: "https://morahans.ie/",
-    registerChecked: "25 October 2026",
+    registerChecked: "28 October 2026",
     verification: `${FIRM_SITE}: team section and 'About us' (role, experience, practice areas).`,
   }),
   ie({
@@ -2556,7 +2556,7 @@ export const IE_LAWYERS: IeLawyer[] = [
     yearsExperience: 34,
     experienceNote: "34 (qualified 1992)",
     profileUrl: "https://pendredsolicitors.ie/about-us/",
-    registerChecked: "25 October 2026",
+    registerChecked: "28 October 2026",
     verification: `${FIRM_SITE}: 'About us' page (role, qualification year, services, address, opening hours).`,
   }),
 ];
