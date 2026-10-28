@@ -126,6 +126,14 @@ export const IE_CITIES: IeCity[] = [
   { slug: "enniscorthy", name: "Enniscorthy", county: "Wexford", province: "Leinster", latitude: 52.5008, longitude: -6.5578, routingKeys: ["Y21"] },
   { slug: "westport", name: "Westport", county: "Mayo", province: "Connacht", latitude: 53.8008, longitude: -9.5183, routingKeys: ["F28"] },
   { slug: "shannon", name: "Shannon", county: "Clare", province: "Munster", latitude: 52.7037, longitude: -8.8642, routingKeys: ["V14"] },
+  // Batch 7, 28 Oct 2026 — more towns with no courthouse of their own.
+  { slug: "new-ross", name: "New Ross", county: "Wexford", province: "Leinster", latitude: 52.3964, longitude: -6.9367, routingKeys: ["Y34"] },
+  { slug: "birr", name: "Birr", county: "Offaly", province: "Leinster", latitude: 53.0914, longitude: -7.9133, routingKeys: ["R42"] },
+  { slug: "roscrea", name: "Roscrea", county: "Tipperary", province: "Munster", latitude: 52.9511, longitude: -7.8017, routingKeys: ["E53"] },
+  { slug: "claremorris", name: "Claremorris", county: "Mayo", province: "Connacht", latitude: 53.7208, longitude: -9.0003, routingKeys: ["F12"] },
+  { slug: "tipperary", name: "Tipperary", county: "Tipperary", province: "Munster", latitude: 52.4736, longitude: -8.1558, routingKeys: ["E34"] },
+  { slug: "mitchelstown", name: "Mitchelstown", county: "Cork", province: "Munster", latitude: 52.2656, longitude: -8.2683, routingKeys: ["P67"] },
+  { slug: "cahir", name: "Cahir", county: "Tipperary", province: "Munster", latitude: 52.375, longitude: -7.9244, routingKeys: ["E21"] },
 ];
 
 export const IE_PROVINCE_ORDER: IeProvince[] = ["Leinster", "Munster", "Connacht", "Ulster"];
