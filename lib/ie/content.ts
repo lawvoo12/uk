@@ -193,6 +193,9 @@ export interface IeCityInfo {
   local: string;
   courts: IeCourt[];
   courtNote?: string;
+  /** True when the town has no courthouse of its own and `courts` lists the
+   *  nearest courthouses in the same county on courts.ie. */
+  nearestOnly?: boolean;
   /** The District Court venue named in family FAQs. */
   districtCourt: string;
   probate: string;
@@ -872,6 +875,98 @@ export const IE_CITY_INFO: Record<string, IeCityInfo> = {
     districtCourt: "Buncrana Courthouse",
     probate: "the Letterkenny District Probate Registry (covers County Donegal)",
     wrc: WRC_SLIGO,
+  },
+  // Batch 6 (25 Oct 2026) — towns with no courthouse of their own; nearest
+  // courthouses in the same county from courts.ie.
+  newbridge: {
+    local:
+      "Newbridge has no courthouse of its own; the nearest in County Kildare are in Naas and Athy. Kildare estates go to the Probate Office in Dublin, and the Legal Aid Board's law centre for the county is in Newbridge.",
+    courts: [{ name: "Naas Courthouse", slug: "naas-court-office", use: COURTHOUSE }, { name: "Athy Courthouse", slug: "athy-courthouse", use: DISTRICT }],
+    courtNote: "Newbridge has no courthouse of its own. These are the nearest courthouses in County Kildare on courts.ie — check the Legal Diary for where your case is listed.",
+    nearestOnly: true,
+    districtCourt: "the District Court for your area (check the Legal Diary)",
+    probate: PROBATE_DUBLIN,
+    wrc: WRC_DUBLIN.replace("The WRC's Dublin office is", "The nearest WRC office is in Dublin,"),
+  },
+  maynooth: {
+    local:
+      "Maynooth has no courthouse of its own; the nearest in County Kildare are in Naas and Athy. Kildare estates go to the Probate Office in Dublin, and the county's Legal Aid Board law centre is in Newbridge.",
+    courts: [{ name: "Naas Courthouse", slug: "naas-court-office", use: COURTHOUSE }, { name: "Athy Courthouse", slug: "athy-courthouse", use: DISTRICT }],
+    courtNote: "Maynooth has no courthouse of its own. These are the nearest courthouses in County Kildare on courts.ie — check the Legal Diary for where your case is listed.",
+    nearestOnly: true,
+    districtCourt: "the District Court for your area (check the Legal Diary)",
+    probate: PROBATE_DUBLIN,
+    wrc: WRC_DUBLIN.replace("The WRC's Dublin office is", "The nearest WRC office is in Dublin,"),
+  },
+  celbridge: {
+    local:
+      "Celbridge has no courthouse of its own; the nearest in County Kildare are in Naas and Athy. Kildare estates go to the Probate Office in Dublin, and the county's Legal Aid Board law centre is in Newbridge.",
+    courts: [{ name: "Naas Courthouse", slug: "naas-court-office", use: COURTHOUSE }, { name: "Athy Courthouse", slug: "athy-courthouse", use: DISTRICT }],
+    courtNote: "Celbridge has no courthouse of its own. These are the nearest courthouses in County Kildare on courts.ie — check the Legal Diary for where your case is listed.",
+    nearestOnly: true,
+    districtCourt: "the District Court for your area (check the Legal Diary)",
+    probate: PROBATE_DUBLIN,
+    wrc: WRC_DUBLIN.replace("The WRC's Dublin office is", "The nearest WRC office is in Dublin,"),
+  },
+  greystones: {
+    local:
+      "Greystones has no courthouse of its own; the nearest in County Wicklow are in Bray and Arklow. Wicklow estates go to the Probate Office in Dublin, and the Legal Aid Board's law centre for the county is in Wicklow town.",
+    courts: [{ name: "Bray Courthouse", slug: "bray-court-office", use: COURTHOUSE }, { name: "Arklow Courthouse", slug: "arklow-courthouse", use: DISTRICT }],
+    courtNote: "Greystones has no courthouse of its own. These are the nearest courthouses in County Wicklow on courts.ie — check the Legal Diary for where your case is listed.",
+    nearestOnly: true,
+    districtCourt: "the District Court for your area (check the Legal Diary)",
+    probate: PROBATE_DUBLIN,
+    wrc: WRC_DUBLIN.replace("The WRC's Dublin office is", "The nearest WRC office is in Dublin,"),
+  },
+  carrigaline: {
+    local:
+      "Carrigaline has no courthouse of its own; the nearest in County Cork are in Cork city and Midleton. Cork estates go to the Cork District Probate Registry, and the WRC has an office in Cork city.",
+    courts: [{ name: "Cork Courthouse — Civil and Family", slug: "office-two", use: COURTHOUSE }, { name: "Midleton Courthouse", slug: "midleton-courthouse", use: DISTRICT }],
+    courtNote: "Carrigaline has no courthouse of its own. These are the nearest courthouses in County Cork on courts.ie — check the Legal Diary for where your case is listed.",
+    nearestOnly: true,
+    districtCourt: "the District Court for your area (check the Legal Diary)",
+    probate: "the Cork District Probate Registry (covers County Cork)",
+    wrc: "The nearest WRC office is in Cork, in the Elysian Building, Eglington Street.",
+  },
+  cobh: {
+    local:
+      "Cobh has no courthouse of its own; the nearest in County Cork are in Midleton and Cork city. Cork estates go to the Cork District Probate Registry, and the WRC has an office in Cork city.",
+    courts: [{ name: "Midleton Courthouse", slug: "midleton-courthouse", use: DISTRICT }, { name: "Cork Courthouse — Civil and Family", slug: "office-two", use: COURTHOUSE }],
+    courtNote: "Cobh has no courthouse of its own. These are the nearest courthouses in County Cork on courts.ie — check the Legal Diary for where your case is listed.",
+    nearestOnly: true,
+    districtCourt: "the District Court for your area (check the Legal Diary)",
+    probate: "the Cork District Probate Registry (covers County Cork)",
+    wrc: "The nearest WRC office is in Cork, in the Elysian Building, Eglington Street.",
+  },
+  enniscorthy: {
+    local:
+      "Enniscorthy has no courthouse of its own; the nearest in County Wexford are in Wexford town and Gorey. Wexford estates go to the Wexford District Probate Registry, and the county's Legal Aid Board law centre is in Wexford town.",
+    courts: [{ name: "Wexford Courthouse", slug: "wexford-court-office", use: COURTHOUSE }, { name: "Gorey Courthouse", slug: "gorey-courthouse", use: DISTRICT }],
+    courtNote: "Enniscorthy has no courthouse of its own. These are the nearest courthouses in County Wexford on courts.ie — check the Legal Diary for where your case is listed.",
+    nearestOnly: true,
+    districtCourt: "the District Court for your area (check the Legal Diary)",
+    probate: "the Wexford District Probate Registry (covers County Wexford)",
+    wrc: WRC_SPREAD,
+  },
+  westport: {
+    local:
+      "Westport has no courthouse of its own; the nearest in County Mayo are in Castlebar and Ballina. Mayo estates go to the Castlebar District Probate Registry, and the county's Legal Aid Board law centre is also in Castlebar.",
+    courts: [{ name: "Castlebar Courthouse", slug: "castlebar-court-office", use: COURTHOUSE }, { name: "Ballina District Courthouse", slug: "ballina-district-court-office", use: DISTRICT }],
+    courtNote: "Westport has no courthouse of its own. These are the nearest courthouses in County Mayo on courts.ie — check the Legal Diary for where your case is listed.",
+    nearestOnly: true,
+    districtCourt: "the District Court for your area (check the Legal Diary)",
+    probate: "the Castlebar District Probate Registry (covers County Mayo)",
+    wrc: WRC_SLIGO,
+  },
+  shannon: {
+    local:
+      "Shannon has no courthouse of its own; the nearest in County Clare are in Ennis and Kilrush. Clare estates go to the Limerick District Probate Registry, and the WRC has an office in Ennis.",
+    courts: [{ name: "Ennis Courthouse", slug: "ennis-courthouse", use: COURTHOUSE }, { name: "Kilrush Courthouse", slug: "kilrush-courthouse", use: COURTHOUSE }],
+    courtNote: "Shannon has no courthouse of its own. These are the nearest courthouses in County Clare on courts.ie — check the Legal Diary for where your case is listed.",
+    nearestOnly: true,
+    districtCourt: "the District Court for your area (check the Legal Diary)",
+    probate: "the Limerick District Probate Registry (covers Limerick and Clare)",
+    wrc: WRC_ENNIS,
   },
 };
 

@@ -87,6 +87,15 @@ export const NEAREST_LAW_CENTRE: Record<string, string> = {
   strokestown: "Law Centre Athlone or Law Centre Longford (no law centre is listed for Co. Roscommon)",
   dungloe: "Letterkenny Law and Family Mediation Centre",
   buncrana: "Letterkenny Law and Family Mediation Centre",
+  newbridge: "Law Centre (Newbridge), Co. Kildare",
+  maynooth: "Law Centre (Newbridge), the law centre for Co. Kildare",
+  celbridge: "Law Centre (Newbridge), the law centre for Co. Kildare",
+  greystones: "Law Centre Wicklow, the law centre for Co. Wicklow",
+  carrigaline: "Law Centre Cork North or Law Centre Cork South",
+  cobh: "Law Centre Cork North or Law Centre Cork South",
+  enniscorthy: "Law Centre (Wexford)",
+  westport: "Castlebar Law and Family Mediation Centre, the law centre for Co. Mayo",
+  shannon: "Law Centre (Ennis)",
 };
 
 export const FREE_HELP = [
