@@ -31,9 +31,13 @@ const LINKS = {
     { href: "/us/locations", label: "Locations" },
     { href: "/us/guides", label: "Guides" },
   ],
+  nz: [
+    { href: "/nz/lawyers", label: "Browse lawyers" },
+    { href: "/nz/locations", label: "Locations" },
+  ],
 } as const;
 
-const BADGE = { uk: null, ie: "Ireland", ca: "Canada", us: "US" } as const;
+const BADGE = { uk: null, ie: "Ireland", ca: "Canada", us: "US", nz: "New Zealand" } as const;
 
 export function Navbar() {
   const country = countryFromPath(usePathname());

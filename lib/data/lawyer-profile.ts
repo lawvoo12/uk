@@ -6,6 +6,8 @@ import { getCaCityBySlug } from "@/lib/ca/cities";
 import { getCaArea } from "@/lib/ca/practice-areas";
 import { getUsCityBySlug } from "@/lib/us/cities";
 import { getUsArea } from "@/lib/us/practice-areas";
+import { getNzCityBySlug } from "@/lib/nz/cities";
+import { getNzArea } from "@/lib/nz/practice-areas";
 import type { Country } from "@/lib/country";
 import { getPracticeAreaBySlug } from "@/lib/validations/lead-intake";
 
@@ -37,7 +39,7 @@ export function getLawyerProfileById(id: string, country: Country = "uk"): Lawye
   if (!lawyer) return null;
 
   const city =
-    { uk: getCityBySlug, ie: getIeCityBySlug, ca: getCaCityBySlug, us: getUsCityBySlug }[country](lawyer.citySlug);
+    { uk: getCityBySlug, ie: getIeCityBySlug, ca: getCaCityBySlug, us: getUsCityBySlug, nz: getNzCityBySlug }[country](lawyer.citySlug);
   const hasReviews = (lawyer.ratingCount ?? 0) > 0 && typeof lawyer.ratingAverage === "number";
 
   return {
@@ -62,7 +64,7 @@ export function getLawyerProfileById(id: string, country: Country = "uk"): Lawye
     focusNotStated: lawyer.focusNotStated === true,
     practiceAreas: lawyer.practiceAreaSlugs.flatMap((slug) => {
       // Canada and the US use their own names ("Real Estate", "Wills & Estates", "Estate Planning & Probate").
-      const area = { uk: getPracticeAreaBySlug, ie: getPracticeAreaBySlug, ca: getCaArea, us: getUsArea }[country](slug);
+      const area = { uk: getPracticeAreaBySlug, ie: getPracticeAreaBySlug, ca: getCaArea, us: getUsArea, nz: getNzArea }[country](slug);
       return area ? [{ name: area.name, slug: area.slug }] : [];
     }),
   };

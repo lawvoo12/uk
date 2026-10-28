@@ -14,7 +14,7 @@ export function TrackVisit({
 }: {
   source: "callback" | "find-a-solicitor";
   lawyerId?: string;
-  country?: "uk" | "ie" | "ca" | "us";
+  country?: "uk" | "ie" | "ca" | "us" | "nz";
 }) {
   const sent = useRef(false);
 

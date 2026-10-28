@@ -8,6 +8,8 @@ import { caAreaPath, getCaArea } from "@/lib/ca/practice-areas";
 import { findUsCityByNameOrSlug, findUsCityByZip, US_ZIP3_REGEX, US_ZIP_REGEX } from "@/lib/us/cities";
 import { getUsArea, usAreaPath } from "@/lib/us/practice-areas";
 import { CA_LEADS_ENABLED } from "@/lib/config";
+import { findNzCityByNameOrSlug } from "@/lib/nz/cities";
+import { nzAreaPath, resolveNzArea } from "@/lib/nz/practice-areas";
 
 const UK_POSTCODE_REGEX = /^[A-Z]{1,2}\d[A-Z\d]?\s?\d[A-Z]{2}$/i;
 
@@ -178,4 +180,32 @@ export async function resolveUsSearchDestination(
   }
 
   return { status: "error", message: 'Enter one of the cities we cover or a ZIP code, e.g. "Birmingham" or "35203".' };
+}
+
+/**
+ * New Zealand (/nz) homepage search: a city name ("Auckland", "Ōtautahi",
+ * "chch"). Results go to /nz/lawyers/[area]/[city], using the NZ URL names
+ * (acc-injury, wills-estates). The NZ enquiry form isn't open, so there is no
+ * "submit your case instead" fallback.
+ */
+export async function resolveNzSearchDestination(
+  practiceAreaSlug: string,
+  locationInput: string
+): Promise<SearchDestination> {
+  const practiceArea = resolveNzArea(practiceAreaSlug);
+  if (!practiceArea) {
+    return { status: "error", message: "Select a practice area to search." };
+  }
+
+  const location = locationInput.trim();
+  if (!location) {
+    return { status: "error", message: "Enter a city." };
+  }
+
+  const city = findNzCityByNameOrSlug(location);
+  if (city) {
+    return { status: "found", url: nzAreaPath(practiceArea.slug, city.slug) };
+  }
+
+  return { status: "error", message: `We don't have a page for that place yet — see ${practiceArea.lower} lawyers in the cities we cover, e.g. "Auckland" or "Christchurch".` };
 }

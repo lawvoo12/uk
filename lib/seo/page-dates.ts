@@ -49,3 +49,11 @@ export const CA_DATES = {
   "how-we-verify": "22 October 2026",
   contact: "22 October 2026",
 } as const;
+
+export const NZ_DATES = {
+  privacy: "28 October 2026",
+  terms: "28 October 2026",
+  about: "28 October 2026",
+  "how-we-verify": "28 October 2026",
+  contact: "28 October 2026",
+} as const;

@@ -143,10 +143,10 @@ export const antiSpamSchema = z.object({
   turnstileToken: z.string().max(4096).optional(),
 });
 
-// Which country section the form was sent from ("UK", "IE", "CA" or "US"). Goes to
+// Which country section the form was sent from ("UK", "IE", "CA", "US" or "NZ"). Goes to
 // the Google Sheet's Country column. Missing = UK (older clients).
 export const countryFieldSchema = z.object({
-  country: z.enum(["UK", "IE", "CA", "US"]).optional(),
+  country: z.enum(["UK", "IE", "CA", "US", "NZ"]).optional(),
 });
 
 export const leadIntakeSchema = stepOneSchema

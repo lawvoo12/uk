@@ -41,6 +41,23 @@ export const CA_LEADS_ENABLED = LEADS_ENABLED && process.env.CA_LEADS_ENABLED ==
 export const US_LEADS_ENABLED = LEADS_ENABLED && process.env.US_LEADS_ENABLED !== "false";
 
 /**
+ * New Zealand (/nz) enquiry form. OFF by default: it only opens when
+ * NZ_LEADS_ENABLED="true" (and LEADS_ENABLED is not "false"). Settle the
+ * business model and NZ Privacy Act 2020 notices before switching it on.
+ * While off, "Request a callback" shows the "opening soon" notice with a link
+ * to the firm.
+ */
+export const NZ_LEADS_ENABLED = LEADS_ENABLED && process.env.NZ_LEADS_ENABLED === "true";
+
+/**
+ * New Zealand (/nz) section: false until its lawyers are confirmed and
+ * lawvoo.com/nz is proxied from Netlify. While false, every /nz page is
+ * marked noindex (app/nz/layout.tsx) and /nz/sitemap.xml is not listed in
+ * robots.txt. Set to true in the same change that adds the Netlify /nz rules.
+ */
+export const NZ_SECTION_LIVE = false;
+
+/**
  * United States (/us) section: false until lawyers are confirmed and
  * lawvoo.com/us is proxied from Netlify. While false, every /us page is
  * marked noindex (app/us/layout.tsx), so nothing on lawvoo-uk.vercel.app/us
@@ -78,8 +95,8 @@ export const BUSINESS_ADDRESS = process.env.NEXT_PUBLIC_BUSINESS_ADDRESS || "";
 export const ICO_NUMBER = process.env.NEXT_PUBLIC_ICO_NUMBER || "";
 
 /** Whether the enquiry form is open for a country section (server-side only). */
-export function leadsEnabledFor(country: "uk" | "ie" | "ca" | "us"): boolean {
-  return { uk: LEADS_ENABLED, ie: IE_LEADS_ENABLED, ca: CA_LEADS_ENABLED, us: US_LEADS_ENABLED }[country];
+export function leadsEnabledFor(country: "uk" | "ie" | "ca" | "us" | "nz"): boolean {
+  return { uk: LEADS_ENABLED, ie: IE_LEADS_ENABLED, ca: CA_LEADS_ENABLED, us: US_LEADS_ENABLED, nz: NZ_LEADS_ENABLED }[country];
 }
 
 /**

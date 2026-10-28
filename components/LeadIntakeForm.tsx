@@ -44,7 +44,7 @@ const TOTAL_STEPS = 4;
 // "UK" (default), "IE", "CA" or "US". What differs between them — the areas
 // offered (no personal injury outside the UK), labels, placeholders and the
 // consent wording — comes from the country registry (lib/countries/registry.ts).
-type FormCountry = "UK" | "IE" | "CA" | "US";
+type FormCountry = "UK" | "IE" | "CA" | "US" | "NZ";
 
 /** The registry's form settings for the form's country. */
 function useFormConfig() {

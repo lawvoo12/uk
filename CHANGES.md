@@ -684,3 +684,33 @@ of Ireland register on 28 Oct 2026.
   solicitors.
 - Only /ie pages changed. The UK, US and Canada sitemaps are identical. The
   IE sitemap grew from 631 to 694 URLs.
+
+## Update 40 — New Zealand section (/nz), built but not live (28 Oct 2026)
+
+- New /nz section, modelled on /ca: home, /nz/lawyers, 6 practice-area hubs,
+  area × city pages, /nz/locations, city pages, profiles, about, how we
+  check, contact, listings, privacy, terms. Uses the word "lawyer".
+  - Practice areas: Immigration, Family, ACC & Injury (/nz/lawyers/acc-injury),
+    Employment, Property, Wills & Estates (/nz/lawyers/wills-estates).
+- Cities (batch 1): Auckland, Wellington, Christchurch, Hamilton, Tauranga,
+  Dunedin. Court names and addresses are from the Ministry of Justice "Find us" pages.
+- 12 lawyers (2 per city), in `lib/nz/lawyers.ts`. Each was checked by the
+  site owner on the NZ Law Society register.
+- Legal facts are in `lib/nz/content.ts`. Each one has its official source
+  and the 28 Oct 2026 check date at the top of that file. Where a rule changed
+  in 2026 and the detail couldn't be confirmed, the page links to the
+  official site instead (employment law).
+- **Not live yet.** `NZ_SECTION_LIVE = false` (lib/config.ts):
+  - every /nz page is noindex, nofollow;
+  - /nz/sitemap.xml is empty;
+  - no other country links to /nz (no hreflang, no footer link);
+  - robots.txt is unchanged.
+- **Enquiries are off.** NZ_LEADS_ENABLED isn't set, and the server refuses any
+  enquiry marked NZ.
+- To go live:
+  1. Proxy /nz (and /nz/*) on lawvoo.com through the Netlify site (lawvoo12/law).
+  2. Set `NZ_SECTION_LIVE = true`.
+  3. Add /nz to robots.txt.
+  4. Optionally add hreflang and footer links on the other countries (UK/IE need approval).
+- All 1,958 existing UK, IE, CA and US pages are unchanged in content. The UK,
+  IE, CA and US sitemaps and robots.txt are identical.

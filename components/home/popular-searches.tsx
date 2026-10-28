@@ -48,8 +48,20 @@ const US_POPULAR_SEARCHES: typeof POPULAR_SEARCHES = [
   { category: "estate-planning-probate", categoryName: "Estate planning & probate", city: "birmingham-al", cityName: "Birmingham, AL" },
 ];
 
+// New Zealand: `category` is the /nz URL name (acc-injury, wills-estates).
+// Each link is to a page with at least one listing.
+const NZ_POPULAR_SEARCHES: typeof POPULAR_SEARCHES = [
+  { category: "family", categoryName: "Family", city: "auckland", cityName: "Auckland" },
+  { category: "employment", categoryName: "Employment", city: "auckland", cityName: "Auckland" },
+  { category: "property", categoryName: "Property", city: "wellington", cityName: "Wellington" },
+  { category: "family", categoryName: "Family", city: "christchurch", cityName: "Christchurch" },
+  { category: "wills-estates", categoryName: "Wills & estates", city: "hamilton", cityName: "Hamilton" },
+  { category: "family", categoryName: "Family", city: "tauranga", cityName: "Tauranga" },
+  { category: "property", categoryName: "Property", city: "dunedin", cityName: "Dunedin" },
+];
+
 export function PopularSearches({ country = "uk" }: { country?: Country } = {}) {
-  const searches = { uk: POPULAR_SEARCHES, ie: IE_POPULAR_SEARCHES, ca: CA_POPULAR_SEARCHES, us: US_POPULAR_SEARCHES }[country];
+  const searches = { uk: POPULAR_SEARCHES, ie: IE_POPULAR_SEARCHES, ca: CA_POPULAR_SEARCHES, us: US_POPULAR_SEARCHES, nz: NZ_POPULAR_SEARCHES }[country];
   return (
     <section aria-labelledby="popular-searches-heading" className="mx-auto max-w-5xl px-4 py-14">
       <h2 id="popular-searches-heading" className="text-center font-serif text-2xl text-[#10233D] sm:text-3xl">

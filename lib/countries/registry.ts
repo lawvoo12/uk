@@ -23,6 +23,7 @@ import {
 } from "@/lib/validations/lead-intake";
 import { CA_PRACTICE_AREAS } from "@/lib/ca/practice-areas";
 import { US_PRACTICE_AREAS } from "@/lib/us/practice-areas";
+import { NZ_PRACTICE_AREAS, NZ_SUB_CATEGORIES } from "@/lib/nz/practice-areas";
 import { COUNTRY_BASE, COUNTRY_CODE, LISTINGS_BASE, type Country, type CountryCode } from "@/lib/country";
 
 export interface CountryArea {
@@ -214,6 +215,41 @@ export const COUNTRIES: Record<Country, CountryConfig> = {
     closedSidebarNote: `${SIDEBAR_NOTE_START} its state bar directory.`,
     practiceAreaGridNote: "Every lawyer listed is checked on their state bar's public directory before being added.",
     registrationHint: "Your state bar number",
+  },
+
+  // New Zealand (/nz). The enquiry form is OFF (NZ_LEADS_ENABLED) — the form
+  // fields below are only here to fill the shape.
+  nz: {
+    country: "nz",
+    code: COUNTRY_CODE.nz,
+    base: COUNTRY_BASE.nz,
+    listingsBase: LISTINGS_BASE.nz,
+    word: "lawyer",
+    areas: NZ_PRACTICE_AREAS,
+    search: {
+      locationLabel: "City",
+      locationPlaceholder: "City, e.g. Auckland or Christchurch",
+    },
+    form: {
+      areas: NZ_PRACTICE_AREAS.filter((a) => a.slug !== "personal-injury"),
+      subCategories: NZ_SUB_CATEGORIES,
+      piNote: { where: "New Zealand", href: "/nz/lawyers/acc-injury", linkText: "see ACC and injury lawyers" },
+      postcodeLabel: "Postcode (optional)",
+      postcodePlaceholder: "1010",
+      cityLabel: "City or town",
+      cityPlaceholder: "Auckland",
+      caseTitlePlaceholder: "e.g. Partner visa application",
+      phonePlaceholder: "021 123 4567",
+      consentText: `I agree to Lawvoo reviewing these details and sharing them ${CONSENT_CHOSEN_OR_NAMED} Lawvoo is based outside New Zealand, so my details will be stored and handled outside New Zealand.`,
+      consentLaw: "We only share your details with your consent.",
+      privacyPath: "/nz/privacy",
+      trustLine: "Free to use · No obligation to hire · Lawyers checked on the NZ Law Society register",
+    },
+    regulatorNoun: "register",
+    closedSidebarNote: `${SIDEBAR_NOTE_START} its entry on the NZ Law Society register.`,
+    practiceAreaGridNote:
+      "Every lawyer listed was checked on the New Zealand Law Society's register before being added — people move firms, so check again before you hire.",
+    registrationHint: "As shown on the NZ Law Society register",
   },
 };
 

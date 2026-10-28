@@ -9,7 +9,7 @@ export const LISTING_ACTIONS = ["keep", "update", "remove"] as const;
 
 export const listingRequestSchema = z
   .object({
-    country: z.enum(["UK", "IE", "CA", "US"]),
+    country: z.enum(["UK", "IE", "CA", "US", "NZ"]),
     kind: z.enum(["listed", "add"]),
     action: z.enum(LISTING_ACTIONS).optional(),
     /** Listing id from ?lawyer=… or the listing page link, for "listed". */

@@ -4,7 +4,7 @@
 
 import { SITE_NAME, SITE_URL } from "@/lib/seo/site";
 
-type CountryCode = "GB" | "IE" | "CA";
+type CountryCode = "GB" | "IE" | "CA" | "NZ";
 
 interface ListedFirm {
   id: string;
@@ -22,8 +22,8 @@ export function directoryPageJsonLd(opts: {
   description: string;
   url: string;
   /** e.g. "/uk" — used for the WebSite and the profile links. */
-  base: "/uk" | "/ie" | "/ca";
-  locale: "en-GB" | "en-IE" | "en-CA";
+  base: "/uk" | "/ie" | "/ca" | "/nz";
+  locale: "en-GB" | "en-IE" | "en-CA" | "en-NZ";
   country: CountryCode;
   cityName: string;
   regionName: string;

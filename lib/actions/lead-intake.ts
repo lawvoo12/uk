@@ -41,6 +41,12 @@ export type SubmitLeadState =
  * the Apps Script setup (copy-paste, no Google Cloud project needed).
  */
 export async function submitLeadIntake(input: LeadIntakeInput): Promise<SubmitLeadState> {
+  // New Zealand (/nz) has no enquiry form yet. Refuse anything marked NZ
+  // rather than letting it fall through to the UK rules below.
+  if (input?.country === "NZ") {
+    return { status: "error", message: "Online enquiries aren't open yet. Please contact the firm directly." };
+  }
+
   // "UK" unless the form says it came from the Ireland (/ie), Canada (/ca) or US (/us) pages.
   const country: "UK" | "IE" | "CA" | "US" =
     input?.country === "IE" ? "IE" : input?.country === "CA" ? "CA" : input?.country === "US" ? "US" : "UK";
