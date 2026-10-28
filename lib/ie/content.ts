@@ -968,6 +968,118 @@ export const IE_CITY_INFO: Record<string, IeCityInfo> = {
     probate: "the Limerick District Probate Registry (covers Limerick and Clare)",
     wrc: WRC_ENNIS,
   },
+  // Batch 7 (28 Oct 2026) — towns with no courthouse of their own; nearest
+  // courthouses in the same county from courts.ie.
+  "new-ross": {
+    local:
+      "New Ross has no courthouse of its own; the nearest in County Wexford are in Wexford town and Gorey. Wexford estates go to the Wexford District Probate Registry, and the county's Legal Aid Board law centre is in Wexford town.",
+    courts: [{ name: "Wexford Courthouse", slug: "wexford-court-office", use: COURTHOUSE }, { name: "Gorey Courthouse", slug: "gorey-courthouse", use: DISTRICT }],
+    courtNote: "New Ross has no courthouse of its own. These are the nearest courthouses in County Wexford on courts.ie — check the Legal Diary for where your case is listed.",
+    nearestOnly: true,
+    districtCourt: "the District Court for your area (check the Legal Diary)",
+    probate: "the Wexford District Probate Registry (covers County Wexford)",
+    wrc: WRC_SPREAD,
+  },
+  "birr": {
+    local:
+      "Birr has no courthouse of its own; the only courthouse in County Offaly on courts.ie is in Tullamore. Offaly estates go to the Mullingar District Probate Registry, which covers Offaly and Westmeath, and the county's Legal Aid Board law centre is in Tullamore.",
+    courts: [{ name: "Tullamore Courthouse", slug: "tullamore-court-office", use: DISTRICT }],
+    courtNote: "Birr has no courthouse of its own. The nearest courthouse in County Offaly on courts.ie is listed here — check the Legal Diary for where your case is listed.",
+    nearestOnly: true,
+    districtCourt: "the District Court for your area (check the Legal Diary)",
+    probate: "the Mullingar District Probate Registry (covers Offaly and Westmeath)",
+    wrc: WRC_SPREAD,
+  },
+  "roscrea": {
+    local:
+      "Roscrea has no courthouse of its own; the nearest in County Tipperary are in Nenagh — the Tipperary District Court office since 1 October 2026 — and Thurles. Tipperary estates go to the Clonmel District Probate Registry, and the county's Legal Aid Board law centre is in Nenagh.",
+    courts: [{ name: "Nenagh District Courthouse", slug: "nenagh-district-court-office", use: "District Court — the Tipperary District Court office since 1 October 2026" }, { name: "Thurles Courthouse", slug: "thurles-courthouse", use: COURTHOUSE }],
+    courtNote: "Roscrea has no courthouse of its own. These are the nearest courthouses in County Tipperary on courts.ie — check the Legal Diary for where your case is listed.",
+    nearestOnly: true,
+    districtCourt: "the District Court for your area (check the Legal Diary)",
+    probate: "the Clonmel District Probate Registry (covers County Tipperary)",
+    wrc: WRC_SPREAD,
+  },
+  "claremorris": {
+    local:
+      "Claremorris has no courthouse of its own; the nearest in County Mayo are in Castlebar and Ballina. Mayo estates go to the Castlebar District Probate Registry, and the county's Legal Aid Board law centre is also in Castlebar.",
+    courts: [{ name: "Castlebar Courthouse", slug: "castlebar-court-office", use: COURTHOUSE }, { name: "Ballina District Courthouse", slug: "ballina-district-court-office", use: DISTRICT }],
+    courtNote: "Claremorris has no courthouse of its own. These are the nearest courthouses in County Mayo on courts.ie — check the Legal Diary for where your case is listed.",
+    nearestOnly: true,
+    districtCourt: "the District Court for your area (check the Legal Diary)",
+    probate: "the Castlebar District Probate Registry (covers County Mayo)",
+    wrc: WRC_SLIGO,
+  },
+  "tipperary": {
+    local:
+      "Tipperary town has no courthouse of its own; the nearest in the county are in Cashel and Thurles. Tipperary estates go to the Clonmel District Probate Registry, and the county's Legal Aid Board law centre is in Nenagh.",
+    courts: [{ name: "Cashel Courthouse", slug: "cashel-courthouse-", use: DISTRICT }, { name: "Thurles Courthouse", slug: "thurles-courthouse", use: COURTHOUSE }],
+    courtNote: "Tipperary has no courthouse of its own. These are the nearest courthouses in County Tipperary on courts.ie — check the Legal Diary for where your case is listed.",
+    nearestOnly: true,
+    districtCourt: "the District Court for your area (check the Legal Diary)",
+    probate: "the Clonmel District Probate Registry (covers County Tipperary)",
+    wrc: WRC_SPREAD,
+  },
+  "mitchelstown": {
+    local:
+      "Mitchelstown has no courthouse of its own; the nearest in County Cork are in Fermoy and Mallow, whose District Court the Courts Service lists as temporarily sitting at Fermoy. Cork estates go to the Cork District Probate Registry, and the WRC has an office in Cork city.",
+    courts: [{ name: "Fermoy Courthouse", slug: "fermoy-courthouse", use: DISTRICT }, { name: "Mallow Courthouse (temporarily sitting at Fermoy)", slug: "mallow-court-office", use: DISTRICT }],
+    courtNote: "Mitchelstown has no courthouse of its own. These are the nearest courthouses in County Cork on courts.ie — check the Legal Diary for where your case is listed.",
+    nearestOnly: true,
+    districtCourt: "the District Court for your area (check the Legal Diary)",
+    probate: "the Cork District Probate Registry (covers County Cork)",
+    wrc: "The nearest WRC office is in Cork, in the Elysian Building, Eglington Street.",
+  },
+  "cahir": {
+    local:
+      "Cahir has no courthouse of its own; the nearest in County Tipperary are Cashel, for District Court business, and Clonmel, where the Circuit Court sits. Tipperary estates go to the Clonmel District Probate Registry.",
+    courts: [{ name: "Cashel Courthouse", slug: "cashel-courthouse-", use: DISTRICT }, { name: "Clonmel Courthouse", slug: "clonmel-court-office", use: "Circuit Court — divorce, judicial separation, larger civil claims" }],
+    courtNote: "Cahir has no courthouse of its own. These are the nearest courthouses in County Tipperary on courts.ie — check the Legal Diary for where your case is listed.",
+    nearestOnly: true,
+    districtCourt: "the District Court for your area (check the Legal Diary)",
+    probate: "the Clonmel District Probate Registry (covers County Tipperary)",
+    wrc: WRC_SPREAD,
+  },
+  kinsale: {
+    local:
+      "Kinsale has no courthouse of its own; the nearest in County Cork are in Bandon and Cork city. Cork estates go to the Cork District Probate Registry, and the WRC has an office in Cork city.",
+    courts: [{ name: "Bandon Courthouse", slug: "bandon-courthouse", use: DISTRICT }, { name: "Cork Courthouse — Civil and Family", slug: "office-two", use: COURTHOUSE }],
+    courtNote: "Kinsale has no courthouse of its own. These are the nearest courthouses in County Cork on courts.ie — check the Legal Diary for where your case is listed.",
+    nearestOnly: true,
+    districtCourt: "the District Court for your area (check the Legal Diary)",
+    probate: "the Cork District Probate Registry (covers County Cork)",
+    wrc: "The nearest WRC office is in Cork, in the Elysian Building, Eglington Street.",
+  },
+  wicklow: {
+    local:
+      "Wicklow town has no courthouse of its own on courts.ie; the nearest in the county are in Arklow and Bray. Wicklow estates go to the Probate Office in Dublin, and the Legal Aid Board's law centre for the county is in Wicklow town.",
+    courts: [{ name: "Arklow Courthouse", slug: "arklow-courthouse", use: DISTRICT }, { name: "Bray Courthouse", slug: "bray-court-office", use: COURTHOUSE }],
+    courtNote: "Wicklow has no courthouse of its own. These are the nearest courthouses in County Wicklow on courts.ie — check the Legal Diary for where your case is listed.",
+    nearestOnly: true,
+    districtCourt: "the District Court for your area (check the Legal Diary)",
+    probate: PROBATE_DUBLIN,
+    wrc: WRC_DUBLIN.replace("The WRC's Dublin office is", "The nearest WRC office is in Dublin,"),
+  },
+  kells: {
+    local:
+      "Kells has no courthouse of its own; the nearest in County Meath are Navan, for District Court business, and Trim, where the Circuit Court sits. Meath estates go to the Probate Office in Dublin, and the county's Legal Aid Board law centre is in Navan.",
+    courts: [{ name: "Navan Courthouse", slug: "navan-courthouse", use: DISTRICT }, { name: "Trim Courthouse", slug: "trim-courthouse", use: "Circuit Court — divorce, judicial separation, larger civil claims" }],
+    courtNote: "Kells has no courthouse of its own. These are the nearest courthouses in County Meath on courts.ie — check the Legal Diary for where your case is listed.",
+    nearestOnly: true,
+    districtCourt: "the District Court for your area (check the Legal Diary)",
+    probate: PROBATE_DUBLIN,
+    wrc: WRC_DUBLIN.replace("The WRC's Dublin office is", "The nearest WRC office is in Dublin,"),
+  },
+  boyle: {
+    local:
+      "Boyle has no courthouse of its own; the nearest in County Roscommon are in Strokestown and Castlerea. Roscommon estates go to the Galway District Probate Registry, and no Legal Aid Board law centre is listed for the county.",
+    courts: [{ name: "Strokestown Courthouse", slug: "strokestown-courthouse", use: DISTRICT }, { name: "Castlerea Courthouse", slug: "castlerea-courthouse", use: DISTRICT }],
+    courtNote: "Boyle has no courthouse of its own. These are the nearest courthouses in County Roscommon on courts.ie — check the Legal Diary for where your case is listed.",
+    nearestOnly: true,
+    districtCourt: "the District Court for your area (check the Legal Diary)",
+    probate: "the Galway District Probate Registry (covers Galway and Roscommon)",
+    wrc: WRC_SLIGO,
+  },
 };
 
 // ---------------------------------------------------------------------------
