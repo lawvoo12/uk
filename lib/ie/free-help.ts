@@ -103,6 +103,10 @@ export const NEAREST_LAW_CENTRE: Record<string, string> = {
   tipperary: "Law Centre Nenagh, the law centre listed for Co. Tipperary",
   mitchelstown: "Law Centre Cork North or Law Centre Cork South",
   cahir: "Law Centre Nenagh, the law centre listed for Co. Tipperary",
+  kinsale: "Law Centre Cork North or Law Centre Cork South",
+  wicklow: "Law Centre Wicklow, the law centre for Co. Wicklow",
+  kells: "Law Centre Navan, the law centre for Co. Meath",
+  boyle: "Sligo Law and Family Mediation Centre or Law Centre Longford (no law centre is listed for Co. Roscommon)",
 };
 
 export const FREE_HELP = [

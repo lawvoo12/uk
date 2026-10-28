@@ -134,6 +134,10 @@ export const IE_CITIES: IeCity[] = [
   { slug: "tipperary", name: "Tipperary", county: "Tipperary", province: "Munster", latitude: 52.4736, longitude: -8.1558, routingKeys: ["E34"] },
   { slug: "mitchelstown", name: "Mitchelstown", county: "Cork", province: "Munster", latitude: 52.2656, longitude: -8.2683, routingKeys: ["P67"] },
   { slug: "cahir", name: "Cahir", county: "Tipperary", province: "Munster", latitude: 52.375, longitude: -7.9244, routingKeys: ["E21"] },
+  { slug: "kinsale", name: "Kinsale", county: "Cork", province: "Munster", latitude: 51.7059, longitude: -8.5222, routingKeys: ["P17"] },
+  { slug: "wicklow", name: "Wicklow", county: "Wicklow", province: "Leinster", latitude: 52.9808, longitude: -6.0446, routingKeys: ["A67"] },
+  { slug: "kells", name: "Kells", county: "Meath", province: "Leinster", latitude: 53.7264, longitude: -6.8786, routingKeys: ["A82"] },
+  { slug: "boyle", name: "Boyle", county: "Roscommon", province: "Connacht", latitude: 53.9733, longitude: -8.3008, routingKeys: ["F52"] },
 ];
 
 export const IE_PROVINCE_ORDER: IeProvince[] = ["Leinster", "Munster", "Connacht", "Ulster"];

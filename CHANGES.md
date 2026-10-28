@@ -665,22 +665,22 @@ of Ireland register on 28 Oct 2026. `IE_DATES.registerCheckPeriod` is now
 - Only /ie pages changed. The UK, US and Canada sitemaps are identical. The
   IE sitemap grew from 570 to 631 URLs.
 
-## Update 39 — Ireland: batch 7, 7 more towns without a courthouse and 10 solicitors (28 Oct 2026)
+## Update 39 — Ireland: batch 7, 11 more towns without a courthouse and 15 solicitors (28 Oct 2026)
 
-Approved by the site owner, who checked all 10 solicitors on the Law Society
+Approved by the site owner, who checked all 15 solicitors on the Law Society
 of Ireland register on 28 Oct 2026.
 
-- Towns: New Ross, Birr, Roscrea, Claremorris, Tipperary town, Mitchelstown
-  and Cahir. None has a courthouse of its own on courts.ie, so each uses
+- Towns: New Ross, Birr, Roscrea, Claremorris, Tipperary town, Mitchelstown,
+  Cahir, Kinsale, Wicklow town, Kells and Boyle. None has a courthouse of its own on courts.ie, so each uses
   `nearestOnly` and lists the nearest courthouses in its county.
   - Birr lists Tullamore only, the one courthouse in Offaly.
   - Cahir lists Cashel (District Court) and Clonmel (Circuit Court).
-- 10 solicitors, from each firm's own website. New Ross, Birr, Claremorris
-  and Tipperary have one each.
-- Kinsale, Wicklow, Kells, Boyle and Portarlington were planned but left
-  out:
-  - The firms there have several offices and do not say who works where.
-  - Some firm websites do not name their solicitors.
-  - Some firm websites could not be opened in the browser.
+  - Kells lists Navan (District Court) and Trim (Circuit Court).
+- 15 solicitors, from each firm's own website. New Ross, Birr, Claremorris,
+  Tipperary, Wicklow, Kells and Boyle have one each.
+  - Kinsale's firm lists offices elsewhere too; its head office is in Kinsale.
+  - Johanna Lacy is a sole practitioner with offices in Kells and Dublin.
+- Portarlington was left out. Neither firm website there names its
+  solicitors.
 - Only /ie pages changed. The UK, US and Canada sitemaps are identical. The
-  IE sitemap grew from 631 to 672 URLs.
+  IE sitemap grew from 631 to 694 URLs.
