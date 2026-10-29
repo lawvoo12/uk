@@ -714,3 +714,14 @@ of Ireland register on 28 Oct 2026.
   4. Optionally add hreflang and footer links on the other countries (UK/IE need approval).
 - All 1,958 existing UK, IE, CA and US pages are unchanged in content. The UK,
   IE, CA and US sitemaps and robots.txt are identical.
+
+## Update 41 — New Zealand goes live (29 Oct 2026)
+
+All 12 NZ lawyers were confirmed by the site owner on the NZ Law Society register.
+
+- `NZ_SECTION_LIVE = true`:
+  - /nz pages lose the noindex tag, except pages with no listings (ACC & Injury, Immigration, and empty area × city pages);
+  - /nz/sitemap.xml now lists 47 URLs;
+  - robots.txt lists the /nz sitemap and disallows /nz/api/.
+- Goes with the Netlify change in lawvoo12/law that proxies /nz on lawvoo.com. Merge both together.
+- Not changed: no hreflang or footer links from the UK, IE, CA or US pages (UK/IE need approval). The UK, IE, CA and US sitemaps and pages are identical.
