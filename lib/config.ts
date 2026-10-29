@@ -55,7 +55,7 @@ export const NZ_LEADS_ENABLED = LEADS_ENABLED && process.env.NZ_LEADS_ENABLED ==
  * marked noindex (app/nz/layout.tsx) and /nz/sitemap.xml is not listed in
  * robots.txt. Set to true in the same change that adds the Netlify /nz rules.
  */
-export const NZ_SECTION_LIVE = false;
+export const NZ_SECTION_LIVE = true;
 
 /**
  * United States (/us) section: false until lawyers are confirmed and
