@@ -725,3 +725,16 @@ All 12 NZ lawyers were confirmed by the site owner on the NZ Law Society registe
   - robots.txt lists the /nz sitemap and disallows /nz/api/.
 - Goes with the Netlify change in lawvoo12/law that proxies /nz on lawvoo.com. Merge both together.
 - Not changed: no hreflang or footer links from the UK, IE, CA or US pages (UK/IE need approval). The UK, IE, CA and US sitemaps and pages are identical.
+
+## Update 42 — New Zealand batch 2: 15 more lawyers to fill empty practice areas (29 Oct 2026)
+
+- 15 lawyers, from each firm's own website, so most city × area pages now have at least one listing:
+  - Auckland: Kim Saran Lee (immigration), Brett Abraham (property, wills), Judith Moore (ACC, employment, family).
+  - Wellington: Louise Newman (ACC), Vikram Singh (immigration, employment).
+  - Christchurch: Jen Bensley (immigration, property), Madison Prattley (employment), Christian Pinkney (ACC, employment).
+  - Hamilton: Maninder Sidhu (immigration, family, property, wills).
+  - Tauranga: Eleanor Dyche (immigration), Lucy Korolainen (employment), Samantha Stowell (wills, property).
+  - Dunedin: Jessica Higgins (employment, immigration), Gerrad Brimble (employment), Devon Miller (wills, family).
+- Still empty: ACC & Injury in Hamilton, Tauranga and Dunedin. The only ACC providers found there were advocates or online-only barristers with no published office, so nobody was listed. Those pages stay noindex.
+- /nz/sitemap.xml grows from 47 to 81 URLs. Popular searches add Immigration (Auckland) and ACC & Injury (Wellington).
+- Only /nz pages changed. The UK, IE, CA and US sitemaps and pages are identical.

@@ -51,7 +51,9 @@ const US_POPULAR_SEARCHES: typeof POPULAR_SEARCHES = [
 // New Zealand: `category` is the /nz URL name (acc-injury, wills-estates).
 // Each link is to a page with at least one listing.
 const NZ_POPULAR_SEARCHES: typeof POPULAR_SEARCHES = [
+  { category: "immigration", categoryName: "Immigration", city: "auckland", cityName: "Auckland" },
   { category: "family", categoryName: "Family", city: "auckland", cityName: "Auckland" },
+  { category: "acc-injury", categoryName: "ACC & injury", city: "wellington", cityName: "Wellington" },
   { category: "employment", categoryName: "Employment", city: "auckland", cityName: "Auckland" },
   { category: "property", categoryName: "Property", city: "wellington", cityName: "Wellington" },
   { category: "family", categoryName: "Family", city: "christchurch", cityName: "Christchurch" },
