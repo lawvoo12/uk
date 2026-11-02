@@ -262,6 +262,7 @@ export const TRUST: Record<TrustCountry, TrustConfig> = {
         heading: "1. Where listing details come from",
         paragraphs: [
           "Each lawyer's name, role, office address, practice areas and short description come from their profile on the firm's own website. Every profile links to that source page, marked \"Source profile\". We don't list virtual or appointment-only offices.",
+          "One exception: a Dunedin ACC lawyer has no website of his own, so his details come from his listing in the Healthpages directory, which his profile links to.",
         ],
       },
       {
