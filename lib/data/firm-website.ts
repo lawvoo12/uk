@@ -15,6 +15,8 @@ const FIRM_SITE_OVERRIDES: Record<string, string> = {
   "exeter-anna-garde-evans": "https://www.stephens-scown.co.uk/",
   "lisburn-peter-graham": "https://mgmsolicitors.com/",
   "londonderry-robert-andrew-lyttle": "https://dickson-mcnulty.co.uk/",
+  // No website of his own — link to his directory listing, not the directory homepage.
+  "dunedin-nz-peter-sara": "https://healthpages.co.nz/directory/listing/acc-advocacy-health-lawyers-peter-sara-acc-specialist-lawyer",
 };
 
 /** The firm's own website (homepage), for "contact the firm directly" links. */

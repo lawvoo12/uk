@@ -57,6 +57,12 @@ const SITE = "Firm website, read 28 Oct 2026";
 const b2 = checkedOn("29 October 2026");
 const SITE2 = "Firm website, read 29 Oct 2026";
 
+// Dunedin ACC — confirmed by the site owner on the NZ Law Society register, 2 Nov 2026.
+// EXCEPTION to rule 1: this lawyer has no website of his own. The details
+// come from the Healthpages directory listing and the ACClaim Otago contact
+// list, approved by the site owner.
+const b3 = checkedOn("2 November 2026");
+
 export const NZ_LAWYERS: NzLawyer[] = [
   // -------------------------------------------------------------- Auckland
   b1({
@@ -485,5 +491,21 @@ export const NZ_LAWYERS: NzLawyer[] = [
     experienceNote: "Not published",
     profileUrl: "https://www.gallawaycookallan.co.nz/people/devon-miller",
     verification: `${SITE2}: profile page (Partner, Dunedin, leads Private Clients Team; practice areas).`,
+  }),
+  // ================================================== Dunedin ACC (2 Nov 2026)
+  b3({
+    id: "dunedin-nz-peter-sara",
+    firmName: "Peter Sara, ACC Specialist Lawyer",
+    lawyerName: "Peter Sara",
+    role: "ACC Specialist Lawyer",
+    citySlug: "dunedin",
+    practiceAreaSlugs: ["personal-injury"],
+    primaryPracticeArea: "personal-injury",
+    bio: "Dunedin lawyer who works on ACC matters, including ACC advocacy, health law and health and disability advocacy.",
+    addressLine1: "106 George Street, Dunedin",
+    yearsExperience: null,
+    experienceNote: "Not published",
+    profileUrl: "https://healthpages.co.nz/directory/listing/acc-advocacy-health-lawyers-peter-sara-acc-specialist-lawyer",
+    verification: "No own website. Healthpages directory listing, read 31 Oct 2026 (name, 'ACC Specialist Lawyer', office 106 George St, Dunedin); also on the ACClaim Otago lawyers and advocates contact list (Dunedin). Added as an exception approved by the site owner.",
   }),
 ];

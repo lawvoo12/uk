@@ -738,3 +738,13 @@ All 12 NZ lawyers were confirmed by the site owner on the NZ Law Society registe
 - Still empty: ACC & Injury in Hamilton, Tauranga and Dunedin. The only ACC providers found there were advocates or online-only barristers with no published office, so nobody was listed. Those pages stay noindex.
 - /nz/sitemap.xml grows from 47 to 81 URLs. Popular searches add Immigration (Auckland) and ACC & Injury (Wellington).
 - Only /nz pages changed. The UK, IE, CA and US sitemaps and pages are identical.
+
+## Update 43 — New Zealand: Dunedin ACC lawyer (2 Nov 2026)
+
+- Adds Peter Sara, ACC Specialist Lawyer, 106 George Street, Dunedin. Confirmed by the site owner on the NZ Law Society register on 2 Nov 2026.
+- **Exception, approved by the site owner:** he has no website of his own. His details come from his Healthpages directory listing and the ACClaim Otago contact list.
+  - His profile's "Source profile" and firm links go to the Healthpages listing (`lib/data/firm-website.ts` override).
+  - The NZ "How we check listings" page now mentions this one exception.
+- /nz/lawyers/acc-injury/dunedin is now indexable. /nz/sitemap.xml grows from 81 to 83 URLs.
+- ACC & Injury in Hamilton and Tauranga is still empty: no lawyer was found.
+- Only /nz pages changed. The UK, IE, CA and US sitemaps and pages are identical.
